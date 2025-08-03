@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PromptInput from './pages/PromptInput';
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -28,6 +29,7 @@ const Home = () => {
       <h1 className="main-message">
         In an ideal world, Idea-ly, what would not be a problem?
       </h1>
+      <PromptInput /> {/* ✅ This renders your input + list */}
     </div>
   );
 };

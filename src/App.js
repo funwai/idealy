@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import { auth } from './firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import PromptInput from './pages/PromptInput';;
 
 function App() {
   const [userInput, setUserInput] = useState('');
 
   const handleGoClick = () => {
   console.log("Idea-ly, what would not be a problem?: ", userInput);
+  setUserInput(''); // Clear input after clicking Go
   // Later, you can send this to Firebase or show a new page
   };
   const [showLogin, setShowLogin] = useState(false);
@@ -73,19 +75,7 @@ function App() {
 
         {/* Prompt input and Go button below */}
         <div className="flex gap-2">
-        <input
-              type="text"
-              placeholder="Describe your problem here..."
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              className="p-2 w-72 rounded-md text-black"
-            />
-            <button
-              onClick={handleGoClick}
-              className="bg-white text-[#0000CC] font-bold px-4 py-2 rounded-md hover:bg-gray-200"
-            >
-              Go
-            </button>
+          <PromptInput />
         </div>
       </div>
     </div>
