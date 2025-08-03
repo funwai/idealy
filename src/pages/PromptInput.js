@@ -51,11 +51,13 @@ function PromptInput() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your problem here..."
-          className="flex-grow px-4 py-2 rounded-md text-black"
+          className="flex-grow px-8 py-4 rounded-md text-black"
+          style={{ width: '400px', height: '30px' }}
         />
         <button
           onClick={handleSubmit}
-          className="bg-white text-blue-700 px-4 py-2 rounded-md font-semibold hover:bg-blue-100"
+          className="bg-white text-blue-700 px-8 py-4 rounded-md font-semibold hover:bg-blue-100"
+          style={{ width: '50px', height: '35px' }}
         >
           Go
         </button>
