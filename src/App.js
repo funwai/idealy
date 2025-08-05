@@ -17,6 +17,8 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [user, setUser] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -65,6 +67,33 @@ function App() {
           <p>Welcome, {user.email}</p>
         )}
         
+      </div>
+
+      <div className="w-64 bg-white text-black p-4">
+        <h2 className="text-xl font-bold mb-4">Filters</h2>
+
+        {/* Category Dropdown */}
+        <label className="block mb-2 font-semibold">Category</label>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="w-full mb-4 p-2 border rounded"
+        >
+          <option value="">All Categories</option>
+          <option value="General">General</option>
+          <option value="Tech">Tech</option>
+          <option value="Health">Health</option>
+          <option value="Education">Education</option>
+        </select>
+
+        {/* Date Picker */}
+        <label className="block mb-2 font-semibold">Date</label>
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
       </div>
 
       <div className="flex flex-col items-center justify-center h-screen bg-[#0000CC] text-white px-4">
