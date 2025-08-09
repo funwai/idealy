@@ -12,12 +12,8 @@ body, html, #root {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: relative;
-  text-align: center;
-  padding: 1rem;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #0000cc;
   color: white;
 }
@@ -38,6 +34,254 @@ body, html, #root {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Two-column page layout */
+.page-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1320px; /* slightly wider so the sidebar sits closer to the left edge */
+  margin: 0 auto;
+  padding: 5rem 1rem 2rem 0.5rem; /* reduce left padding to bring sidebar closer to page edge */
+  box-sizing: border-box;
+}
+
+.sidebar {
+  background: #ffffff;
+  color: #0000cc;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: sticky; /* keep the sidebar visible while scrolling */
+  top: 1rem;
+  align-self: start; /* ensure sticky anchors to top of its grid area */
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+}
+
+.sidebar h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.sidebar label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.sidebar select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccd2ff;
+  border-radius: 6px;
+  color: #000;
+  background: #fff;
+  margin-bottom: 0.75rem;
+}
+
+/* removed date-input styles as the date filter is no longer present */
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem; /* more space in the middle section */
+}
+
+/* Sidebar results styling */
+.sidebar-results .results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.sidebar-results .result-item {
+  background: #f7f7ff;
+  color: #000;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.sidebar-results .result-text {
+  margin: 0;
+}
+
+.sidebar-results .result-meta {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.75rem;
+  color: #606f7b;
+}
+
+.main-content .main-message {
+  text-align: center;
+  font-family: 'Lora', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0; /* add extra space below heading */
+}
+
+/* Prompt input area spacing */
+.category-instruction {
+  font-size: 0.8rem;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+/* Prompt row: prompt [space x3] category [space x3] Go */
+.prompt-row {
+  display: grid;
+  grid-template-columns: 1.5fr 180px auto; /* longer prompt, shorter category */
+  column-gap: 2rem; /* space x3 equivalent visually */
+  width: 100%;
+  max-width: 900px; /* match embeds width */
+  align-items: center;
+}
+
+.prompt-label-row {
+  display: grid;
+  grid-template-columns: 1.5fr 180px auto; /* align with row below */
+  column-gap: 2rem;
+  width: 100%;
+  max-width: 900px; /* match embeds width */
+}
+
+/* Light blue container around prompt area */
+.prompt-container {
+  width: 100%;
+  max-width: 900px; /* same as embeds */
+  background: #e6f0ff; /* light blue */
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  padding: 1rem;
+}
+
+.category-label {
+  grid-column: 2 / 3; /* place label above the category column */
+  justify-self: stretch; /* take full column width */
+  width: 100%; /* match filter width */
+}
+
+.prompt-input {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  background: #ffffff;
+}
+
+.category-select {
+  height: 3rem; /* match approx prompt input height */
+  padding: 0 0.75rem;
+  border-radius: 8px;
+  color: #000;
+  background: #fff;
+  width: 100%; /* match category column width */
+}
+
+.category-col {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.go-button-large {
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  background-color: #001f6b; /* navy */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.go-button-large:hover {
+  background-color: #163e99; /* slightly lighter navy on hover */
+}
+
+/* Remove outlines and borders inside light blue prompt container */
+.prompt-container .prompt-input,
+.prompt-container .category-select,
+.prompt-container .go-button-large {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.prompt-container .prompt-input:focus,
+.prompt-container .category-select:focus,
+.prompt-container .go-button-large:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Embeds Box styling */
+.embeds-box {
+  margin-top: 1mm; /* ~1mm gap below the divider */
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  color: #000;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  padding: 1rem;
+}
+
+/* Outside grey divider above embeds box */
+.embeds-divider-outside {
+  width: 100vw; /* full-bleed across the page */
+  height: 12px; /* 3x thicker */
+  background: linear-gradient(to right, rgba(255,140,0,0) 0%, #FF8C00 10%, #FF8C00 90%, rgba(255,140,0,0) 100%); /* deeper orange */
+  margin-left: calc(50% - 50vw); /* escape container bounds */
+  margin-right: calc(50% - 50vw);
+  margin-top: 8px; /* sit just below the prompt row */
+}
+
+.embeds-placeholder {
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.embeds-content > * + * {
+  margin-top: 1rem;
+}
+
+/* iframe embeds styling */
+.embed-iframe-wrapper {
+  width: 100%;
+  height: 70vh; /* generous height for dashboards */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+.embed-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+
+  .main-content {
+    order: 1;
+  }
 }
 
 /* Login styles */
@@ -87,31 +331,4 @@ body, html, #root {
   font-size: 0.9rem;
 }
 
-.prompt-box {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  gap: 10px;
-}
-
-.prompt-input {
-  padding: 10px;
-  width: 300px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-}
-
-.go-button {
-  padding: 10px 20px;
-  background-color: white;
-  color: #0000cc;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.go-button:hover {
-  background-color: #e0e0ff;
-}
+/* Removed legacy prompt styles (prompt-box, duplicate prompt-input, go-button) to avoid conflicts */
