@@ -89,9 +89,11 @@ function App() {
         </aside>
 
         <main className="main-content">
-          <h1 className="main-message">Idea-ly, what would not be a problem?</h1>
-          <PromptInput categoryFilter={selectedCategory || 'All'} hideResults />
-          <div className="embeds-divider-outside" />
+          <div className="main-header-section">
+            <h1 className="main-message">Idea-ly, what would not be a problem?</h1>
+            <PromptInput categoryFilter={selectedCategory || 'All'} hideResults />
+            <div className="embeds-divider-outside" />
+          </div>
           <EmbedsBox urls={["https://trends.google.com/trending?geo=GB"]} />
         </main>
       </div>
