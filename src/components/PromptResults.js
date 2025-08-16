@@ -24,9 +24,10 @@ function PromptResults({ category = 'All' }) {
         <p className="no-results">No prompts match the selected filters.</p>
       ) : (
         <div className="results-list">
-          {filtered.map(({ id, text, category: cat, createdAt }) => (
+          {filtered.map(({ id, job_title, typical_day, category: cat, createdAt }) => (
             <div key={id} className="result-item">
-              <p className="result-text">{text}</p>
+              <h4 className="result-title">{job_title || 'No Title'}</h4>
+              <p className="result-typical-day"><strong>Day in the life:</strong> {typical_day || 'No description'}</p>
               <p className="result-meta">
                 {createdAt?.seconds
                   ? new Date(createdAt.seconds * 1000).toLocaleString()

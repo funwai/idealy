@@ -1,9 +1,115 @@
+/* Header section styling */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #001a4d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  padding: 0.75rem 0;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  height: 50px;
+  width: auto;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.header-slogan {
+  color: #ffffff;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.welcome-text {
+  color: #ffffff;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Login styles */
+.login-button,
+.login-submit {
+  background-color: white;
+  color: #0000CC;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-button:hover,
+.login-submit:hover {
+  background-color: #f0f0f0;
+}
+
+.login-form {
+  background-color: white;
+  color: #0000CC;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+}
+
+.form-cancel {
+  background-color: #f0f0f0;
+  color: #666;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.form-cancel:hover {
+  background-color: #e0e0e0;
+}
+
 /* Reset */
 body, html, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #0000CC; /* Deep Blue */
+  background-color: #0000CC;
   color: white;
   font-family: 'Segoe UI', sans-serif;
 }
@@ -39,59 +145,35 @@ body, html, #root {
 /* Two-column page layout */
 .page-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 280px 1fr 280px;
+  gap: 1.5cm;
   width: 100%;
-  max-width: 1320px; /* slightly wider so the sidebar sits closer to the left edge */
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 5rem 1rem 2rem 0.5rem; /* reduce left padding to bring sidebar closer to page edge */
+  padding: 6rem 0 2rem 0;
   box-sizing: border-box;
 }
 
-.sidebar {
-  background: #ffffff;
-  color: #0000cc;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: sticky; /* keep the sidebar visible while scrolling */
-  top: 1rem;
-  align-self: start; /* ensure sticky anchors to top of its grid area */
-  max-height: calc(100vh - 2rem);
-  overflow: auto;
-  z-index: 25; /* ensure it sits above the orange divider */
-}
-
-.sidebar h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-}
-
-.sidebar label {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.sidebar select {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccd2ff;
-  border-radius: 6px;
-  color: #000;
-  background: #fff;
-  margin-bottom: 0.75rem;
-}
-
-/* removed date-input styles as the date filter is no longer present */
-
+/* Center the main content */
 .main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem; /* tighter spacing above the divider */
+  gap: 1rem;
+  justify-self: start;
+  max-width: 900px;
+  width: 100%;
+  margin-left: 0.5rem;
+}
+
+.main-content .main-message {
+  text-align: center;
+  font-family: 'Lora', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.2;
+  color: #ffffff;
 }
 
 /* Sticky header (title + prompt area) */
@@ -100,120 +182,99 @@ body, html, #root {
   top: 0;
   z-index: 20; /* below sidebar and login */
   background: #0000cc; /* page background to avoid transparency during scroll */
-  padding-top: 0.25rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.5rem; /* reduced top padding to move content higher */
+  padding-bottom: 0.75rem; /* reduced bottom padding for tighter spacing */
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Sidebar results styling */
-.sidebar-results .results-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.sidebar-results .result-item {
-  background: #f7f7ff;
-  color: #000;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-.sidebar-results .result-text {
-  margin: 0;
-}
-
-.sidebar-results .result-meta {
-  margin: 0.25rem 0 0 0;
-  font-size: 0.75rem;
-  color: #606f7b;
-}
-
-.main-content .main-message {
-  text-align: center;
-  font-family: 'Lora', serif;
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0; /* tighter space below heading */
+  margin-top: 0; /* remove negative margin that was causing overlap */
+  margin-bottom: 1rem; /* add bottom margin for proper separation */
+  max-width: 1200px; /* match embeds-box width for proper alignment */
 }
 
 /* Prompt input area spacing */
 .category-instruction {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #ffffff;
   margin-bottom: 0.25rem;
+  font-weight: 500; /* add consistent font weight */
+  letter-spacing: 0.025em; /* slight letter spacing for better readability */
 }
 
-/* Prompt row: prompt [space x3] category [space x3] Go */
+/* Prompt row: category [space x3] Go */
 .prompt-row {
   display: grid;
-  grid-template-columns: 1.5fr 180px auto; /* longer prompt, shorter category */
-  column-gap: 1rem; /* tighter spacing between prompt and category */
+  grid-template-columns: 180px auto; /* category select and Go button only */
+  column-gap: 1rem; /* spacing between category and button */
   width: 100%;
-  max-width: 900px; /* match embeds width */
+  max-width: 1200px; /* match embeds width for proper alignment */
   align-items: center;
-}
-
-.prompt-label-row {
-  display: grid;
-  grid-template-columns: 1.5fr 180px auto; /* align with row below */
-  column-gap: 1rem; /* keep label aligned with tighter spacing */
-  width: 100%;
-  max-width: 900px; /* match embeds width */
+  justify-content: center; /* center the remaining elements */
 }
 
 /* Light blue container around prompt area */
 .prompt-container {
   width: 100%;
-  max-width: 900px; /* same as embeds */
+  max-width: 1200px; /* same as embeds for proper alignment */
   background: #6D28D9; /* Exploding Topics-style purple */
   color: #ffffff; /* ensure readable text */
   border: 1px solid #5B21B6; /* slightly darker purple border */
-  border-radius: 14px; /* slightly larger radius */
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12); /* subtle depth */
-  padding: 1rem 1.25rem; /* comfortable interior spacing */
+  border-radius: 16px; /* slightly larger radius for modern look */
+  box-shadow: 0 12px 32px rgba(109, 40, 217, 0.25); /* enhanced shadow with purple tint */
+  padding: 1rem 1.25rem; /* reduced padding for leaner, thinner design */
   position: relative; /* for accent bar */
+  transition: all 0.2s ease-in-out; /* smooth transitions for interactions */
 }
 
 .prompt-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px; /* accent */
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-  background: linear-gradient(90deg, #8B5CF6 0%, #6D28D9 100%); /* lighter → base purple */
+  display: none; /* remove the purple accent line */
 }
 
 .category-label {
   grid-column: 2 / 3; /* place label above the category column */
-  justify-self: stretch; /* take full column width */
+  justify-self: center; /* center the label above the dropdown */
   width: 100%; /* match filter width */
+  font-weight: 600; /* make it slightly bolder */
+  font-size: 0.85rem; /* slightly larger for better readability */
+  color: #ffffff;
+  margin-bottom: 0.5rem; /* add some space below the label */
+  text-transform: none; /* ensure proper capitalization */
 }
 
 .prompt-input {
   padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  border: none;
+  border-radius: 10px; /* slightly larger radius for modern look */
+  border: 2px solid transparent; /* transparent border for focus state */
   background: #ffffff;
   height: 3rem; /* unify control height */
   box-sizing: border-box;
+  transition: all 0.2s ease-in-out; /* smooth transitions */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* subtle shadow */
+}
+
+.prompt-input:focus {
+  border-color: #8B5CF6; /* purple border on focus */
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2); /* enhanced shadow on focus */
+  outline: none;
 }
 
 .category-select {
   height: 3rem; /* match approx prompt input height */
   padding: 0 0.75rem;
-  border-radius: 8px;
+  border-radius: 10px; /* slightly larger radius for modern look */
+  border: 2px solid transparent; /* transparent border for focus state */
   color: #000;
   background: #fff;
   width: 100%; /* match category column width */
+  transition: all 0.2s ease-in-out; /* smooth transitions */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* subtle shadow */
+}
+
+.category-select:focus {
+  border-color: #8B5CF6; /* purple border on focus */
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2); /* enhanced shadow on focus */
+  outline: none;
 }
 
 .category-col {
@@ -228,17 +289,22 @@ body, html, #root {
   background-color: #001f6b; /* navy */
   color: #ffffff;
   border: none;
-  border-radius: 8px;
-  transition: background-color 0.15s ease-in-out;
+  border-radius: 10px; /* slightly larger radius for modern look */
+  transition: all 0.2s ease-in-out; /* smooth transitions */
   height: 3rem; /* unify control height */
   padding: 0 1.5rem; /* horizontal padding only when using fixed height */
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600; /* slightly bolder text */
+  box-shadow: 0 4px 12px rgba(0, 31, 107, 0.3); /* enhanced shadow */
+  cursor: pointer; /* ensure cursor shows it's clickable */
 }
 
 .go-button-large:hover {
   background-color: #163e99; /* slightly lighter navy on hover */
+  transform: translateY(-1px); /* subtle lift effect */
+  box-shadow: 0 6px 20px rgba(0, 31, 107, 0.4); /* enhanced shadow on hover */
 }
 
 /* Remove outlines and borders inside light blue prompt container */
@@ -262,12 +328,35 @@ body, html, #root {
 .embeds-box {
   margin-top: 1mm; /* ~1mm gap below the divider */
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px; /* increased to accommodate side-by-side videos */
+  max-height: 600px; /* set max height to enable scrolling */
+  overflow-y: auto; /* add vertical scrollbar when needed */
+  overflow-x: hidden; /* hide horizontal scrollbar */
   background: #ffffff;
   color: #000;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  padding: 1rem;
+  border-radius: 16px; /* slightly larger radius for modern look */
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12); /* enhanced shadow for better depth */
+  padding: 2rem; /* slightly more padding for better breathing room */
+  border: 1px solid rgba(0,0,0,0.05); /* subtle border for definition */
+}
+
+/* Custom scrollbar styling for embeds-box */
+.embeds-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.embeds-box::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.embeds-box::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.embeds-box::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 /* Outside grey divider above embeds box */
@@ -277,7 +366,7 @@ body, html, #root {
   background: linear-gradient(to right, rgba(255,140,0,0) 0%, #FF8C00 10%, #FF8C00 90%, rgba(255,140,0,0) 100%); /* deeper orange */
   margin-left: calc(50% - 50vw); /* escape container bounds */
   margin-right: calc(50% - 50vw);
-  margin-top: 8px; /* sit just below the prompt row */
+  margin-top: 2rem; /* increased spacing above embeds box to prevent overlap */
   z-index: 15; /* behind sidebar, ahead of content */
   position: relative;
 }
@@ -294,10 +383,11 @@ body, html, #root {
 /* iframe embeds styling */
 .embed-iframe-wrapper {
   width: 100%;
-  height: 70vh; /* generous height for dashboards */
+  height: 315px; /* standard YouTube height */
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .embed-iframe {
@@ -305,6 +395,24 @@ body, html, #root {
   height: 100%;
   border: 0;
   background: #fff;
+}
+
+/* Video cards grid layout */
+.embeds-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+  justify-items: center;
+  align-items: start;
+}
+
+/* Responsive video cards */
+@media (max-width: 900px) {
+  .embeds-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 /* Responsive */
@@ -322,52 +430,328 @@ body, html, #root {
   }
 }
 
-/* Login styles */
-.login-wrapper {
-  position: fixed; /* keep login visible while scrolling */
-  top: 1rem;
-  right: 1rem;
-  z-index: 30;
+/* Removed legacy prompt styles (prompt-box, duplicate prompt-input, go-button) to avoid conflicts */
+
+/* Job Carousel Styles */
+.job-carousel-container {
+  display: inline-block;
+  overflow: hidden;
+  height: 60px; /* Fixed height for the carousel */
+  line-height: 60px; /* Match height for vertical centering */
+  margin-left: 8px; /* Space between "A day in the life of" and the carousel */
 }
 
-.login-button,
-.login-submit {
-  background-color: white;
-  color: #0000CC;
+.job-carousel {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.job-text {
+  position: relative;
+  transition: transform 0.5s ease-in-out;
+}
+
+.job-item {
+  height: 60px;
+  line-height: 60px;
+  font-size: 1.6rem; /* match the main-message-text size */
   font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+  color: #ffffff;
+  white-space: nowrap;
+  text-align: left;
 }
 
-.login-form {
-  background-color: white;
-  color: #0000CC;
-  padding: 1rem;
-  margin-left: auto;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.2);
-  width: 230px;
+/* Main message container styling */
+.main-message-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.main-message-text {
+  font-size: 1.6rem; /* increased from 1.2rem for better visibility */
+  font-weight: bold;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Horizontal prompt layout */
+.prompt-row-horizontal {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-field-horizontal {
+  flex: 1;
+  max-width: 300px;
+}
+
+.job-field-horizontal.wider {
+  flex: 1.5;
+  max-width: 450px;
+}
+
+.job-field-horizontal .job-input {
+  width: 100%;
+  height: 3rem; /* match the Go button height */
+}
+
+/* Job details form styling */
+.job-details-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem; /* increased spacing for better visual balance */
+}
+
+.job-field {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.login-form input {
-  padding: 0.5rem;
-  width: 210px; /* make this smaller or larger as needed */
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.job-field-full {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
-.form-cancel {
-  background: none;
-  border: none;
-  color: #0000CC;
-  text-decoration: underline;
-  cursor: pointer;
+.field-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.job-input {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #ffffff;
+  height: 2.5rem;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   font-size: 0.9rem;
 }
 
-/* Removed legacy prompt styles (prompt-box, duplicate prompt-input, go-button) to avoid conflicts */
+.job-input:focus {
+  border-color: #8B5CF6;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+  outline: none;
+}
+
+/* Prompt input area spacing */
+
+.sidebar {
+  background: #ffffff;
+  color: #0000cc;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  z-index: 25;
+  margin-left: 0;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.trending-sidebar {
+  background: #ffffff;
+  color: #0000cc;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  z-index: 25;
+  margin-right: 0;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.sidebar h2,
+.trending-sidebar h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.sidebar label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.sidebar select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccd2ff;
+  border-radius: 6px;
+  color: #000;
+  background: #fff;
+  margin-bottom: 0.75rem;
+}
+
+/* Sidebar results styling */
+.sidebar-results .results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.sidebar-results .result-item {
+  background: #f7f7ff;
+  color: #000;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.sidebar-results .result-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0000cc;
+}
+
+.sidebar-results .result-typical-day {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #333;
+}
+
+.sidebar-results .result-link {
+  display: inline-block;
+  margin: 0 0 0.5rem 0;
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 102, 204, 0.1);
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-results .result-link:hover {
+  background: rgba(0, 102, 204, 0.2);
+  color: #0052a3;
+}
+
+.sidebar-results .result-text {
+  margin: 0;
+}
+
+.sidebar-results .result-meta {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.75rem;
+  color: #606f7b;
+}
+
+/* Trending Jobs Styling */
+.trending-section {
+  margin-bottom: 1.5rem;
+}
+
+.trending-section h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0000cc;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: #f7f7ff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.trending-item:hover {
+  background: #e8e8ff;
+  transform: translateX(2px);
+}
+
+.trending-number {
+  background: #0000cc;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.trending-text {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.trending-count {
+  background: #e8e8ff;
+  color: #0000cc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.trending-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #e8e8ff;
+  text-align: center;
+}
+
+.trending-footer p {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.trending-footer small {
+  color: #999;
+  font-size: 0.7rem;
+}
+

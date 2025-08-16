@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { auth } from './firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from './firebase/config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import PromptInput from './pages/PromptInput';
-import PromptResults from './components/PromptResults';
 import EmbedsBox from './components/EmbedsBox';
+import JobCarousel from './components/JobCarousel';
+import PromptResults from './components/PromptResults';
+import TrendingJobs from './components/TrendingJobs';
 
 function App() {
-  const [userInput, setUserInput] = useState('');
-
-  const handleGoClick = () => {
-  console.log("Idea-ly, what would not be a problem?: ", userInput);
-  setUserInput(''); // Clear input after clicking Go
-  // Later, you can send this to Firebase or show a new page
-  };
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,45 +29,55 @@ function App() {
 
   return (
     <div className="container">
-      <div className="login-wrapper">
-        {!user ? (
-          !showLogin ? (
-            <button className="login-button" onClick={() => setShowLogin(true)}>
-              Login
-            </button>
-          ) : (
-            <div className="login-form">
-              <h2>Login</h2>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button className="login-submit" onClick={handleLogin}>
-                Submit
-              </button>
-              {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-              <button className="form-cancel" onClick={() => setShowLogin(false)}>
-                Cancel
-              </button>
-            </div>
-          )
-        ) : (
-          <p>Welcome, {user.email}</p>
-        )}
-      </div>
+      {/* Header section similar to Reddit */}
+      <header className="main-header">
+        <div className="header-content">
+          <div className="header-left">
+            <img src={require('./KURIO_name_separate_Logo.png')} alt="Logo" className="header-logo" />
+          </div>
+          <div className="header-center">
+            <p className="header-slogan">Ever Wonder What People Get Up To in Their Jobs?</p>
+          </div>
+          <div className="header-right">
+            {!user ? (
+              !showLogin ? (
+                <button className="login-button" onClick={() => setShowLogin(true)}>
+                  Login
+                </button>
+              ) : (
+                <div className="login-form">
+                  <h2>Login</h2>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button className="login-submit" onClick={handleLogin}>
+                    Submit
+                  </button>
+                  {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+                  <button className="form-cancel" onClick={() => setShowLogin(false)}>
+                    Cancel
+                  </button>
+                </div>
+              )
+            ) : (
+              <p className="welcome-text">Welcome, {user.email}</p>
+            )}
+          </div>
+        </div>
+      </header>
 
       <div className="page-layout">
         <aside className="sidebar">
-          <h2>Idea-ly these should not be a problem!</h2>
-
+          <h2>Recent Entries</h2>
           <label>Category</label>
           <select
             value={selectedCategory}
@@ -82,20 +87,32 @@ function App() {
             <option value="General">General</option>
             <option value="Tech">Tech</option>
             <option value="Health">Health</option>
+            <option value="Transport">Transport</option>
+            <option value="Food & Beverages">Food & Beverages</option>
             <option value="Education">Education</option>
           </select>
-
           <PromptResults category={selectedCategory || 'All'} />
         </aside>
-
+        
         <main className="main-content">
           <div className="main-header-section">
-            <h1 className="main-message">Idea-ly, what would not be a problem?</h1>
-            <PromptInput categoryFilter={selectedCategory || 'All'} hideResults />
-            <div className="embeds-divider-outside" />
+            <div className="main-message-container">
+              <span className="main-message-text">A day in the life of</span>
+              <JobCarousel />
+            </div>
+            <PromptInput categoryFilter={'All'} hideResults />
           </div>
-          <EmbedsBox urls={["https://trends.google.com/trending?geo=GB"]} />
+          <EmbedsBox urls={[
+            "https://www.youtube.com/embed/U-lYLSlYU1o?si=VUkTlemQ7wPjhQV3",
+            "https://www.youtube.com/embed/Ipe9xJCfuTM?si=3uphlTlbHkoeXy_3",
+            "https://www.youtube.com/embed/PTKlLYht2Jk?si=yVgwe1u5zSanLaCQ",
+            "https://www.youtube.com/embed/Y-yOE-RgX0M?si=Nv83hJd7B5JHKmuL"
+          ]} />
         </main>
+
+        <aside className="trending-sidebar">
+          <TrendingJobs />
+        </aside>
       </div>
     </div>
   );

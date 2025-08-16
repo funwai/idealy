@@ -42,7 +42,29 @@ function renderTikTokEmbed(url) {
 function renderIframeEmbed(url) {
   return (
     <div key={url} className="embed-iframe-wrapper">
-      <iframe className="embed-iframe" src={url} title={url} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+      <iframe 
+        className="embed-iframe" 
+        src={url} 
+        title={url} 
+        loading="lazy" 
+        referrerPolicy="no-referrer-when-downgrade"
+        allowFullScreen
+      />
+    </div>
+  );
+}
+
+function renderYouTubeEmbed(url) {
+  return (
+    <div key={url} className="embed-iframe-wrapper">
+      <iframe 
+        className="embed-iframe" 
+        src={url} 
+        title="YouTube video player" 
+        loading="lazy" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowFullScreen
+      />
     </div>
   );
 }
@@ -65,6 +87,7 @@ export default function EmbedsBox({ urls = [] }) {
         <div className="embeds-content">
           {urls.map((url) => {
             if (url.includes('trends.google.com')) return renderIframeEmbed(url);
+            if (url.includes('youtube.com/embed')) return renderYouTubeEmbed(url);
             if (url.includes('reddit.com')) return renderRedditEmbed(url);
             if (url.includes('tiktok.com')) return renderTikTokEmbed(url);
             return (

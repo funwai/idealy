@@ -11,22 +11,24 @@ import {
 import { db } from '../firebase/config'; // adjust path if needed
 
 function PromptInput({ categoryFilter, hideResults = false }) {
-  const [input, setInput] = useState('');
   const [prompts, setPrompts] = useState([]);
   const [category, setCategory] = useState('All'); // filter category (used if no external filter)
-  const [newPromptCategory, setNewPromptCategory] = useState('General'); // category when adding prompt
+  const [jobTitle, setJobTitle] = useState(''); // new field for job title
+  const [typicalDay, setTypicalDay] = useState(''); // new field for typical day
 
   // Save new prompt to Firestore
   const handleSubmit = async () => {
-    if (!input.trim()) return;
+    if (!jobTitle.trim() || !typicalDay.trim()) return;
 
     try {
       await addDoc(collection(db, 'prompts'), {
-        text: input,
-        category: newPromptCategory,
+        job_title: jobTitle,
+        typical_day: typicalDay,
+        category: 'General', // default category since filter is removed
         createdAt: serverTimestamp(),
       });
-      setInput('');
+      setJobTitle('');
+      setTypicalDay('');
     } catch (error) {
       console.error('Error saving prompt:', error);
     }
@@ -55,36 +57,29 @@ function PromptInput({ categoryFilter, hideResults = false }) {
     <div className="w-full max-w-md flex flex-col items-center gap-6">
       {/* Input and category selector */}
       <div className="prompt-container">
-        <div className="prompt-label-row">
-          <label className="category-instruction category-label">problem category</label>
-        </div>
-        <div className="prompt-row">
-        <input
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder="Type your problem here..."
-          className="prompt-input text-black"
-          style={{ minWidth: '300px' }}
-        />
-        <div className="category-col" style={{ minWidth: '150px' }}>
-          <select
-            value={newPromptCategory}
-            onChange={e => setNewPromptCategory(e.target.value)}
-            className="category-select"
-             style = {{fontSize: '13px'}}
+        <div className="prompt-row-horizontal">
+          <div className="job-field-horizontal">
+            <input
+              value={jobTitle}
+              onChange={e => setJobTitle(e.target.value)}
+              placeholder="Enter job title"
+              className="job-input text-black"
+            />
+          </div>
+          <div className="job-field-horizontal wider">
+            <input
+              value={typicalDay}
+              onChange={e => setTypicalDay(e.target.value)}
+              placeholder="Describe a typical day"
+              className="job-input text-black"
+            />
+          </div>
+          <button
+            onClick={handleSubmit}
+            className="go-button-large bg-white text-blue-700 rounded-md font-semibold hover:bg-blue-100"
           >
-            <option value="General">General</option>
-            <option value="Tech">Tech</option>
-            <option value="Health">Health</option>
-            <option value="Education">Education</option>
-          </select>
-        </div>
-        <button
-          onClick={handleSubmit}
-          className="go-button-large bg-white text-blue-700 rounded-md font-semibold hover:bg-blue-100"
-        >
-          Go
-        </button>
+            Go
+          </button>
         </div>
       </div>
 
@@ -100,6 +95,8 @@ function PromptInput({ categoryFilter, hideResults = false }) {
             <option value="General">General</option>
             <option value="Tech">Tech</option>
             <option value="Health">Health</option>
+            <option value="Transport">Transport</option>
+            <option value="Food & Beverages">Food & Beverages</option>
             <option value="Education">Education</option>
           </select>
         </div>
