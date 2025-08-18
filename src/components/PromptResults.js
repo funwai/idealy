@@ -4,13 +4,28 @@ import { db } from '../firebase/config';
 
 function PromptResults({ category = 'All' }) {
   const [prompts, setPrompts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log('PromptResults: Fetching data from Firestore...');
     const q = query(collection(db, 'prompts'), orderBy('createdAt', 'desc'), limit(50));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setPrompts(data);
-    });
+    
+    const unsubscribe = onSnapshot(q, 
+      (snapshot) => {
+        console.log('PromptResults: Received snapshot with', snapshot.docs.length, 'documents');
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        console.log('PromptResults: Processed data:', data);
+        setPrompts(data);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('PromptResults: Error fetching data:', error);
+        setError(error.message);
+        setLoading(false);
+      }
+    );
+    
     return () => unsubscribe();
   }, []);
 
@@ -20,7 +35,11 @@ function PromptResults({ category = 'All' }) {
 
   return (
     <div className="sidebar-results">
-      {filtered.length === 0 ? (
+      {loading ? (
+        <p className="no-results">Loading recent entries...</p>
+      ) : error ? (
+        <p className="no-results">Error: {error}</p>
+      ) : filtered.length === 0 ? (
         <p className="no-results">No prompts match the selected filters.</p>
       ) : (
         <div className="results-list">
