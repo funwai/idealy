@@ -43,9 +43,24 @@ function PromptResults({ category = 'All' }) {
         <p className="no-results">No prompts match the selected filters.</p>
       ) : (
         <div className="results-list">
-          {filtered.map(({ id, job_title, typical_day, category: cat, createdAt }) => (
+          {filtered.map(({ id, job_title, typical_day, category: cat, createdAt, source }) => (
             <div key={id} className="result-item">
-              <h4 className="result-title">{job_title || 'No Title'}</h4>
+              <h4 className="result-title">
+                {job_title || 'No Title'}
+                {source && (
+                  <a 
+                    href={source} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="source-link"
+                    title="View source"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
+                )}
+              </h4>
               <p className="result-typical-day"><strong>Day in the life:</strong> {typical_day || 'No description'}</p>
               <p className="result-meta">
                 {createdAt?.seconds

@@ -4,12 +4,18 @@ function About() {
   return (
     <div className="about-page">
       <div className="about-container">
-        <h1>About IdealY</h1>
+        <h1>About KURIO</h1>
         
         <section className="about-section">
-          <h2>What is IdealY?</h2>
+          <h2>What is Kurio?</h2>
           <p>
-            IdealY is a platform that helps you discover what it's really like to work in different professions. 
+          <b>curio (Kurio, alternative spelling)</b> /ˈkjʊərɪəʊ/
+          <br/>
+          <b>noun</b>
+          <br/>
+          a rare, unusual, or intriguing object.
+          <br/>
+            Kurio is a platform that helps you discover what it's really like to work in different professions. 
             Ever wondered what a day in the life of a software engineer, data scientist, or product manager looks like? 
             We provide real insights into various careers through user-generated content and curated resources.
           </p>
