@@ -81,7 +81,11 @@ export default function EmbedsBox({ urls = [] }) {
 
   return (
     <div className="embeds-box">
-      <h2 className="embeds-title">Day in the lives: Other sources</h2>
+      <div className="section-title-root">
+        <h2 className="section-title-hed">
+          <span>Day in the lives: Other sources</span>
+        </h2>
+      </div>
       {urls.length === 0 ? (
         <div className="embeds-placeholder">Add Reddit or TikTok links to display embeds here.</div>
       ) : (

@@ -140,8 +140,10 @@ function App() {
             
             {/* Search Recent Entries moved to middle */}
             <div className="search-recent-entries">
-              <div className="search-header">
-                <h2>Search Recent Entries</h2>
+              <div className="section-title-root">
+                <h2 className="section-title-hed">
+                  <span>Search Recent Entries</span>
+                </h2>
                 <div className="add-entry-section">
                   <span className="add-entry-text">Describe your typical day</span>
                   <button 
@@ -151,6 +153,8 @@ function App() {
                     +
                   </button>
                 </div>
+              </div>
+              <div className="search-header">
               </div>
               
               {showPromptInput && (
@@ -206,20 +210,32 @@ function App() {
                 </div>
               )}
               
-              <label>Category</label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                <option value="">All Categories</option>
-                <option value="General">General</option>
-                <option value="Tech">Tech</option>
-                <option value="Health">Health</option>
-                <option value="Transport">Transport</option>
-                <option value="Food & Beverages">Food & Beverages</option>
-                <option value="Education">Education</option>
-              </select>
-              <PromptResults category={selectedCategory || 'All'} />
+              <div className="category-row">
+                <label>Category</label>
+                <div className="category-select-wrapper">
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="category-select"
+                >
+                  <option value="">All Categories</option>
+                  <option value="General">General</option>
+                  <option value="Tech">Tech</option>
+                  <option value="Health">Health</option>
+                  <option value="Transport">Transport</option>
+                  <option value="Food and Beverages">Food and Beverages</option>
+                  <option value="Education">Education</option>
+                </select>
+                <div className="dropdown-icon-wrapper">
+                  <div className="dropdown-icon">
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 0.734863L4.99999 4.73486L1 0.734863" stroke="currentColor" strokeWidth="1.48148" strokeLinecap="round" strokeLinejoin="round"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <PromptResults category={selectedCategory || 'All'} />
             </div>
             
             <EmbedsBox urls={[

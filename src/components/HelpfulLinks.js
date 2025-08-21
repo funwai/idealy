@@ -21,7 +21,11 @@ function HelpfulLinks() {
 
   return (
     <div className="trending-sidebar">
-      <h2>Helpful Links</h2>
+      <div className="section-title-root">
+        <h2 className="section-title-hed">
+          <span>Helpful Links</span>
+        </h2>
+      </div>
       
       <div className="trending-section">
         <h3>Career Resources</h3>

@@ -213,6 +213,8 @@ body, html, #root {
   box-sizing: border-box;
 }
 
+
+
 .right-sidebar-container {
   display: flex;
   flex-direction: column;
@@ -235,7 +237,7 @@ body, html, #root {
 .search-recent-entries {
   background: #ffffff;
   color: #0000cc;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.25rem;
   box-shadow: 0 16px 40px rgba(0,0,0,0.12);
   display: flex;
@@ -265,6 +267,89 @@ body, html, #root {
   color: #000;
   background: #fff;
   margin-bottom: 0.75rem;
+}
+
+.category-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.category-row label {
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0000cc;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+}
+
+.category-select-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.category-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  padding-right: 3rem;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  color: #1a1a1a;
+  background: #ffffff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.category-select:hover {
+  border-color: #c1c7d0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.category-select:focus {
+  outline: none;
+  border-color: #0000cc;
+  box-shadow: 0 0 0 3px rgba(0, 0, 204, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.dropdown-icon-wrapper {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8e8e93;
+  transition: all 0.2s ease;
+}
+
+.category-select:hover + .dropdown-icon-wrapper .dropdown-icon {
+  color: #666;
+}
+
+.category-select:focus + .dropdown-icon-wrapper .dropdown-icon {
+  color: #0000cc;
 }
 
 /* Search header with add button */
@@ -637,7 +722,7 @@ body, html, #root {
   overflow-x: hidden; /* hide horizontal scrollbar */
   background: #ffffff;
   color: #000;
-  border-radius: 12px; /* rounded corners to match About page */
+  border-radius: 8px; /* rounded corners to match About page */
   box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* cleaner, more subtle shadow */
   padding: 1.5rem; /* reduced padding */
   border: 1px solid rgba(0,0,0,0.08); /* slightly more visible border */
@@ -916,18 +1001,12 @@ body, html, #root {
 .trending-sidebar {
   background: #ffffff;
   color: #0000cc;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.25rem;
   box-shadow: 0 16px 40px rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  position: sticky;
-  top: 1rem;
-  align-self: start;
-  max-height: calc(50vh - 1rem);
-  overflow: auto;
-  z-index: 25;
   margin-right: 0;
   border: 1px solid rgba(0,0,0,0.05);
 }
@@ -935,18 +1014,12 @@ body, html, #root {
 .word-cloud-sidebar {
   background: #ffffff;
   color: #0000cc;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.25rem;
   box-shadow: 0 16px 40px rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  position: sticky;
-  top: calc(50vh + 1rem);
-  align-self: start;
-  max-height: calc(50vh - 1rem);
-  overflow: auto;
-  z-index: 24;
   margin-right: 0;
   border: 1px solid rgba(0,0,0,0.05);
 }
@@ -983,13 +1056,46 @@ body, html, #root {
 .sidebar-results .result-item {
   background: #f7f7ff;
   color: #000;
-  padding: 0.75rem;
+  padding: 0.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   border: 1px solid rgba(0,0,0,0.05);
 }
 
-.sidebar-results .result-title {
+.result-content {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.result-thumbnail {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.result-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.result-title {
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
   font-weight: 600;
@@ -997,6 +1103,17 @@ body, html, #root {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.result-title-link {
+  color: #0000cc;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.result-title-link:hover {
+  color: #0052a3;
+  text-decoration: underline;
 }
 
 .source-link {
@@ -1450,5 +1567,35 @@ body, html, #root {
 /* Override Tailwind classes for homepage white boxes to match About page styling */
 .result-box {
   border-radius: 12px !important;
+}
+
+/* Wired.com Style Section Titles */
+.section-title-root {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e1e5e9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title-hed {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1a1a1a;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.section-title-hed span {
+  color: #1a1a1a;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.section-title-hed:hover span {
+  color: #0000cc;
 }
 
