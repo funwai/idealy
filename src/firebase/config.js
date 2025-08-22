@@ -1,5 +1,4 @@
 import { initializeApp, getApps } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -16,7 +15,6 @@ const firebaseConfig = {
 
 // Only initialize if not already initialized
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
-const analytics = getAnalytics(app);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);

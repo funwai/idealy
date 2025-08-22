@@ -183,23 +183,9 @@ body, html, #root {
   color: white;
 }
 
-/* Main text */
-.main-message {
-  font-family: 'Lora', serif;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 2.8rem;
-  font-weight: bold;
-  max-width: 90%;
-}
 
-.center-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+
+
 
 /* Two-column page layout */
 .page-layout {
@@ -556,15 +542,7 @@ body, html, #root {
 
 
 
-.main-content .main-message {
-  text-align: center;
-  font-family: 'Lora', serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin: 0 0 0.75rem 0;
-  line-height: 1.2;
-  color: #ffffff;
-}
+
 
 /* Main header section (title + prompt area) */
 .main-header-section {
@@ -1178,33 +1156,36 @@ body, html, #root {
 
 /* Trending Jobs Styling */
 .trending-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .trending-section h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #0000cc;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .trending-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .trending-item {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.375rem;
   background: #f7f7ff;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: all 0.2s ease;
+  border: 1px solid rgba(0, 0, 204, 0.1);
 }
 
 .trending-item:hover {
@@ -1215,15 +1196,16 @@ body, html, #root {
 .trending-number {
   background: #0000cc;
   color: white;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: bold;
   flex-shrink: 0;
+  margin-top: 0.125rem;
 }
 
 .trending-text {
@@ -1247,16 +1229,21 @@ body, html, #root {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.125rem;
+  min-width: 0;
 }
 
 .trending-link {
   color: #0000cc;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 1.2;
   transition: color 0.2s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .trending-link:hover {
@@ -1266,9 +1253,13 @@ body, html, #root {
 
 .trending-description {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #666;
-  line-height: 1.3;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .trending-footer {

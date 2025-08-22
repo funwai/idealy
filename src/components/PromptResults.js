@@ -109,7 +109,11 @@ function PromptResults({ category = 'All' }) {
                     <p className="result-typical-day"><strong>Day in the life:</strong> {typical_day || 'No description'}</p>
                     <p className="result-meta">
                       {createdAt?.seconds
-                        ? new Date(createdAt.seconds * 1000).toLocaleString()
+                        ? new Date(createdAt.seconds * 1000).toLocaleDateString('en-US', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            year: 'numeric'
+                          }).replace(/\//g, '.')
                         : 'No timestamp'}
                       {' · '}Category: {cat}
                     </p>

@@ -48,8 +48,6 @@ function HelpfulLinks() {
           ))}
         </div>
       </div>
-
-
     </div>
   );
 }
