@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 function ensureScriptLoaded(src) {
   if (!document.querySelector(`script[src="${src}"]`)) {
@@ -70,6 +70,10 @@ function renderYouTubeEmbed(url) {
 }
 
 export default function EmbedsBox({ urls = [] }) {
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const scrollContainerRef = useRef(null);
+
   useEffect(() => {
     if (urls.some((u) => u.includes('reddit.com'))) {
       ensureScriptLoaded('https://embed.redditmedia.com/widgets/platform.js');
@@ -78,6 +82,40 @@ export default function EmbedsBox({ urls = [] }) {
       ensureScriptLoaded('https://www.tiktok.com/embed.js');
     }
   }, [urls]);
+
+  useEffect(() => {
+    const checkScrollButtons = () => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+      }
+    };
+
+    checkScrollButtons();
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', checkScrollButtons);
+      window.addEventListener('resize', checkScrollButtons);
+      
+      return () => {
+        scrollContainer.removeEventListener('scroll', checkScrollButtons);
+        window.removeEventListener('resize', checkScrollButtons);
+      };
+    }
+  }, [urls]);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="embeds-box">
@@ -89,18 +127,38 @@ export default function EmbedsBox({ urls = [] }) {
       {urls.length === 0 ? (
         <div className="embeds-placeholder">Add Reddit or TikTok links to display embeds here.</div>
       ) : (
-        <div className="embeds-content">
-          {urls.map((url) => {
-            if (url.includes('trends.google.com')) return renderIframeEmbed(url);
-            if (url.includes('youtube.com/embed')) return renderYouTubeEmbed(url);
-            if (url.includes('reddit.com')) return renderRedditEmbed(url);
-            if (url.includes('tiktok.com')) return renderTikTokEmbed(url);
-            return (
-              <div className="embed-unsupported" key={url}>
-                Unsupported link: {url}
-              </div>
-            );
-          })}
+        <div className="embeds-navigation-container">
+          <button 
+            className={`embeds-nav-button embeds-nav-left ${!canScrollLeft ? 'disabled' : ''}`}
+            onClick={scrollLeft}
+            disabled={!canScrollLeft}
+            aria-label="Scroll left"
+          >
+            ‹
+          </button>
+          
+          <div className="embeds-content" ref={scrollContainerRef}>
+            {urls.map((url) => {
+              if (url.includes('trends.google.com')) return renderIframeEmbed(url);
+              if (url.includes('youtube.com/embed')) return renderYouTubeEmbed(url);
+              if (url.includes('reddit.com')) return renderRedditEmbed(url);
+              if (url.includes('tiktok.com')) return renderTikTokEmbed(url);
+              return (
+                <div className="embed-unsupported" key={url}>
+                  Unsupported link: {url}
+                </div>
+              );
+            })}
+          </div>
+          
+          <button 
+            className={`embeds-nav-button embeds-nav-right ${!canScrollRight ? 'disabled' : ''}`}
+            onClick={scrollRight}
+            disabled={!canScrollRight}
+            aria-label="Scroll right"
+          >
+            ›
+          </button>
         </div>
       )}
     </div>

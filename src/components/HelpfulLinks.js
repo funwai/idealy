@@ -5,6 +5,7 @@ import { db } from '../firebase/config';
 function TheCompanies() {
   const [companyDetails, setCompanyDetails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     console.log('Setting up Firebase query for company_details collection...');
@@ -79,7 +80,12 @@ function TheCompanies() {
                 <img 
                   src={getImageUrl(company.image_url)} 
                   alt={`${company.company_name || 'Company'} Diagram`}
-                  className="thumbnail-image"
+                  className="thumbnail-image clickable-image"
+                  onClick={() => setSelectedImage({
+                    src: getImageUrl(company.image_url),
+                    alt: `${company.company_name || 'Company'} Diagram`,
+                    companyName: company.company_name || 'Company'
+                  })}
                   onLoad={() => console.log('Company image loaded successfully:', company.image_url)}
                   onError={(e) => console.error('Company image failed to load:', company.image_url, e)}
                 />
@@ -91,25 +97,55 @@ function TheCompanies() {
                 <h4 className="result-title">
                   {company.company_name || 'Company Name'}
                 </h4>
-                
-                <div className="result-meta">
-                  {company.industry && (
-                    <span className="result-category">Industry: {company.industry}</span>
-                  )}
-                  <span className="result-date">From: {company.createdAt?.toDate?.() 
-                    ? company.createdAt.toDate().toLocaleDateString('en-US', {
-                        month: '2-digit',
-                        day: '2-digit',
-                        year: 'numeric'
-                      })
-                    : 'No date'
-                  }</span>
+              </div>
+              
+              {company.description && (
+                <div className="result-description">
+                  {company.description}
                 </div>
+              )}
+              
+              <div className="result-meta">
+                {company.industry && (
+                  <span className="result-category">Industry: {company.industry}</span>
+                )}
+                <span className="result-date">From: {company.createdAt?.toDate?.() 
+                  ? company.createdAt.toDate().toLocaleDateString('en-US', {
+                      month: '2-digit',
+                      day: '2-digit',
+                      year: 'numeric'
+                    })
+                  : 'No date'
+                }</span>
               </div>
             </div>
           </div>
         </div>
       ))}
+      
+      {/* Image Popup Modal */}
+      {selectedImage && (
+        <div className="image-popup-overlay" onClick={() => setSelectedImage(null)}>
+          <div className="image-popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="image-popup-header">
+              <h3>{selectedImage.companyName}</h3>
+              <button 
+                className="image-popup-close"
+                onClick={() => setSelectedImage(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="image-popup-body">
+              <img 
+                src={selectedImage.src} 
+                alt={selectedImage.alt}
+                className="popup-image"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

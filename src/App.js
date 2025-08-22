@@ -6,7 +6,6 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase/config';
 import About from './pages/About';
 import EmbedsBox from './components/EmbedsBox';
-
 import PromptResults from './components/PromptResults';
 import TheCompanies from './components/HelpfulLinks';
 import WordCloud from './components/WordCloud';
@@ -73,6 +72,19 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Navigation click handler
+  const handleNavClick = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const headerHeight = 120; // Account for fixed header
+      const sectionTop = section.offsetTop - headerHeight;
+      window.scrollTo({
+        top: sectionTop,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="container">
       {/* Header section similar to Reddit */}
@@ -88,7 +100,7 @@ function App() {
             />
           </div>
           <div className="header-center">
-            <p className="header-slogan">What do people do in companies and how do companies make money?</p>
+            <p className="header-slogan">Simplifying the Complex Corporate World</p>
           </div>
           <div className="header-right">
             <a 
@@ -111,164 +123,175 @@ function App() {
             >
               About
             </a>
-            <a href="#contact" className="contact-link">Contact</a>
             {!user ? (
-              !showLogin ? (
-                <button className="login-button" onClick={() => setShowLogin(true)}>
-                  Login
-                </button>
-              ) : (
-                <div className="login-form">
-                  <h2>Login</h2>
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button className="login-submit" onClick={handleLogin}>
-                    Submit
-                  </button>
-                  {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-                  <button className="form-cancel" onClick={() => setShowLogin(false)}>
-                    Cancel
-                  </button>
-                </div>
-              )
+              <button 
+                className="login-button"
+                onClick={() => setShowLogin(true)}
+              >
+                Login
+              </button>
             ) : (
-              <p className="welcome-text">Welcome, {user.email}</p>
+              <div className="user-info">
+                <span>Welcome, {user.email}</span>
+                <button 
+                  className="logout-button"
+                  onClick={() => setUser(null)}
+                >
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         </div>
       </header>
 
-            {currentPage === 'home' ? (
+      {currentPage === 'home' ? (
         <>
           <div className="hero-section">
             <div className="hero-content">
               <h1 className="hero-title">k u r i o</h1>
-              <p className="hero-subtitle">Your guide to skills, roles and Organisations</p>
+              <p className="hero-subtitle">Learn about different roles and companies</p>
             </div>
           </div>
+          
           <div className="page-layout">
             <nav className="left-navigation">
               <div className="nav-section">
-                <h3 className="nav-title">Learn</h3>
                 <ul className="nav-links">
-                  <li><a href="#roles" className={`nav-link ${activeSection === 'roles' ? 'nav-link-active' : ''}`}>The Roles</a></li>
-                  <li><a href="#companies" className={`nav-link ${activeSection === 'companies' ? 'nav-link-active' : ''}`}>The Companies</a></li>
-                  <li><a href="#skills" className={`nav-link ${activeSection === 'skills' ? 'nav-link-active' : ''}`}>Helpful Skills</a></li>
-                  <li><a href="#job-skills" className={`nav-link ${activeSection === 'job-skills' ? 'nav-link-active' : ''}`}>Essential Job Skills</a></li>
+                  <li>
+                    <a 
+                      className={`nav-link ${activeSection === 'roles' ? 'nav-link-active' : ''}`}
+                      onClick={() => handleNavClick('roles')}
+                    >
+                      The Roles
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      className={`nav-link ${activeSection === 'companies' ? 'nav-link-active' : ''}`}
+                      onClick={() => handleNavClick('companies')}
+                    >
+                      The Companies
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      className={`nav-link ${activeSection === 'skills' ? 'nav-link-active' : ''}`}
+                      onClick={() => handleNavClick('skills')}
+                    >
+                      Helpful Skills
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      className={`nav-link ${activeSection === 'job-skills' ? 'nav-link-active' : ''}`}
+                      onClick={() => handleNavClick('job-skills')}
+                    >
+                      Essential Job Skills
+                    </a>
+                  </li>
                 </ul>
               </div>
             </nav>
+            
             <main className="main-content">
-              <div id="roles" className="the-roles-section">
-                <h2 className="section-title-root">
-                  <span className="section-title-hed">The roles - Learn about a typical day at work</span>
-                </h2>
-                
-
-                
-                {/* Search Recent Entries moved to middle */}
-                <div className="search-recent-entries">
-              
-              {showPromptInput && (
-                <div className="modal-overlay" onClick={() => setShowPromptInput(false)}>
-                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <div className="modal-header">
-                      <h3>Describe your typical day in a few sentences!</h3>
-                    </div>
-                    <div className="search-container">
-                      <div className="input-fields">
-                        <div className="search-input-wrapper">
-                          <div className="search-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                              <path fill="currentColor" d="M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path>
-                            </svg>
+            <div id="roles" className="the-roles-section">
+              <h2 className="section-title-root">
+                <span className="section-title-hed">The roles - Learn about a typical day at work</span>
+              </h2>
+              <div className="search-recent-entries">
+                {showPromptInput && (
+                  <div className="modal-overlay" onClick={() => setShowPromptInput(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                      <div className="modal-header">
+                        <h3>Simply describe a typical day at work and our AI will summarise this and add it to the database</h3>
+                      </div>
+                      <div className="search-container">
+                        <div className="input-fields">
+                          <div className="search-input-wrapper">
+                            <div className="search-icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path>
+                              </svg>
+                            </div>
+                            <input
+                              type="text"
+                              placeholder="Job title"
+                              className="search-input"
+                              value={jobTitle}
+                              onChange={(e) => setJobTitle(e.target.value)}
+                            />
                           </div>
-                          <input
-                            type="text"
-                            placeholder="Job title"
-                            className="search-input"
-                            value={jobTitle}
-                            onChange={(e) => setJobTitle(e.target.value)}
-                          />
+                          <div className="search-input-wrapper">
+                            <div className="search-icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path>
+                              </svg>
+                            </div>
+                            <textarea
+                              placeholder="Describe your typical day at work..."
+                              className="search-input"
+                              value={jobDescription}
+                              onChange={(e) => setJobDescription(e.target.value)}
+                              rows="4"
+                            />
+                          </div>
                         </div>
-                        <div className="search-input-wrapper">
-                          <div className="search-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                              <path fill="currentColor" d="M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path>
+                        <div className="submit-button-wrapper">
+                          <button 
+                            className="circular-submit-button"
+                            onClick={handleSubmitEntry}
+                            disabled={!jobTitle.trim() || !jobDescription.trim()}
+                          >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                              <path d="M8 5V19L19 12L8 5Z" fill="white"/>
                             </svg>
-                          </div>
-                          <textarea
-                            placeholder="Describe your typical day at work..."
-                            className="search-input"
-                            value={jobDescription}
-                            onChange={(e) => setJobDescription(e.target.value)}
-                            rows="4"
-                          />
+                          </button>
                         </div>
                       </div>
-                      <div className="submit-button-wrapper">
-                        <button 
-                          className="circular-submit-button"
-                          onClick={handleSubmitEntry}
-                          disabled={!jobTitle.trim() || !jobDescription.trim()}
-                        >
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M8 5V19L19 12L8 5Z" fill="white"/>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="category-row">
+                  <div className="category-left">
+                    <label>Category</label>
+                    <div className="category-select-wrapper">
+                      <select
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        className="category-select"
+                      >
+                        <option value="">All Categories</option>
+                        <option value="General">General</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Health">Health</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Food and Beverages">Food and Beverages</option>
+                        <option value="Education">Education</option>
+                      </select>
+                      <div className="dropdown-icon-wrapper">
+                        <div className="dropdown-icon">
+                          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 0.734863L4.99999 4.73486L1 0.734863" stroke="currentColor" strokeWidth="1.48148" strokeLinecap="round" strokeLinejoin="round"></path>
                           </svg>
-                        </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              
-              <div className="category-row">
-                <div className="category-left">
-                  <label>Category</label>
-                  <div className="category-select-wrapper">
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="category-select"
-                  >
-                    <option value="">All Categories</option>
-                    <option value="General">General</option>
-                    <option value="Tech">Tech</option>
-                    <option value="Health">Health</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Food and Beverages">Food and Beverages</option>
-                    <option value="Education">Education</option>
-                  </select>
-                  <div className="dropdown-icon-wrapper">
-                    <div className="dropdown-icon">
-                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 0.734863L4.99999 4.73486L1 0.734863" stroke="currentColor" strokeWidth="1.48148" strokeLinecap="round" strokeLinejoin="round"></path>
-                      </svg>
-                    </div>
+                  <div className="add-entry-section">
+                    <span className="add-entry-text">Want to add your own day?</span>
+                    <button 
+                      className="add-entry-button"
+                      onClick={() => setShowPromptInput(!showPromptInput)}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
-                </div>
-                <div className="add-entry-section">
-                  <span className="add-entry-text">Want to add your own day?</span>
-                  <button 
-                    className="add-entry-button"
-                    onClick={() => setShowPromptInput(!showPromptInput)}
-                  >
-                    +
-                  </button>
-                </div>
+                
+                <PromptResults categoryFilter={selectedCategory} />
               </div>
-            <PromptResults categoryFilter={selectedCategory} />
             </div>
             
             <EmbedsBox urls={[
@@ -281,7 +304,7 @@ function App() {
             
             <div id="companies" className="companies-section">
               <h2 className="section-title-root">
-                <span className="section-title-hed">The Companies</span>
+                <span className="section-title-hed">The Companies - Learn more about a company</span>
               </h2>
               <TheCompanies />
             </div>
@@ -298,12 +321,42 @@ function App() {
               </h2>
               <WordCloud />
             </div>
-              </div>
-          </main>
-        </div>
+            </main>
+          </div>
         </>
       ) : (
         <About />
+      )}
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="modal-overlay" onClick={() => setShowLogin(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Login</h3>
+            </div>
+            <div className="modal-body">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="modal-input"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="modal-input"
+              />
+              {loginError && <p className="error-message">{loginError}</p>}
+              <button onClick={handleLogin} className="modal-button">
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
