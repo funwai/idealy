@@ -1,56 +1,118 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
-function HelpfulLinks() {
-  const helpfulLinks = [
-    {
-      title: "24 Skills to Learn for Career Growth in 2025",
-      url: "https://www.skillshub.com/blog/24-skills-2025",
-      description: "Essential skills for staying competitive in the evolving job market"
-    },
-    {
-      title: "Top 10 Most In-Demand Tech Careers for 2025",
-      url: "https://www.lse.ac.uk/study-at-lse/executive-education/insights/articles/the-top-10-most-in-demand-tech-careers-for-2025",
-      description: "LSE insights on the most promising tech career paths"
-    },
-    {
-      title: "Most in-demand skills for jobs across multiple industries",
-      url: "https://www.weforum.org",
-      description: "World Economic Forum's take on in-demand skills for 2025"
+function TheCompanies() {
+  const [companyDetails, setCompanyDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log('Setting up Firebase query for company_details collection...');
+    
+    const q = query(
+      collection(db, 'company_details'),
+      limit(10)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      console.log('Query snapshot received, size:', querySnapshot.size);
+      const companies = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log('Company document ID:', doc.id);
+        console.log('Company data:', data);
+        console.log('Available fields:', Object.keys(data));
+        companies.push({
+          id: doc.id,
+          ...data
+        });
+      });
+      console.log('All companies:', companies);
+      setCompanyDetails(companies);
+      setLoading(false);
+    }, (error) => {
+      console.error('Error fetching company details:', error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return '';
+    
+    // If it's already a full URL, return as is
+    if (imageUrl.startsWith('http')) {
+      return imageUrl;
     }
-  ];
+    
+    // If it's a gs:// URL, convert to download URL
+    if (imageUrl.startsWith('gs://')) {
+      const parts = imageUrl.split('/');
+      const bucketName = parts[2];
+      const fileName = parts.slice(3).join('/');
+      const encodedFileName = encodeURIComponent(fileName);
+      return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedFileName}?alt=media`;
+    }
+    
+    // If it's just a filename, construct the full path
+    const projectId = 'funwai-resume';
+    const bucketName = 'funwai-resume.appspot.com';
+    const encodedFileName = encodeURIComponent(imageUrl);
+    return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/company_details%2F${encodedFileName}?alt=media`;
+  };
+
+  if (loading) {
+    return <div>Loading company details...</div>;
+  }
+
+  if (companyDetails.length === 0) {
+    return <div>No company details available yet.</div>;
+  }
 
   return (
-    <div className="trending-sidebar">
-      <div className="section-title-root">
-        <h2 className="section-title-hed">
-          <span>Helpful Links</span>
-        </h2>
-      </div>
-      
-      <div className="trending-section">
-        <h3>Career Resources</h3>
-        <div className="trending-list">
-          {helpfulLinks.map((link, index) => (
-            <div key={index} className="trending-item">
-              <span className="trending-number">{index + 1}</span>
-              <div className="trending-content">
-                <a 
-                  href={link.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="trending-link"
-                >
-                  {link.title}
-                </a>
-                <p className="trending-description">{link.description}</p>
+    <div className="sidebar-results">
+      {companyDetails.map((company) => (
+        <div key={company.id} className="result-item">
+          <div className="result-content">
+            {company.image_url && (
+              <div className="result-thumbnail">
+                <img 
+                  src={getImageUrl(company.image_url)} 
+                  alt={`${company.company_name || 'Company'} Diagram`}
+                  className="thumbnail-image"
+                  onLoad={() => console.log('Company image loaded successfully:', company.image_url)}
+                  onError={(e) => console.error('Company image failed to load:', company.image_url, e)}
+                />
+              </div>
+            )}
+            
+            <div className="result-text">
+              <div className="result-header">
+                <h4 className="result-title">
+                  {company.company_name || 'Company Name'}
+                </h4>
+                
+                <div className="result-meta">
+                  {company.industry && (
+                    <span className="result-category">Industry: {company.industry}</span>
+                  )}
+                  <span className="result-date">From: {company.createdAt?.toDate?.() 
+                    ? company.createdAt.toDate().toLocaleDateString('en-US', {
+                        month: '2-digit',
+                        day: '2-digit',
+                        year: 'numeric'
+                      })
+                    : 'No date'
+                  }</span>
+                </div>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
 
-export default HelpfulLinks;
+export default TheCompanies;
 

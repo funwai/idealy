@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { auth } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -6,9 +6,9 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase/config';
 import About from './pages/About';
 import EmbedsBox from './components/EmbedsBox';
-import JobCarousel from './components/JobCarousel';
+
 import PromptResults from './components/PromptResults';
-import HelpfulLinks from './components/HelpfulLinks';
+import TheCompanies from './components/HelpfulLinks';
 import WordCloud from './components/WordCloud';
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   const [showPromptInput, setShowPromptInput] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [jobDescription, setJobDescription] = useState('');
+  const [activeSection, setActiveSection] = useState('roles');
 
   const handleSubmitEntry = async () => {
     if (!jobTitle.trim() || !jobDescription.trim()) return;
@@ -53,6 +54,25 @@ function App() {
     }
   };
 
+  // Scroll tracking for navigation
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['roles', 'companies', 'skills', 'job-skills'];
+      const scrollPosition = window.scrollY + 200; // Offset for header
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="container">
       {/* Header section similar to Reddit */}
@@ -68,7 +88,7 @@ function App() {
             />
           </div>
           <div className="header-center">
-            <p className="header-slogan">Ever wonder what people <em>really</em> get up to in their jobs?</p>
+            <p className="header-slogan">What do people do in companies and how do companies make money?</p>
           </div>
           <div className="header-right">
             <a 
@@ -128,34 +148,36 @@ function App() {
         </div>
       </header>
 
-      {currentPage === 'home' ? (
-        <div className="page-layout">
-          <main className="main-content">
-            <div className="main-header-section">
-              <div className="main-message-container">
-                <span className="main-message-text">A day in the life of</span>
-                <JobCarousel />
-              </div>
+            {currentPage === 'home' ? (
+        <>
+          <div className="hero-section">
+            <div className="hero-content">
+              <h1 className="hero-title">k u r i o</h1>
+              <p className="hero-subtitle">Your guide to skills, roles and Organisations</p>
             </div>
-            
-            {/* Search Recent Entries moved to middle */}
-            <div className="search-recent-entries">
-              <div className="section-title-root">
-                <h2 className="section-title-hed">
-                  <span>Search Recent Entries</span>
+          </div>
+          <div className="page-layout">
+            <nav className="left-navigation">
+              <div className="nav-section">
+                <h3 className="nav-title">Learn</h3>
+                <ul className="nav-links">
+                  <li><a href="#roles" className={`nav-link ${activeSection === 'roles' ? 'nav-link-active' : ''}`}>The Roles</a></li>
+                  <li><a href="#companies" className={`nav-link ${activeSection === 'companies' ? 'nav-link-active' : ''}`}>The Companies</a></li>
+                  <li><a href="#skills" className={`nav-link ${activeSection === 'skills' ? 'nav-link-active' : ''}`}>Helpful Skills</a></li>
+                  <li><a href="#job-skills" className={`nav-link ${activeSection === 'job-skills' ? 'nav-link-active' : ''}`}>Essential Job Skills</a></li>
+                </ul>
+              </div>
+            </nav>
+            <main className="main-content">
+              <div id="roles" className="the-roles-section">
+                <h2 className="section-title-root">
+                  <span className="section-title-hed">The roles - Learn about a typical day at work</span>
                 </h2>
-                <div className="add-entry-section">
-                  <span className="add-entry-text">Describe your typical day</span>
-                  <button 
-                    className="add-entry-button"
-                    onClick={() => setShowPromptInput(!showPromptInput)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              <div className="search-header">
-              </div>
+                
+
+                
+                {/* Search Recent Entries moved to middle */}
+                <div className="search-recent-entries">
               
               {showPromptInput && (
                 <div className="modal-overlay" onClick={() => setShowPromptInput(false)}>
@@ -200,8 +222,8 @@ function App() {
                           onClick={handleSubmitEntry}
                           disabled={!jobTitle.trim() || !jobDescription.trim()}
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M17.1 13.004H5.504a.75.75 0 0 1 0-1.5H17.1l-4.377-4.377a.75.75 0 0 1 1.061-1.06l4.95 4.95a1.75 1.75 0 0 1 0 2.474l-4.95 4.95a.75.75 0 1 1-1.06-1.06l4.376-4.377z" fill="currentColor"></path>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M8 5V19L19 12L8 5Z" fill="white"/>
                           </svg>
                         </button>
                       </div>
@@ -211,31 +233,42 @@ function App() {
               )}
               
               <div className="category-row">
-                <label>Category</label>
-                <div className="category-select-wrapper">
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="category-select"
-                >
-                  <option value="">All Categories</option>
-                  <option value="General">General</option>
-                  <option value="Tech">Tech</option>
-                  <option value="Health">Health</option>
-                  <option value="Transport">Transport</option>
-                  <option value="Food and Beverages">Food and Beverages</option>
-                  <option value="Education">Education</option>
-                </select>
-                <div className="dropdown-icon-wrapper">
-                  <div className="dropdown-icon">
-                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 0.734863L4.99999 4.73486L1 0.734863" stroke="currentColor" strokeWidth="1.48148" strokeLinecap="round" strokeLinejoin="round"></path>
-                    </svg>
+                <div className="category-left">
+                  <label>Category</label>
+                  <div className="category-select-wrapper">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="category-select"
+                  >
+                    <option value="">All Categories</option>
+                    <option value="General">General</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Health">Health</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Food and Beverages">Food and Beverages</option>
+                    <option value="Education">Education</option>
+                  </select>
+                  <div className="dropdown-icon-wrapper">
+                    <div className="dropdown-icon">
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 0.734863L4.99999 4.73486L1 0.734863" stroke="currentColor" strokeWidth="1.48148" strokeLinecap="round" strokeLinejoin="round"></path>
+                      </svg>
+                    </div>
                   </div>
                 </div>
+                </div>
+                <div className="add-entry-section">
+                  <span className="add-entry-text">Want to add your own day?</span>
+                  <button 
+                    className="add-entry-button"
+                    onClick={() => setShowPromptInput(!showPromptInput)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-            </div>
-            <PromptResults category={selectedCategory || 'All'} />
+            <PromptResults categoryFilter={selectedCategory} />
             </div>
             
             <EmbedsBox urls={[
@@ -245,18 +278,30 @@ function App() {
               "https://www.youtube.com/embed/Y-yOE-RgX0M?si=Nv83hJd7B5JHKmuL",
               "https://www.youtube.com/embed/jLpN8ay3Fow?si=JRoPQ5U5ztmQeMCB"
             ]} />
-          </main>
-
-          <div className="right-sidebar-container">
-            <aside className="trending-sidebar">
-              <HelpfulLinks />
-            </aside>
             
-            <aside className="word-cloud-sidebar">
+            <div id="companies" className="companies-section">
+              <h2 className="section-title-root">
+                <span className="section-title-hed">The Companies</span>
+              </h2>
+              <TheCompanies />
+            </div>
+            
+            <div id="skills" className="helpful-skills-section">
+              <h2 className="section-title-root">
+                <span className="section-title-hed">Helpful Skills</span>
+              </h2>
+            </div>
+            
+            <div id="job-skills" className="essential-job-skills-section">
+              <h2 className="section-title-root">
+                <span className="section-title-hed">Essential job skills</span>
+              </h2>
               <WordCloud />
-            </aside>
-          </div>
+            </div>
+              </div>
+          </main>
         </div>
+        </>
       ) : (
         <About />
       )}

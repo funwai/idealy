@@ -83,7 +83,7 @@ export default function EmbedsBox({ urls = [] }) {
     <div className="embeds-box">
       <div className="section-title-root">
         <h2 className="section-title-hed">
-          <span>Day in the lives: Other sources</span>
+          <span>Day in the lives from across the web</span>
         </h2>
       </div>
       {urls.length === 0 ? (
