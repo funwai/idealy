@@ -123,13 +123,13 @@ function App() {
       <header className="main-header">
         <div className="header-content">
           <div className="header-left">
-            <img 
-              src={require('./KURIO_name_separate_Logo.png')} 
-              alt="Logo" 
-              className="header-logo" 
-              onClick={() => setCurrentPage('home')}
-              style={{ cursor: 'pointer' }}
-            />
+                         <img 
+               src={require('./KURIO_logo_transparent_background.png')} 
+               alt="Logo" 
+               className="header-logo" 
+               onClick={() => setCurrentPage('home')}
+               style={{ cursor: 'pointer' }}
+             />
           </div>
           <div className="header-center">
             <p className="header-slogan">People, Roles and Companies</p>
@@ -182,10 +182,11 @@ function App() {
           <div className="hero-section">
             <div className="hero-content">
               <h1 className="hero-title">k u r i o</h1>
+              <h2 className="hero-subtitle">People, Roles and Companies</h2>
                
                               <div className="audio-player">
                  <div className="audio-controls">
-                   <span className="audio-question">What do we do?</span>
+                   <span className="audio-question">Want to hear about what we do?</span>
                    <button 
                      className="play-pause-btn"
                      onClick={() => {

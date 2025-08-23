@@ -56,7 +56,7 @@ function PromptResults({ category = 'All' }) {
   }, []);
 
   const filtered = prompts
-    .filter((p) => (category === 'All' ? true : p.category === category));
+    .filter((p) => (category === '' ? true : p.category === category));
 
   return (
     <div className="sidebar-results">
