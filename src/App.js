@@ -240,7 +240,7 @@ function App() {
                 
                 <audio
                   ref={audioRef}
-                  src="/KURIO_Hey.mp3"
+                  src="/KURIO_hey.mp3"
                   onLoadedMetadata={() => setDuration(audioRef.current.duration)}
                   onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
                   onEnded={() => {
