@@ -40,32 +40,40 @@ function HelpfulLinks() {
   }, []);
 
   const getImageUrl = (imageUrl) => {
-    if (!imageUrl) return '';
+    if (!imageUrl) return null;
     
-    // If it's already a full URL, return as is
+    // If it's already a full HTTP URL, return as is
     if (imageUrl.startsWith('http')) {
       return imageUrl;
     }
     
-    // If it's a relative path, construct the full URL
-    return imageUrl;
+    // If it's a gs:// URL, convert it to HTTP download URL
+    if (imageUrl.startsWith('gs://')) {
+      // Extract bucket and path from gs:// URL
+      const gsUrl = imageUrl.replace('gs://', '');
+      const [bucket, ...pathParts] = gsUrl.split('/');
+      const path = pathParts.join('/');
+      
+      return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(path)}?alt=media`;
+    }
+    
+    // If it's just a filename, construct the Firebase Storage URL
+    const projectId = 'funwai-resume';
+    const bucketName = `${projectId}.firebasestorage.app`;
+    
+    return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/company_images%2F${encodeURIComponent(imageUrl)}?alt=media`;
   };
 
   if (loading) {
     return (
-      <div className="companies-section">
-        <div className="section-title-root">
-          <h2 className="section-title-hed">The Companies</h2>
-        </div>
-        <div className="loading-placeholder">Loading companies...</div>
-      </div>
+      <div className="loading-placeholder">Loading companies...</div>
     );
   }
 
   return (
-    <div className="companies-section">
+    <>
       <div className="section-title-root">
-        <h2 className="section-title-hed">The Companies - Learn more about a company</h2>
+        <h2 className="section-title-hed">The Companies</h2>
       </div>
       
       <div className="companies-content">
@@ -75,7 +83,7 @@ function HelpfulLinks() {
           companyDetails.map((company) => (
             <div key={company.id} className="company-item">
               <div className="company-image">
-                {company.image_url && (
+                {company.image_url && getImageUrl(company.image_url) && (
                   <img 
                     src={getImageUrl(company.image_url)} 
                     alt={`${company.company_name || 'Company'} Diagram`}
@@ -136,7 +144,7 @@ function HelpfulLinks() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

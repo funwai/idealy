@@ -27,12 +27,15 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['roles', 'companies', 'skills', 'job-skills'];
-      const scrollPosition = window.scrollY + 200; // Offset for header
+      const scrollPosition = window.scrollY + 250; // Adjusted offset for better accuracy
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
+          if (activeSection !== sections[i]) {
+            console.log('Active section changed to:', sections[i], 'at scroll position:', scrollPosition);
+            setActiveSection(sections[i]);
+          }
           break;
         }
       }
@@ -40,18 +43,33 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeSection]);
 
   // Navigation click handler
   const handleNavClick = (sectionId) => {
+    console.log('Navigation clicked:', sectionId);
     const section = document.getElementById(sectionId);
     if (section) {
-      const headerHeight = 120; // Account for fixed header
+      // Calculate the correct scroll position
+      const headerHeight = 160; // Account for fixed header + some padding
       const sectionTop = section.offsetTop - headerHeight;
-      window.scrollTo({
-        top: sectionTop,
-        behavior: 'smooth'
+      console.log('Scrolling to section:', sectionId, 'at position:', sectionTop);
+      
+      // Use scrollIntoView for better compatibility
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
+      
+      // Also update scroll position manually for better control
+      setTimeout(() => {
+        window.scrollTo({
+          top: sectionTop,
+          behavior: 'smooth'
+        });
+      }, 100);
+      
+      setActiveSection(sectionId); // Immediately update active section
     }
   };
 
@@ -132,7 +150,7 @@ function App() {
               </button>
             ) : (
               <div className="user-info">
-                <span>Welcome, {user.email}</span>
+                <span className="welcome-text">Welcome, {user.email}</span>
                 <button 
                   className="logout-button"
                   onClick={() => setUser(null)}
@@ -159,36 +177,40 @@ function App() {
               <div className="nav-section">
                 <ul className="nav-links">
                   <li>
-                    <a 
+                    <button 
                       className={`nav-link ${activeSection === 'roles' ? 'nav-link-active' : ''}`}
                       onClick={() => handleNavClick('roles')}
+                      type="button"
                     >
                       The Roles
-                    </a>
+                    </button>
                   </li>
                   <li>
-                    <a 
+                    <button 
                       className={`nav-link ${activeSection === 'companies' ? 'nav-link-active' : ''}`}
                       onClick={() => handleNavClick('companies')}
+                      type="button"
                     >
                       The Companies
-                    </a>
+                    </button>
                   </li>
                   <li>
-                    <a 
+                    <button 
                       className={`nav-link ${activeSection === 'skills' ? 'nav-link-active' : ''}`}
                       onClick={() => handleNavClick('skills')}
+                      type="button"
                     >
                       Helpful Skills
-                    </a>
+                    </button>
                   </li>
                   <li>
-                    <a 
+                    <button 
                       className={`nav-link ${activeSection === 'job-skills' ? 'nav-link-active' : ''}`}
                       onClick={() => handleNavClick('job-skills')}
+                      type="button"
                     >
                       Essential Job Skills
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -303,9 +325,6 @@ function App() {
               </div>
               
               <div id="companies" className="companies-section">
-                <h2 className="section-title-root">
-                  <span className="section-title-hed">The Companies - Learn more about a company</span>
-                </h2>
                 <HelpfulLinks />
               </div>
               

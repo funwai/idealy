@@ -3,12 +3,18 @@ body, html, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #000099;
-  color: white;
+  background-color: #ffffff;
+  color: #333333;
   font-family: 'Segoe UI', sans-serif;
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
+  /* Ensure sticky positioning works properly */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  /* Force hardware acceleration for better sticky positioning */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* Layout */
@@ -17,8 +23,8 @@ body, html, #root {
   flex-direction: column;
   position: relative;
   min-height: 100vh;
-  background-color: #000099;
-  color: white;
+  background-color: #ffffff;
+  color: #333333;
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
@@ -27,16 +33,14 @@ body, html, #root {
 /* Header section styling */
 .main-header {
   position: fixed;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
   background: #0E2B4D !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  z-index: 1000;
-  padding: 0.75rem 1.5rem;
-  max-width: 1200px;
-  width: calc(100% - 2rem);
+  border-radius: 0 0 12px 12px;
+  z-index: 10000;
+  padding: 1rem 0;
   backdrop-filter: blur(15px);
   box-shadow: 0 8px 32px rgba(14, 43, 77, 0.2);
   box-sizing: border-box;
@@ -48,7 +52,7 @@ body, html, #root {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   background: #0E2B4D !important;
   position: relative;
 }
@@ -88,6 +92,7 @@ body, html, #root {
   align-items: center;
   gap: 1rem;
   background: #0E2B4D;
+  justify-content: flex-end;
 }
 
 .welcome-text {
@@ -226,7 +231,7 @@ body, html, #root {
   color: #FFCDD5;
   padding: 4rem 1.5rem;
   text-align: center;
-  margin: 8rem auto 2rem auto; /* Increased top margin to position below header */
+  margin: 7rem auto 2rem auto; /* Adjusted top margin for new header positioning */
   width: calc(100% - 2rem);
   max-width: 1200px;
   border-radius: 16px;
@@ -241,21 +246,35 @@ body, html, #root {
   display: flex;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0;
   gap: 2rem;
   position: relative;
   align-items: flex-start; /* Ensure navigation aligns to top */
+  min-height: 100vh; /* Ensure container has enough height for sticky to work */
+  overflow: visible; /* Ensure sticky positioning works */
 }
 
 /* Left Navigation */
 .left-navigation {
+  position: -webkit-sticky; /* Safari support */
   position: sticky;
-  top: 100px; /* Position below the fixed header */
+  top: 120px; /* Adjusted space below the new fixed header */
   width: 200px;
   height: fit-content;
   flex-shrink: 0;
   z-index: 999; /* Higher z-index to ensure it stays above content */
   align-self: flex-start; /* Ensure it sticks to the top */
+  will-change: transform; /* Optimize for sticky positioning */
+  transform: translateZ(0); /* Force hardware acceleration */
+  margin-left: 1rem;
+}
+
+/* Fallback for browsers that don't support sticky positioning */
+@supports not (position: sticky) {
+  .left-navigation {
+    position: fixed;
+    top: 140px;
+  }
 }
 
 .nav-section {
@@ -266,7 +285,9 @@ body, html, #root {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  /* Ensure proper stacking context */
+  z-index: 1;
 }
 
 .nav-section::before {
@@ -343,6 +364,7 @@ body, html, #root {
   flex: 1;
   min-width: 0; /* Allows flex item to shrink below content size */
   padding-top: 0; /* Remove any top padding that might interfere with sticky nav */
+  margin-right: 1rem;
 }
 
 /* Section styling - harmonized */
@@ -872,6 +894,156 @@ body, html, #root {
   background: rgba(0, 0, 0, 0.3); /* darker on hover */
 }
 
+/* Sidebar results styling */
+.sidebar-results .results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.sidebar-results .results-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-results .results-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.sidebar-results .results-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.sidebar-results .results-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.sidebar-results .result-item {
+  background: #f7f7ff;
+  color: #000;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.result-content {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.result-thumbnail {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.result-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.result-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0000cc;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.result-title-link {
+  color: #0000cc;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.result-title-link:hover {
+  color: #0052a3;
+  text-decoration: underline;
+}
+
+.source-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #8e8e93;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 2px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.source-link:hover {
+  color: #0066ff;
+  background: rgba(0, 102, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.source-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sidebar-results .result-typical-day {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #333;
+}
+
+.sidebar-results .result-link {
+  display: inline-block;
+  margin: 0 0 0.5rem 0;
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 102, 204, 0.1);
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-results .result-link:hover {
+  background: rgba(0, 102, 204, 0.2);
+  color: #0052a3;
+}
+
+.sidebar-results .result-text {
+  margin: 0;
+}
+
+.sidebar-results .result-meta {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.75rem;
+  color: #606f7b;
+}
+
 .embeds-placeholder {
   color: #6b7280;
   font-size: 0.9rem;
@@ -1084,8 +1256,8 @@ body, html, #root {
 }
 
 .company-thumbnail {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1203,6 +1375,34 @@ body, html, #root {
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Company item styling */
+.company-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.company-item:last-child {
+  border-bottom: none;
+}
+
+.companies-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Loading and empty placeholders */
+.loading-placeholder,
+.empty-placeholder {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-style: italic;
 }
 
 /* Responsive navigation */
