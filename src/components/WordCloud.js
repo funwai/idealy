@@ -62,6 +62,11 @@ const WordCloud = () => {
 
   return (
     <div className="word-cloud-section">
+      <div className="section-title-root">
+        <h2 className="section-title-hed">
+          <span>Essential Job Skills</span>
+        </h2>
+      </div>
       <canvas 
         ref={canvasRef}
         className="word-cloud-canvas"

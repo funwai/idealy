@@ -1,9 +1,8 @@
 import React from 'react';
-import backgroundImage from '../pexels-krisof-1252890.jpg';
 
 function About() {
   return (
-    <div className="about-page" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <div className="about-page">
       <div className="about-container">
         <h1>About KURIO</h1>
         

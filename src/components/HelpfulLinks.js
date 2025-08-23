@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { collection, query, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
-function TheCompanies() {
+function HelpfulLinks() {
   const [companyDetails, setCompanyDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -38,6 +38,7 @@ function TheCompanies() {
 
     return () => unsubscribe();
   }, []);
+
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return '';
     
@@ -46,82 +47,71 @@ function TheCompanies() {
       return imageUrl;
     }
     
-    // If it's a gs:// URL, convert to download URL
-    if (imageUrl.startsWith('gs://')) {
-      const parts = imageUrl.split('/');
-      const bucketName = parts[2];
-      const fileName = parts.slice(3).join('/');
-      const encodedFileName = encodeURIComponent(fileName);
-      return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedFileName}?alt=media`;
-    }
-    
-    // If it's just a filename, construct the full path
-    const projectId = 'funwai-resume';
-    const bucketName = 'funwai-resume.appspot.com';
-    const encodedFileName = encodeURIComponent(imageUrl);
-    return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/company_details%2F${encodedFileName}?alt=media`;
+    // If it's a relative path, construct the full URL
+    return imageUrl;
   };
 
   if (loading) {
-    return <div>Loading company details...</div>;
-  }
-
-  if (companyDetails.length === 0) {
-    return <div>No company details available yet.</div>;
+    return (
+      <div className="companies-section">
+        <div className="section-title-root">
+          <h2 className="section-title-hed">The Companies</h2>
+        </div>
+        <div className="loading-placeholder">Loading companies...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="sidebar-results">
-      {companyDetails.map((company) => (
-        <div key={company.id} className="result-item">
-          <div className="result-content">
-            {company.image_url && (
-              <div className="result-thumbnail">
-                <img 
-                  src={getImageUrl(company.image_url)} 
-                  alt={`${company.company_name || 'Company'} Diagram`}
-                  className="thumbnail-image clickable-image"
-                  onClick={() => setSelectedImage({
-                    src: getImageUrl(company.image_url),
-                    alt: `${company.company_name || 'Company'} Diagram`,
-                    companyName: company.company_name || 'Company'
-                  })}
-                  onLoad={() => console.log('Company image loaded successfully:', company.image_url)}
-                  onError={(e) => console.error('Company image failed to load:', company.image_url, e)}
-                />
+    <div className="companies-section">
+      <div className="section-title-root">
+        <h2 className="section-title-hed">The Companies - Learn more about a company</h2>
+      </div>
+      
+      <div className="companies-content">
+        {companyDetails.length === 0 ? (
+          <div className="empty-placeholder">No companies found</div>
+        ) : (
+          companyDetails.map((company) => (
+            <div key={company.id} className="company-item">
+              <div className="company-image">
+                {company.image_url && (
+                  <img 
+                    src={getImageUrl(company.image_url)} 
+                    alt={`${company.company_name || 'Company'} Diagram`}
+                    className="company-thumbnail clickable-image"
+                    onClick={() => setSelectedImage({
+                      src: getImageUrl(company.image_url),
+                      alt: `${company.company_name || 'Company'} Diagram`,
+                      companyName: company.company_name || 'Company'
+                    })}
+                    onLoad={() => console.log('Company image loaded successfully:', company.image_url)}
+                    onError={(e) => console.error('Company image failed to load:', company.image_url, e)}
+                  />
+                )}
               </div>
-            )}
-            
-            <div className="result-text">
-              <div className="result-header">
-                <h4 className="result-title">
+              
+              <div className="company-text">
+                <h4 className="company-name">
                   {company.company_name || 'Company Name'}
                 </h4>
-              </div>
-              
-              {company.description && (
-                <div className="result-description">
-                  {company.description}
-                </div>
-              )}
-              
-              <div className="result-meta">
-                {company.industry && (
-                  <span className="result-category">Industry: {company.industry}</span>
+                
+                {company.description && (
+                  <p className="company-description">
+                    {company.description}
+                  </p>
                 )}
-                <span className="result-date">From: {company.createdAt?.toDate?.() 
-                  ? company.createdAt.toDate().toLocaleDateString('en-US', {
-                      month: '2-digit',
-                      day: '2-digit',
-                      year: 'numeric'
-                    })
-                  : 'No date'
-                }</span>
+                
+                {company.industry && (
+                  <p className="company-industry">
+                    Industry: {company.industry}
+                  </p>
+                )}
               </div>
             </div>
-          </div>
-        </div>
-      ))}
+          ))
+        )}
+      </div>
       
       {/* Image Popup Modal */}
       {selectedImage && (
@@ -150,5 +140,5 @@ function TheCompanies() {
   );
 }
 
-export default TheCompanies;
+export default HelpfulLinks;
 
