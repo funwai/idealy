@@ -1,8 +1,2 @@
-body, html, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #0000CC;
-  color: white;
-  font-family: 'Segoe UI', sans-serif;
-}
+/* Global styles - minimal reset to avoid conflicts with App.css */
+/* Remove conflicting body/html/#root rules that cause double scrollbars */

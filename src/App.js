@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import { auth } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -22,12 +22,26 @@ function App() {
   const [jobTitle, setJobTitle] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [activeSection, setActiveSection] = useState('roles');
+  
+  // Audio player state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef(null);
+  
+  // Helper function to format time
+  const formatTime = (time) => {
+    if (isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   // Scroll tracking for navigation
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['roles', 'companies', 'skills', 'job-skills'];
-      const scrollPosition = window.scrollY + 250; // Adjusted offset for better accuracy
+      const scrollPosition = window.scrollY + 130; // Adjusted offset for fixed header
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
@@ -50,8 +64,8 @@ function App() {
     console.log('Navigation clicked:', sectionId);
     const section = document.getElementById(sectionId);
     if (section) {
-      // Calculate the correct scroll position
-      const headerHeight = 160; // Account for fixed header + some padding
+      // Calculate the correct scroll position for fixed header
+      const headerHeight = 80; // Fixed header height
       const sectionTop = section.offsetTop - headerHeight;
       console.log('Scrolling to section:', sectionId, 'at position:', sectionTop);
       
@@ -118,7 +132,7 @@ function App() {
             />
           </div>
           <div className="header-center">
-            <p className="header-slogan">Simplifying the Complex Corporate World</p>
+            <p className="header-slogan">People, Roles and Companies</p>
           </div>
           <div className="header-right">
             <a 
@@ -168,54 +182,122 @@ function App() {
           <div className="hero-section">
             <div className="hero-content">
               <h1 className="hero-title">k u r i o</h1>
-              <p className="hero-subtitle">Learn about different roles and companies</p>
+               
+                              <div className="audio-player">
+                 <div className="audio-controls">
+                   <span className="audio-question">What do we do?</span>
+                   <button 
+                     className="play-pause-btn"
+                     onClick={() => {
+                       if (audioRef.current.paused) {
+                         audioRef.current.play();
+                         setIsPlaying(true);
+                       } else {
+                         audioRef.current.pause();
+                         setIsPlaying(false);
+                       }
+                     }}
+                     title={isPlaying ? "Pause" : "Play"}
+                   >
+                     {isPlaying ? (
+                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                       </svg>
+                     ) : (
+                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+                       </svg>
+                     )}
+                   </button>
+                 </div>
+                
+                <div className="audio-progress">
+                  <div className="progress-bar">
+                    <div 
+                      className="progress-fill"
+                      style={{ width: `${(currentTime / duration) * 100}%` }}
+                    ></div>
+                    <input
+                      type="range"
+                      className="progress-slider"
+                      min="0"
+                      max={duration || 0}
+                      value={currentTime}
+                      onChange={(e) => {
+                        const newTime = parseFloat(e.target.value);
+                        audioRef.current.currentTime = newTime;
+                        setCurrentTime(newTime);
+                      }}
+                      step="0.1"
+                    />
+                  </div>
+                  <div className="time-display">
+                    <span className="current-time">{formatTime(currentTime)}</span>
+                    <span className="duration">{formatTime(duration)}</span>
+                  </div>
+                </div>
+                
+                <audio
+                  ref={audioRef}
+                  src="/KURIO_Hey.mp3"
+                  onLoadedMetadata={() => setDuration(audioRef.current.duration)}
+                  onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
+                  onEnded={() => {
+                    setIsPlaying(false);
+                    setCurrentTime(0);
+                  }}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                />
+              </div>
             </div>
           </div>
           
+
+          
           <div className="page-layout">
+            {/* Left Navigation Sidebar */}
             <nav className="left-navigation">
-              <div className="nav-section">
-                <ul className="nav-links">
-                  <li>
-                    <button 
-                      className={`nav-link ${activeSection === 'roles' ? 'nav-link-active' : ''}`}
-                      onClick={() => handleNavClick('roles')}
-                      type="button"
-                    >
-                      The Roles
-                    </button>
-                  </li>
-                  <li>
-                    <button 
-                      className={`nav-link ${activeSection === 'companies' ? 'nav-link-active' : ''}`}
-                      onClick={() => handleNavClick('companies')}
-                      type="button"
-                    >
-                      The Companies
-                    </button>
-                  </li>
-                  <li>
-                    <button 
-                      className={`nav-link ${activeSection === 'skills' ? 'nav-link-active' : ''}`}
-                      onClick={() => handleNavClick('skills')}
-                      type="button"
-                    >
-                      Helpful Skills
-                    </button>
-                  </li>
-                  <li>
-                    <button 
-                      className={`nav-link ${activeSection === 'job-skills' ? 'nav-link-active' : ''}`}
-                      onClick={() => handleNavClick('job-skills')}
-                      type="button"
-                    >
-                      Essential Job Skills
-                    </button>
-                  </li>
-                </ul>
-              </div>
+              <ul className="nav-links">
+                <li>
+                  <a 
+                    href="#roles" 
+                    className={`nav-link ${activeSection === 'roles' ? 'active' : ''}`}
+                    onClick={() => handleNavClick('roles')}
+                  >
+                    The Roles
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#companies" 
+                    className={`nav-link ${activeSection === 'companies' ? 'active' : ''}`}
+                    onClick={() => handleNavClick('companies')}
+                  >
+                    The Companies
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#skills" 
+                    className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`}
+                    onClick={() => handleNavClick('skills')}
+                  >
+                    Helpful Skills
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#job-skills" 
+                    className={`nav-link ${activeSection === 'job-skills' ? 'active' : ''}`}
+                    onClick={() => handleNavClick('job-skills')}
+                  >
+                    Essential Job Skills
+                  </a>
+                </li>
+              </ul>
             </nav>
-            
+
             <main className="main-content">
               <div id="roles" className="the-roles-section">
                 <h2 className="section-title-root">
@@ -312,7 +394,7 @@ function App() {
                     </div>
                   </div>
                   
-                  <PromptResults categoryFilter={selectedCategory} />
+                                     <PromptResults category={selectedCategory} />
                 </div>
                 
                 <EmbedsBox urls={[
