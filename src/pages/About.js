@@ -4,29 +4,33 @@ function About() {
   return (
     <div className="about-page">
       <div className="about-container">
-        <h1>About KURIO</h1>
+        <h1>A b o u t</h1>
         
         <section className="about-section">
           <h2>What is Kurio?</h2>
+          <div className="definition-box">
+            <p>
+              <b>curio (Kurio, alternative spelling)</b> /ˈkjʊərɪəʊ/
+              <br/>
+              <b>noun</b>
+              <br/>
+              a rare, unusual, or intriguing object.
+            </p>
+          </div>
           <p>
-          <b>curio (Kurio, alternative spelling)</b> /ˈkjʊərɪəʊ/
-          <br/>
-          <b>noun</b>
-          <br/>
-          a rare, unusual, or intriguing object.
-          <br/>
-            Kurio is a platform that helps you discover what it's really like to work in different professions. 
-            Ever wondered what a day in the life of a software engineer, data scientist, or product manager looks like? 
-            We provide real insights into various careers through user-generated content and curated resources.
+            If you've ever been curious about what people get up to in their jobs or how companies generate their revenue, we've got you covered.
+            KURIO is an AI-powered platform that helps unravel what it's really like to work in different professions and how companies make money.
+            We use a combination of publicly available data and user-generated content to provide real insights into various jobs and careers.
+            We also use publicly available financial data to help you understand how companies make money and how they spend it.
+            Lastly, we also allow you to share your own experiences and insights with the community so we can shed more light on the world of work and business.
           </p>
         </section>
 
         <section className="about-section">
           <h2>Our Mission</h2>
           <p>
-            We believe that understanding what a job actually entails is crucial for making informed career decisions. 
-            Our mission is to bridge the gap between job titles and reality by sharing authentic, day-to-day experiences 
-            from people working in various fields.
+            Our mission is simple - clarity on what people do in different roles, and on how companies generate and spend money.
+            We want you to be conscious of the purpose of different roles to a company, and ultimately to share with you authentic facts and figures about work!
           </p>
         </section>
 
@@ -50,16 +54,6 @@ function About() {
               <p>Watch videos and explore resources that provide deeper insights into various careers.</p>
             </div>
           </div>
-        </section>
-
-        <section className="about-section">
-          <h2>Why IdealY?</h2>
-          <ul className="benefits-list">
-            <li><strong>Authentic Content:</strong> Real experiences from real people, not corporate descriptions</li>
-            <li><strong>Diverse Perspectives:</strong> Insights from various industries and career levels</li>
-            <li><strong>Up-to-Date Information:</strong> Current trends and evolving job landscapes</li>
-            <li><strong>Community-Driven:</strong> Built by and for people exploring career options</li>
-          </ul>
         </section>
 
         <section className="about-section">
