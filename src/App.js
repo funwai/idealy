@@ -412,6 +412,12 @@ function App() {
                           <option value="Transport">Transport</option>
                           <option value="Food and Beverages">Food and Beverages</option>
                           <option value="Education">Education</option>
+                          <option value="Legal">Legal</option>
+                          <option value="Finance">Finance</option>
+                          <option value="Marketing">Marketing</option>
+                          <option value="Sales">Sales</option>
+                          <option value="Customer Service">Customer Service</option>
+                          <option value="HR">HR</option>
                         </select>
                         <div className="dropdown-icon-wrapper">
                           <div className="dropdown-icon">
