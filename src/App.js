@@ -29,6 +29,9 @@ function App() {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
   
+  // Vanta.js background effect
+  const vantaRef = useRef(null);
+  
   // Helper function to format time
   const formatTime = (time) => {
     if (isNaN(time)) return '0:00';
@@ -36,6 +39,46 @@ function App() {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  // Vanta.js background effect initialization
+  useEffect(() => {
+    const initVanta = () => {
+      if (window.VANTA) {
+        vantaRef.current = window.VANTA.NET({
+          el: "#vanta-background",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x2b254b,
+          backgroundColor: 0xf4ece9
+        });
+      }
+    };
+
+    // Try to initialize immediately
+    initVanta();
+
+    // If VANTA isn't available yet, wait for it
+    if (!window.VANTA) {
+      const checkVanta = setInterval(() => {
+        if (window.VANTA) {
+          initVanta();
+          clearInterval(checkVanta);
+        }
+      }, 100);
+    }
+
+    // Cleanup function
+    return () => {
+      if (vantaRef.current) {
+        vantaRef.current.destroy();
+      }
+    };
+  }, []);
 
   // Scroll tracking for navigation
   useEffect(() => {
@@ -175,6 +218,9 @@ function App() {
           </div>
         </div>
       </header>
+
+      {/* Vanta.js Background Container */}
+      <div id="vanta-background" className="vanta-background"></div>
 
       {currentPage === 'home' ? (
         <>
@@ -403,7 +449,8 @@ function App() {
                   "https://www.youtube.com/embed/Ipe9xJCfuTM?si=3uphlTlbHkoeXy_3",
                   "https://www.youtube.com/embed/PTKlLYht2Jk?si=yVgwe1u5zSanLaCQ",
                   "https://www.youtube.com/embed/Y-yOE-RgX0M?si=Nv83hJd7B5JHKmuL",
-                  "https://www.youtube.com/embed/jLpN8ay3Fow?si=JRoPQ5U5ztmQeMCB"
+                  "https://www.youtube.com/embed/jLpN8ay3Fow?si=JRoPQ5U5ztmQeMCB",
+                  "https://www.youtube.com/embed/MJeNmRAJN-Q?si=r-793oXd8aAv92uX"
                 ]} />
               </div>
               
@@ -427,7 +474,10 @@ function App() {
           </div>
         </>
       ) : (
-        <About />
+        <About onNavigateToHome={() => {
+          setCurrentPage('home');
+          setShowPromptInput(true);
+        }} />
       )}
 
       {/* Login Modal */}

@@ -1,8 +1,54 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-function About() {
+function About({ onNavigateToHome }) {
+  // Vanta.js background effect
+  const vantaRef = useRef(null);
+
+  // Initialize Vanta.js background
+  useEffect(() => {
+    const initVanta = () => {
+      if (window.VANTA) {
+        vantaRef.current = window.VANTA.NET({
+          el: "#vanta-background-about",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x2b254b,
+          backgroundColor: 0xf4ece9
+        });
+      }
+    };
+
+    // Try to initialize immediately
+    initVanta();
+
+    // If VANTA isn't available yet, wait for it
+    if (!window.VANTA) {
+      const checkVanta = setInterval(() => {
+        if (window.VANTA) {
+          initVanta();
+          clearInterval(checkVanta);
+        }
+      }, 100);
+    }
+
+    // Cleanup function
+    return () => {
+      if (vantaRef.current) {
+        vantaRef.current.destroy();
+      }
+    };
+  }, []);
+
   return (
     <div className="about-page">
+      {/* Vanta.js Background Container */}
+      <div id="vanta-background-about" className="vanta-background-about"></div>
+      
       <div className="about-container">
         <h1>A b o u t</h1>
         
@@ -38,65 +84,27 @@ function About() {
           <h2>How It Works</h2>
           <div className="features-grid">
             <div className="feature">
-              <h3>📝 Share Your Experience</h3>
-              <p>Contribute by describing your typical workday and what your job really involves.</p>
+              <h3>Learn from other KURIO-us minds</h3>
+              <p>Users can dive deep into the daily lives of people in different roles as well as learn about how companies operate, without the unnecessary businss jargon</p>
             </div>
             <div className="feature">
-              <h3>🔍 Explore Careers</h3>
-              <p>Browse through different professions and read about real experiences from people in the field.</p>
+              <h3>Contribute to the mission</h3>
+              <p>If you'd like to contribute to KURIO's mission, <span className="clickable-text" onClick={onNavigateToHome}>tell us</span> about your day-to-day and your job title. That's all we need - Our AI will read your entry and pick out the bits we need to inform other KURIO-us minds</p>
             </div>
             <div className="feature">
-              <h3>📊 Trending Insights</h3>
-              <p>See which careers are gaining interest and discover emerging job opportunities.</p>
+              <h3>Learn from the open web</h3>
+              <p>At KURIO we are always searching for up-to-date descriptions of roles and companies. Once we find them we'll also add them to our knowledge-base - Have a browse and hear from the people who are already in the roles themselves</p>
             </div>
             <div className="feature">
-              <h3>🎥 Multimedia Content</h3>
-              <p>Watch videos and explore resources that provide deeper insights into various careers.</p>
+              <h3>Learn about Companies</h3>
+              <p>Whether it is providing plumbing services or selling ice cream - our knowledge-base of companies is ever-expanding. Learn how companies make and spend money - and understand your role as a consumer in the process</p>
             </div>
           </div>
         </section>
 
-        <section className="about-section">
-          <h2>Get Involved</h2>
-          <p>
-            Whether you're exploring career options or want to share your professional journey, 
-            IdealY is here to help. Start by browsing existing entries or contribute your own 
-            experience to help others make informed career decisions.
-          </p>
-          <div className="cta-buttons">
-            <button className="cta-button primary" onClick={() => window.history.back()}>
-              Back to Home
-            </button>
-            <button className="cta-button secondary" onClick={() => window.scrollTo(0, 0)}>
-              Share Your Experience
-            </button>
-          </div>
-        </section>
+        
 
-        <section className="about-section">
-          <h2>Contact Us</h2>
-          <p>
-            Have questions, suggestions, or want to collaborate? We'd love to hear from you!
-          </p>
-          <div className="contact-info">
-            <p>📧 Email: <a href="mailto:contact@idealy.com">contact@idealy.com</a></p>
-            <p>🐦 Twitter: <a href="https://twitter.com/idealy" target="_blank" rel="noopener noreferrer">@idealy</a></p>
-            <p>💼 LinkedIn: <a href="https://linkedin.com/company/idealy" target="_blank" rel="noopener noreferrer">IdealY</a></p>
-          </div>
-        </section>
-      </div>
-      
-      <div className="photo-credit">
-        <p>
-          Background photo by Hristo Fidanov from Pexels: 
-          <a 
-            href="https://www.pexels.com/photo/milky-way-galaxy-during-nighttime-1252890/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-          >
-            https://www.pexels.com/photo/milky-way-galaxy-during-nighttime-1252890/
-          </a>
-        </p>
+
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { db } from '../firebase/config';
 
 function PromptResults({ category = 'All' }) {
   const [prompts, setPrompts] = useState([]);
+  const [categoryThumbnails, setCategoryThumbnails] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -33,6 +34,37 @@ function PromptResults({ category = 'All' }) {
     return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/job_thumbnails%2F${encodeURIComponent(imageUrl)}?alt=media`;
   };
 
+  // Fetch category thumbnails first
+  useEffect(() => {
+    console.log('PromptResults: Fetching category thumbnails...');
+    const thumbnailsQuery = query(collection(db, 'category_thumbnails'));
+    
+    const unsubscribeThumbnails = onSnapshot(thumbnailsQuery, 
+      (snapshot) => {
+        console.log('PromptResults: Received category thumbnails snapshot with', snapshot.docs.length, 'documents');
+        const thumbnailsMap = {};
+        snapshot.docs.forEach((doc) => {
+          const data = doc.data();
+          console.log('Category thumbnail data:', data);
+          if (data.mapped_category && data.image_url) {
+            // Process the image URL to ensure it's properly formatted
+            const processedImageUrl = getImageUrl(data.image_url);
+            thumbnailsMap[data.mapped_category] = processedImageUrl;
+            console.log(`Mapped category "${data.mapped_category}" to image:`, processedImageUrl);
+          }
+        });
+        console.log('PromptResults: Final category thumbnails map:', thumbnailsMap);
+        setCategoryThumbnails(thumbnailsMap);
+      },
+      (error) => {
+        console.error('PromptResults: Error fetching category thumbnails:', error);
+      }
+    );
+    
+    return () => unsubscribeThumbnails();
+  }, []);
+
+  // Fetch prompts after category thumbnails are loaded
   useEffect(() => {
     console.log('PromptResults: Fetching data from Firestore...');
     const q = query(collection(db, 'prompts'), orderBy('createdAt', 'desc'), limit(50));
@@ -68,28 +100,31 @@ function PromptResults({ category = 'All' }) {
         <p className="no-results">No prompts match the selected filters.</p>
       ) : (
         <div className="results-list">
-          {filtered.map(({ id, job_title, typical_day, category: cat, createdAt, source, image_url }) => {
-            console.log('Rendering entry:', { id, job_title, image_url, source });
+          {filtered.map(({ id, job_title, typical_day, category: cat, createdAt, source }) => {
+            console.log('Rendering entry:', { id, job_title, category: cat, source });
+            const thumbnailUrl = cat ? categoryThumbnails[cat] : null;
+            console.log(`Entry category: "${cat}", thumbnail URL:`, thumbnailUrl);
+            
             return (
               <div key={id} className="result-item">
                 <div className="result-content">
-                                     {image_url && (
-                     <div className="result-thumbnail">
-                       <img
-                         src={getImageUrl(image_url)}
-                         alt={job_title || 'Job thumbnail'}
-                         className="thumbnail-image"
-                         onLoad={() => {
-                           console.log('Image loaded successfully:', getImageUrl(image_url));
-                         }}
-                         onError={(e) => {
-                           console.error('Image failed to load:', getImageUrl(image_url));
-                           console.error('Error details:', e);
-                           e.target.style.display = 'none';
-                         }}
-                       />
-                     </div>
-                   )}
+                  {thumbnailUrl && (
+                    <div className="result-thumbnail">
+                      <img
+                        src={thumbnailUrl}
+                        alt={`${cat} category thumbnail`}
+                        className="thumbnail-image"
+                        onLoad={() => {
+                          console.log('Category thumbnail loaded successfully:', thumbnailUrl);
+                        }}
+                        onError={(e) => {
+                          console.error('Category thumbnail failed to load:', thumbnailUrl);
+                          console.error('Error details:', e);
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
                   <div className="result-text">
                     <h4 className="result-title">
                       {source ? (
@@ -114,7 +149,7 @@ function PromptResults({ category = 'All' }) {
                             year: 'numeric'
                           }).replace(/\//g, '.')
                         : 'No timestamp'}
-                      {' · '}Category: {cat}
+                      {' · '}Category: {cat || 'Uncategorized'}
                     </p>
                   </div>
                 </div>
