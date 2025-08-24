@@ -694,7 +694,8 @@ body {
   flex-direction: column;
   gap: 0.5rem;
   border: 1px solid rgba(255, 205, 213, 0.2);
-  margin-bottom: 0.25rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
   min-height: 200px;
   box-sizing: border-box;
   position: relative;
@@ -703,6 +704,7 @@ body {
 
 .the-roles-section {
   margin-top: 0;
+  margin-bottom: 2rem;
 }
 
 .the-roles-section .section-title-root,
@@ -713,10 +715,10 @@ body {
   text-align: left;
   border-bottom: 1px solid #e1e5e9;
   padding-bottom: 0.5rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .the-roles-section .section-title-hed,
@@ -1162,7 +1164,7 @@ body {
   width: 100%;
   max-width: 100%;
   border: 1px solid rgba(255, 205, 213, 0.2);
-  margin-bottom: 0.25rem;
+  margin-bottom: 2rem;
   min-height: 200px;
   box-sizing: border-box;
   position: relative;

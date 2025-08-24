@@ -339,10 +339,10 @@ function App() {
 
             <main className="main-content">
               <div id="roles" className="the-roles-section">
-                <h2 className="section-title-root">
-                  <span className="section-title-hed">The roles - Learn about a typical day at work</span>
-                </h2>
                 <div className="search-recent-entries">
+                  <h2 className="section-title-root">
+                    <span className="section-title-hed">The roles - Learn about a typical day at work</span>
+                  </h2>
                   {showPromptInput && (
                     <div className="modal-overlay" onClick={() => setShowPromptInput(false)}>
                       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
