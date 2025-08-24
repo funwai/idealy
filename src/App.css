@@ -758,6 +758,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+.modal-body .modal-input {
+  width: 300px;
+  max-width: 100%;
 }
 
 .modal-input {
@@ -775,9 +782,9 @@ body {
 }
 
 .modal-button {
-  background: #0E2B4D;
-  color: white;
-  border: none;
+  background: #ffffff;
+  color: #0E2B4D;
+  border: 2px solid #0E2B4D;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   cursor: pointer;
@@ -786,7 +793,9 @@ body {
 }
 
 .modal-button:hover {
-  background: #1a3a5a;
+  background: #f0f0f0;
+  border-color: #1a3a5a;
+  color: #1a3a5a;
 }
 
 .error-message {

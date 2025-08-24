@@ -156,7 +156,7 @@ function App() {
       setShowLogin(false);
       setLoginError('');
     } catch (error) {
-      setLoginError(error.message);
+      setLoginError('Email/password not recognized');
     }
   };
 
