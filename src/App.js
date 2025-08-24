@@ -324,22 +324,14 @@ function App() {
                     The Companies
                   </a>
                 </li>
-                <li>
-                  <a 
-                    href="#skills" 
-                    className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`}
-                    onClick={() => handleNavClick('skills')}
-                  >
-                    Helpful Skills
-                  </a>
-                </li>
+
                 <li>
                   <a 
                     href="#job-skills" 
                     className={`nav-link ${activeSection === 'job-skills' ? 'active' : ''}`}
                     onClick={() => handleNavClick('job-skills')}
                   >
-                    Essential Job Skills
+                    The Skills
                   </a>
                 </li>
               </ul>
@@ -458,15 +450,11 @@ function App() {
                 <HelpfulLinks />
               </div>
               
-              <div id="skills" className="helpful-skills-section">
-                <h2 className="section-title-root">
-                  <span className="section-title-hed">Helpful Skills</span>
-                </h2>
-              </div>
+
               
               <div id="job-skills" className="essential-job-skills-section">
                 <h2 className="section-title-root">
-                  <span className="section-title-hed">Essential job skills</span>
+                  <span className="section-title-hed">The skills</span>
                 </h2>
                 <WordCloud />
               </div>
