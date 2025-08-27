@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase/config';
 import About from './pages/About';
+import Companies from './pages/Companies';
 import EmbedsBox from './components/EmbedsBox';
 import PromptResults from './components/PromptResults';
 import HelpfulLinks from './components/HelpfulLinks';
@@ -83,14 +84,13 @@ function App() {
   // Scroll tracking for navigation
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['roles', 'companies', 'skills', 'job-skills'];
+      const sections = ['roles', 'companies', 'job-skills'];
       const scrollPosition = window.scrollY + 130; // Adjusted offset for fixed header
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section && section.offsetTop <= scrollPosition) {
           if (activeSection !== sections[i]) {
-            console.log('Active section changed to:', sections[i], 'at scroll position:', scrollPosition);
             setActiveSection(sections[i]);
           }
           break;
@@ -104,27 +104,19 @@ function App() {
 
   // Navigation click handler
   const handleNavClick = (sectionId) => {
-    console.log('Navigation clicked:', sectionId);
     const section = document.getElementById(sectionId);
     if (section) {
-      // Calculate the correct scroll position for fixed header
+      // Calculate the correct scroll position accounting for body padding-top
       const headerHeight = 80; // Fixed header height
-      const sectionTop = section.offsetTop - headerHeight;
-      console.log('Scrolling to section:', sectionId, 'at position:', sectionTop);
+      const bodyPaddingTop = 80; // Body padding-top to account for fixed header
+      const extraPadding = 20; // Additional padding for visual comfort
+      const sectionTop = section.offsetTop - headerHeight - bodyPaddingTop - extraPadding;
       
-      // Use scrollIntoView for better compatibility
-      section.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      // Scroll to the section with proper offset for fixed header
+      window.scrollTo({
+        top: sectionTop,
+        behavior: 'smooth'
       });
-      
-      // Also update scroll position manually for better control
-      setTimeout(() => {
-        window.scrollTo({
-          top: sectionTop,
-          behavior: 'smooth'
-        });
-      }, 100);
       
       setActiveSection(sectionId); // Immediately update active section
     }
@@ -186,6 +178,16 @@ function App() {
               }}
             >
               Home
+            </a>
+            <a 
+              href="#companies" 
+              className={`companies-link ${currentPage === 'companies' ? 'active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage('companies');
+              }}
+            >
+              The Companies
             </a>
             <a 
               href="#about" 
@@ -324,7 +326,6 @@ function App() {
                     The Companies
                   </a>
                 </li>
-
                 <li>
                   <a 
                     href="#job-skills" 
@@ -467,12 +468,14 @@ function App() {
             </main>
           </div>
         </>
-      ) : (
+      ) : currentPage === 'about' ? (
         <About onNavigateToHome={() => {
           setCurrentPage('home');
           setShowPromptInput(true);
         }} />
-      )}
+      ) : currentPage === 'companies' ? (
+        <Companies />
+      ) : null}
 
       {/* Login Modal */}
       {showLogin && (

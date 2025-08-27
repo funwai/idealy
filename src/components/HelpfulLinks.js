@@ -8,27 +8,20 @@ function HelpfulLinks() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    console.log('Setting up Firebase query for company_details collection...');
-    
     const q = query(
       collection(db, 'company_details'),
       limit(10)
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      console.log('Query snapshot received, size:', querySnapshot.size);
       const companies = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log('Company document ID:', doc.id);
-        console.log('Company data:', data);
-        console.log('Available fields:', Object.keys(data));
         companies.push({
           id: doc.id,
           ...data
         });
       });
-      console.log('All companies:', companies);
       setCompanyDetails(companies);
       setLoading(false);
     }, (error) => {
@@ -93,7 +86,9 @@ function HelpfulLinks() {
                       alt: `${company.company_name || 'Company'} Diagram`,
                       companyName: company.company_name || 'Company'
                     })}
-                    onLoad={() => console.log('Company image loaded successfully:', company.image_url)}
+                    onLoad={() => {
+                      // Company image loaded successfully
+                    }}
                     onError={(e) => console.error('Company image failed to load:', company.image_url, e)}
                   />
                 )}

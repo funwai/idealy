@@ -36,24 +36,19 @@ function PromptResults({ category = 'All' }) {
 
   // Fetch category thumbnails first
   useEffect(() => {
-    console.log('PromptResults: Fetching category thumbnails...');
     const thumbnailsQuery = query(collection(db, 'category_thumbnails'));
     
     const unsubscribeThumbnails = onSnapshot(thumbnailsQuery, 
       (snapshot) => {
-        console.log('PromptResults: Received category thumbnails snapshot with', snapshot.docs.length, 'documents');
         const thumbnailsMap = {};
         snapshot.docs.forEach((doc) => {
           const data = doc.data();
-          console.log('Category thumbnail data:', data);
           if (data.mapped_category && data.image_url) {
             // Process the image URL to ensure it's properly formatted
             const processedImageUrl = getImageUrl(data.image_url);
             thumbnailsMap[data.mapped_category] = processedImageUrl;
-            console.log(`Mapped category "${data.mapped_category}" to image:`, processedImageUrl);
           }
         });
-        console.log('PromptResults: Final category thumbnails map:', thumbnailsMap);
         setCategoryThumbnails(thumbnailsMap);
       },
       (error) => {
@@ -66,14 +61,11 @@ function PromptResults({ category = 'All' }) {
 
   // Fetch prompts after category thumbnails are loaded
   useEffect(() => {
-    console.log('PromptResults: Fetching data from Firestore...');
     const q = query(collection(db, 'prompts'), orderBy('createdAt', 'desc'), limit(50));
     
     const unsubscribe = onSnapshot(q, 
       (snapshot) => {
-        console.log('PromptResults: Received snapshot with', snapshot.docs.length, 'documents');
         const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        console.log('PromptResults: Processed data:', data);
         setPrompts(data);
         setLoading(false);
       },
@@ -101,9 +93,7 @@ function PromptResults({ category = 'All' }) {
       ) : (
         <div className="results-list">
           {filtered.map(({ id, job_title, typical_day, category: cat, createdAt, source }) => {
-            console.log('Rendering entry:', { id, job_title, category: cat, source });
             const thumbnailUrl = cat ? categoryThumbnails[cat] : null;
-            console.log(`Entry category: "${cat}", thumbnail URL:`, thumbnailUrl);
             
             return (
               <div key={id} className="result-item">
@@ -115,7 +105,7 @@ function PromptResults({ category = 'All' }) {
                         alt={`${cat} category thumbnail`}
                         className="thumbnail-image"
                         onLoad={() => {
-                          console.log('Category thumbnail loaded successfully:', thumbnailUrl);
+                          // Thumbnail loaded successfully
                         }}
                         onError={(e) => {
                           console.error('Category thumbnail failed to load:', thumbnailUrl);
