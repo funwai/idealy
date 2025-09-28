@@ -1,83 +1,129 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, query, limit, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const Companies = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [companyDetails, setCompanyDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Dummy company data
-  const dummyCompanies = [
-    {
-      id: 1,
-      name: "TechCorp Solutions",
-      industry: "Technology",
-      description: "Leading software development company specializing in AI and machine learning solutions.",
-      employees: "500-1000",
-      location: "San Francisco, CA",
-      founded: "2018",
-      logo: "https://via.placeholder.com/90x90/0E2B4D/FFFFFF?text=TC"
-    },
-    {
-      id: 2,
-      name: "Green Energy Co.",
-      industry: "Renewable Energy",
-      description: "Sustainable energy solutions provider focused on solar and wind power technologies.",
-      employees: "200-500",
-      location: "Austin, TX",
-      founded: "2020",
-      logo: "https://via.placeholder.com/90x90/00AA44/FFFFFF?text=GE"
-    },
-    {
-      id: 3,
-      name: "HealthTech Innovations",
-      industry: "Healthcare",
-      description: "Revolutionary medical device company developing next-generation diagnostic tools.",
-      employees: "100-250",
-      location: "Boston, MA",
-      founded: "2019",
-      logo: "https://via.placeholder.com/90x90/FF6B6B/FFFFFF?text=HT"
-    },
-    {
-      id: 4,
-      name: "FinServe Pro",
-      industry: "Financial Services",
-      description: "Digital banking platform offering innovative financial solutions for businesses.",
-      employees: "300-750",
-      location: "New York, NY",
-      founded: "2017",
-      logo: "https://via.placeholder.com/90x90/4ECDC4/FFFFFF?text=FP"
-    },
-    {
-      id: 5,
-      name: "EduTech Solutions",
-      industry: "Education",
-      description: "Online learning platform providing interactive courses and skill development programs.",
-      employees: "150-400",
-      location: "Seattle, WA",
-      founded: "2021",
-      logo: "https://via.placeholder.com/90x90/45B7D1/FFFFFF?text=ES"
-    },
-    {
-      id: 6,
-      name: "Retail Dynamics",
-      industry: "Retail",
-      description: "E-commerce platform connecting local retailers with customers worldwide.",
-      employees: "250-600",
-      location: "Chicago, IL",
-      founded: "2016",
-      logo: "https://via.placeholder.com/90x90/96CEB4/FFFFFF?text=RD"
-    }
-  ];
+  useEffect(() => {
+    const q = query(
+      collection(db, 'company_details'),
+      limit(50)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const companies = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        companies.push({
+          id: doc.id,
+          ...data
+        });
+      });
+      setCompanyDetails(companies);
+      setLoading(false);
+    }, (error) => {
+      console.error('Error fetching company details:', error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // Get unique categories for the filter
-  const categories = ['All Categories', ...new Set(dummyCompanies.map(company => company.industry))];
+  const categories = ['All Categories', ...new Set(companyDetails.map(company => company.industry).filter(Boolean))];
 
   // Filter companies based on selected category
   const filteredCompanies = selectedCategory === '' || selectedCategory === 'All Categories' 
-    ? dummyCompanies 
-    : dummyCompanies.filter(company => company.industry === selectedCategory);
+    ? companyDetails 
+    : companyDetails.filter(company => company.industry === selectedCategory);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
+
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return null;
+    
+    // If it's already a full HTTP URL, return as is
+    if (imageUrl.startsWith('http')) {
+      return imageUrl;
+    }
+    
+    // If it's a gs:// URL, convert it to HTTP download URL
+    if (imageUrl.startsWith('gs://')) {
+      // Extract bucket and path from gs:// URL
+      const gsUrl = imageUrl.replace('gs://', '');
+      const [bucket, ...pathParts] = gsUrl.split('/');
+      const path = pathParts.join('/');
+      
+      return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(path)}?alt=media`;
+    }
+    
+    // If it's just a filename, construct the Firebase Storage URL
+    const projectId = 'funwai-resume';
+    const bucketName = `${projectId}.firebasestorage.app`;
+    
+    return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/company_images%2F${encodeURIComponent(imageUrl)}?alt=media`;
+  };
+
+  const formatDate = (dateValue) => {
+    if (!dateValue) return null;
+    
+    // If it's a Firestore Timestamp object
+    if (dateValue.seconds) {
+      const date = new Date(dateValue.seconds * 1000);
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        year: 'numeric' 
+      });
+    }
+    
+    // If it's already a string, return as is
+    if (typeof dateValue === 'string') {
+      return dateValue;
+    }
+    
+    // If it's a Date object
+    if (dateValue instanceof Date) {
+      return dateValue.toLocaleDateString('en-US', { 
+        month: 'short', 
+        year: 'numeric' 
+      });
+    }
+    
+    return null;
+  };
+
+  const formatEmployeeCount = (employeeCount) => {
+    if (!employeeCount) return null;
+    
+    // Convert to number if it's a string
+    const count = typeof employeeCount === 'string' ? parseInt(employeeCount) : employeeCount;
+    
+    if (isNaN(count) || count <= 0) return null;
+    
+    // Round to nearest thousand
+    const rounded = Math.round(count / 1000) * 1000;
+    
+    // Format with commas
+    const formatted = rounded.toLocaleString();
+    
+    return `approx. ${formatted} employees`;
+  };
+
+  if (loading) {
+    return (
+      <div className="companies-page">
+        <div className="companies-container">
+          <h1>T h e C o m p a n i e s</h1>
+          <div className="loading-placeholder">Loading companies...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="companies-page">
@@ -102,37 +148,85 @@ const Companies = () => {
         </div>
 
         <div className="companies-list">
-          {filteredCompanies.map((company) => (
-            <div key={company.id} className="company-item">
-              <div className="company-content">
-                <div className="company-logo">
-                  <img
-                    src={company.logo}
-                    alt={`${company.name} logo`}
-                    className="logo-image"
-                  />
-                </div>
-                <div className="company-text">
-                  <h3 className="company-name">{company.name}</h3>
-                  <span className="company-industry">{company.industry}</span>
-                  <p className="company-description">{company.description}</p>
-                  <div className="company-meta">
-                    <span className="meta-item">
-                      {company.employees} employees
-                    </span>
-                    <span className="meta-separator">·</span>
-                    <span className="meta-item">
-                      {company.location}
-                    </span>
-                    <span className="meta-separator">·</span>
-                    <span className="meta-item">
-                      Founded {company.founded}
-                    </span>
+          {filteredCompanies.length === 0 ? (
+            <div className="empty-placeholder">No companies found</div>
+          ) : (
+            filteredCompanies.map((company) => (
+              <div key={company.id} className="company-item">
+                <div className="company-content">
+                  <div className="company-image">
+                    {company.image_url && getImageUrl(company.image_url) && (
+                      <img
+                        src={getImageUrl(company.image_url)}
+                        alt={`${company.company_name || 'Company'} Diagram`}
+                        className="company-thumbnail clickable-image"
+                        onClick={() => {
+                          // You can add a modal popup here if needed
+                          window.open(getImageUrl(company.image_url), '_blank');
+                        }}
+                        onLoad={() => {
+                          // Image loaded successfully
+                        }}
+                        onError={(e) => console.error('Company image failed to load:', company.image_url, e)}
+                      />
+                    )}
+                  </div>
+                  <div className="company-text">
+                    <h3 className="company-name">{company.company_name || 'Company Name'}</h3>
+                    {company.industry && (
+                      <span className="company-industry">{company.industry}</span>
+                    )}
+                    {company.description && (
+                      <p className="company-description">{company.description}</p>
+                    )}
+                    
+                    {/* Employee count and date */}
+                    {(company.no_employees || company.as_at) && (
+                      <div className="company-meta-small">
+                        {company.no_employees && formatEmployeeCount(company.no_employees) && (
+                          <span className="meta-small-item">
+                            {formatEmployeeCount(company.no_employees)}
+                          </span>
+                        )}
+                        {company.no_employees && formatEmployeeCount(company.no_employees) && company.as_at && formatDate(company.as_at) && (
+                          <span className="meta-small-separator"> • </span>
+                        )}
+                        {company.as_at && formatDate(company.as_at) && (
+                          <span className="meta-small-item">
+                            as at {formatDate(company.as_at)}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    
+                    <div className="company-meta">
+                      {company.employees && (
+                        <>
+                          <span className="meta-item">
+                            {company.employees} employees
+                          </span>
+                          <span className="meta-separator">·</span>
+                        </>
+                      )}
+                      {company.location && (
+                        <>
+                          <span className="meta-item">
+                            {company.location}
+                          </span>
+                          <span className="meta-separator">·</span>
+                        </>
+                      )}
+                      {company.founded && (
+                        <span className="meta-item">
+                          Founded {company.founded}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -57,6 +57,7 @@ function HelpfulLinks() {
     return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/company_images%2F${encodeURIComponent(imageUrl)}?alt=media`;
   };
 
+
   if (loading) {
     return (
       <div className="loading-placeholder">Loading companies...</div>

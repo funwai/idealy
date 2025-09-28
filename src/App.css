@@ -1838,7 +1838,146 @@ body {
 .contact-info a {
   color: #0E2B4D;
   text-decoration: none;
+}
+
+/* Sankey Diagram Styling */
+.sankey-button {
+  background: #0E2B4D;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
   font-weight: 500;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.sankey-button:hover {
+  background: #FFCDD5;
+  color: #0E2B4D;
+}
+
+.sankey-container {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.sankey-title {
+  color: #0E2B4D;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+}
+
+.sankey-chart {
+  width: 100%;
+  height: auto;
+  border: 1px solid #e1e5e9;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.sankey-placeholder {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-style: italic;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 2px dashed #e1e5e9;
+}
+
+/* Sankey Modal Styling */
+.sankey-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.sankey-modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 1000px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.sankey-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e1e5e9;
+  background: #fafafa;
+}
+
+.sankey-modal-header h3 {
+  color: #0E2B4D;
+  margin: 0;
+  font-size: 1.3rem;
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+}
+
+.sankey-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.sankey-modal-close:hover {
+  background: #FFCDD5;
+  color: #0E2B4D;
+}
+
+.sankey-modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
+}
+
+/* Small company metadata styling */
+.company-meta-small {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.2;
+}
+
+.meta-small-item {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.meta-small-separator {
+  color: #9ca3af;
+  font-size: 0.8rem;
 }
 
 .contact-info a:hover {
