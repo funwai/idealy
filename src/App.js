@@ -6,6 +6,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase/config';
 import About from './pages/About';
 import Companies from './pages/Companies';
+import Roles from './pages/Roles';
 import EmbedsBox from './components/EmbedsBox';
 import PromptResults from './components/PromptResults';
 import HelpfulLinks from './components/HelpfulLinks';
@@ -178,6 +179,16 @@ function App() {
               }}
             >
               Home
+            </a>
+            <a 
+              href="#roles" 
+              className={`roles-link ${currentPage === 'roles' ? 'active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage('roles');
+              }}
+            >
+              The Roles
             </a>
             <a 
               href="#companies" 
@@ -475,6 +486,8 @@ function App() {
         }} />
       ) : currentPage === 'companies' ? (
         <Companies />
+      ) : currentPage === 'roles' ? (
+        <Roles />
       ) : null}
 
       {/* Login Modal */}

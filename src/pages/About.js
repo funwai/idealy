@@ -45,12 +45,12 @@ function About({ onNavigateToHome }) {
   }, []);
 
   return (
-    <div className="about-page">
+    <div className="companies-page">
       {/* Vanta.js Background Container */}
       <div id="vanta-background-about" className="vanta-background-about"></div>
       
-      <div className="about-container">
-        <h1>A b o u t</h1>
+      <div className="companies-container">
+        <h1>A B O U T</h1>
         
         <section className="about-section">
           <h2>What is Kurio?</h2>

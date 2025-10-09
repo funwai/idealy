@@ -156,6 +156,18 @@ body {
   background: #0E2B4D;
 }
 
+.roles-link {
+  color: #FCFFFF !important;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  background: #0E2B4D;
+}
+
 .companies-link {
   color: #FCFFFF !important;
   text-decoration: none;
@@ -179,6 +191,16 @@ body {
 }
 
 .about-link.active {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.roles-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.roles-link.active {
   border-color: #ffffff;
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -900,6 +922,13 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.companies-filter .add-entry-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
 }
 
 .add-entry-text {
@@ -1745,6 +1774,8 @@ body {
   font-family: 'Kiona', 'Helvetica', 'Arial', sans-serif;
   text-transform: uppercase;
   letter-spacing: -0.05em;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .companies-content {
@@ -2085,15 +2116,6 @@ body {
   margin: 0 auto;
 }
 
-.companies-container h1 {
-  text-align: center;
-  color: #0E2B4D;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .companies-filter {
   display: flex;
   align-items: center;
@@ -2104,6 +2126,7 @@ body {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
 }
 
 .companies-filter label {
@@ -2252,6 +2275,17 @@ body {
   .companies-container h1 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
+  }
+  
+  .companies-filter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .companies-filter .add-entry-section {
+    margin-left: 0;
+    justify-content: center;
   }
   
   .company-content {
