@@ -5,7 +5,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import About from './pages/About';
 import Companies from './pages/Companies';
 import Roles from './pages/Roles';
-import Skills from './pages/Skills';
 import TextType from './components/TextType';
 
 function App() {
@@ -16,10 +15,9 @@ function App() {
   const [user, setUser] = useState(null);
   const [currentPage, setCurrentPage] = useState('home');
   
-  // Kurio input state (weblink or PDF)
-  const [weblink, setWeblink] = useState('');
-  const [pdfFile, setPdfFile] = useState(null);
-  const [uploadMethod, setUploadMethod] = useState('weblink'); // 'weblink' or 'pdf'
+  // Kurio input state (company search)
+  const [companyName, setCompanyName] = useState('');
+  const [companyCountry, setCompanyCountry] = useState('');
   
   // Audio player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -136,16 +134,6 @@ function App() {
               }}
             >
               Companies
-            </a>
-            <a 
-              href="#skills" 
-              className={`skills-link ${currentPage === 'skills' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage('skills');
-              }}
-            >
-              Skills
             </a>
             <a 
               href="#about" 
@@ -270,82 +258,59 @@ function App() {
           
           {/* What can you do with Kurio section */}
           <div className="kurio-action-section">
-            <h2 className="kurio-action-title">What can you do with Kurio?</h2>
+            <h2 className="kurio-action-title">Kurious about a company?</h2>
             
-            <div className="upload-method-toggle">
-              <button 
-                className={`toggle-btn ${uploadMethod === 'weblink' ? 'active' : ''}`}
-                onClick={() => setUploadMethod('weblink')}
-              >
-                Add Weblink
-              </button>
-              <button 
-                className={`toggle-btn ${uploadMethod === 'pdf' ? 'active' : ''}`}
-                onClick={() => setUploadMethod('pdf')}
-              >
-                Upload PDF
-              </button>
-            </div>
-            
-            {uploadMethod === 'weblink' ? (
-              <div className="input-container">
-                <div className="input-wrapper">
-                              <input
-                    type="url"
-                    placeholder="Enter a URL (e.g., https://example.com)"
-                    value={weblink}
-                    onChange={(e) => setWeblink(e.target.value)}
-                    className="url-input"
-                  />
-                            <button 
-                    className="submit-btn"
-                    onClick={() => {
-                      if (weblink.trim()) {
-                        console.log('Submitting weblink:', weblink);
-                        // Add your submission logic here
-                        setWeblink('');
-                      }
-                    }}
-                    disabled={!weblink.trim()}
-                  >
-                    Submit
-                            </button>
-                          </div>
-                        </div>
-            ) : (
-              <div className="input-container">
-                <div className="file-upload-wrapper">
-                  <input
-                    type="file"
-                    accept=".pdf"
-                    id="pdf-upload"
-                    onChange={(e) => setPdfFile(e.target.files[0])}
-                    className="file-input"
-                  />
-                  <label htmlFor="pdf-upload" className="file-label">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M17 8L12 3L7 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M12 3V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                    {pdfFile ? pdfFile.name : 'Choose PDF file'}
-                  </label>
-                      <button 
-                    className="submit-btn"
-                    onClick={() => {
-                      if (pdfFile) {
-                        console.log('Submitting PDF:', pdfFile.name);
-                        // Add your submission logic here
-                        setPdfFile(null);
-                      }
-                    }}
-                    disabled={!pdfFile}
-                  >
-                    Submit
-                      </button>
-                </div>
+            <div className="input-container">
+              <div className="company-search-wrapper">
+                <input
+                  type="text"
+                  placeholder="Enter company name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="url-input"
+                />
+                <select
+                  value={companyCountry}
+                  onChange={(e) => setCompanyCountry(e.target.value)}
+                  className={`country-select ${companyCountry ? 'has-value' : ''}`}
+                >
+                  <option value="">Where is the company based?</option>
+                  <option value="US">United States</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="CA">Canada</option>
+                  <option value="AU">Australia</option>
+                  <option value="DE">Germany</option>
+                  <option value="FR">France</option>
+                  <option value="JP">Japan</option>
+                  <option value="CN">China</option>
+                  <option value="IN">India</option>
+                  <option value="BR">Brazil</option>
+                  <option value="MX">Mexico</option>
+                  <option value="ES">Spain</option>
+                  <option value="IT">Italy</option>
+                  <option value="NL">Netherlands</option>
+                  <option value="SE">Sweden</option>
+                  <option value="CH">Switzerland</option>
+                  <option value="SG">Singapore</option>
+                  <option value="KR">South Korea</option>
+                  <option value="OTHER">Other</option>
+                </select>
+                <button 
+                  className="submit-btn"
+                  onClick={() => {
+                    if (companyName.trim() && companyCountry) {
+                      console.log('Searching for company:', companyName, 'in', companyCountry);
+                      // Add your company search logic here
+                      setCompanyName('');
+                      setCompanyCountry('');
+                    }
+                  }}
+                  disabled={!companyName.trim() || !companyCountry}
+                >
+                  Search
+                </button>
               </div>
-            )}
+            </div>
           </div>
         </>
       ) : currentPage === 'about' ? (
@@ -356,8 +321,6 @@ function App() {
         <Companies />
       ) : currentPage === 'roles' ? (
         <Roles />
-      ) : currentPage === 'skills' ? (
-        <Skills />
       ) : null}
 
       {/* Login Modal */}

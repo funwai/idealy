@@ -84,11 +84,10 @@ const SankeyDiagram = ({ data, companyName }) => {
         .attr("stroke-width", d => Math.max(1, d.width))
         .style("fill", "none")
         .style("opacity", 0.7)
-        .on("mouseover", function(event, d) {
-          // Tooltip on hover
+        .on("mouseover", function() {
           window.d3.select(this).style("opacity", 1);
         })
-        .on("mouseout", function(event, d) {
+        .on("mouseout", function() {
           window.d3.select(this).style("opacity", 0.7);
         });
 
@@ -105,13 +104,12 @@ const SankeyDiagram = ({ data, companyName }) => {
         .attr("fill", d => d.color || "#0E2B4D")
         .style("cursor", "pointer")
         .on("mouseover", function(event, d) {
-          // Highlight connected links
           svg.selectAll("path")
             .style("opacity", link => 
               link.source === d || link.target === d ? 1 : 0.3
             );
         })
-        .on("mouseout", function(event, d) {
+        .on("mouseout", function() {
           svg.selectAll("path")
             .style("opacity", 0.7);
         });
@@ -133,15 +131,7 @@ const SankeyDiagram = ({ data, companyName }) => {
     };
 
     loadScripts();
-
-    return () => {
-      // Cleanup
-      if (chartRef.current) {
-        const svg = window.d3.select(chartRef.current);
-        svg.selectAll("*").remove();
-      }
-    };
-  }, [data, companyName]);
+  }, [data]);
 
   if (!data || !data.nodes || !data.links) {
     return (

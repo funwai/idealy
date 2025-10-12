@@ -80,7 +80,7 @@ function PromptResults({ category = 'All' }) {
   }, []);
 
   const filtered = prompts
-    .filter((p) => (category === '' ? true : p.category === category));
+    .filter((p) => (category === 'All' || category === '' ? true : p.category === category));
 
   return (
     <div className="sidebar-results">
@@ -104,9 +104,6 @@ function PromptResults({ category = 'All' }) {
                         src={thumbnailUrl}
                         alt={`${cat} category thumbnail`}
                         className="thumbnail-image"
-                        onLoad={() => {
-                          // Thumbnail loaded successfully
-                        }}
                         onError={(e) => {
                           console.error('Category thumbnail failed to load:', thumbnailUrl);
                           console.error('Error details:', e);
@@ -153,6 +150,3 @@ function PromptResults({ category = 'All' }) {
 }
 
 export default PromptResults;
-
-
-
