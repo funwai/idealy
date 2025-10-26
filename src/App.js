@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { auth } from './firebase/config';
+import { auth, db } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, query, getDocs } from 'firebase/firestore';
 import About from './pages/About';
 import Companies from './pages/Companies';
 import Roles from './pages/Roles';
 import TextType from './components/TextType';
+import FinancialDataPopup from './components/FinancialDataPopup';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -18,6 +20,13 @@ function App() {
   // Kurio input state (company search)
   const [companyName, setCompanyName] = useState('');
   const [companyCountry, setCompanyCountry] = useState('');
+  
+  // Financial data popup state
+  const [showFinancialPopup, setShowFinancialPopup] = useState(false);
+  const [financialData, setFinancialData] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState('');
+  
   
   // Audio player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -77,6 +86,7 @@ function App() {
   }, []);
 
 
+
   const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -85,6 +95,74 @@ function App() {
       setLoginError('');
     } catch (error) {
       setLoginError('Email/password not recognized');
+    }
+  };
+
+
+  // Handle company name input change
+  const handleCompanyNameChange = (value) => {
+    setCompanyName(value);
+    setSearchError('');
+  };
+
+
+  const searchCompanyFinancials = async (companyName, country) => {
+    setSearchLoading(true);
+    setSearchError('');
+    
+    try {
+      // First, try to find by company name in the data
+      const q = query(collection(db, 'company_financials'));
+      const querySnapshot = await getDocs(q);
+      
+      let foundData = null;
+      let foundCompanyName = '';
+      let exactTickerMatch = null;
+      let companyNameMatches = [];
+      
+      // Search through all documents for a matching company name
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const docCompanyName = data.company_name || data.name || '';
+        const ticker = doc.id; // Document ID is the ticker
+        
+        // More precise matching - check if the search term matches the ticker or company name exactly
+        const searchTerm = companyName.toLowerCase().trim();
+        const tickerMatch = ticker.toLowerCase() === searchTerm;
+        const companyNameMatch = docCompanyName.toLowerCase().includes(searchTerm) || 
+                                 searchTerm.includes(docCompanyName.toLowerCase());
+        
+        // Prioritize exact ticker matches
+        if (tickerMatch) {
+          exactTickerMatch = { data, companyName: docCompanyName || ticker };
+        } else if (companyNameMatch && docCompanyName.length > 0) {
+          companyNameMatches.push({ data, companyName: docCompanyName || ticker });
+        }
+      });
+      
+      // Use exact ticker match if available, otherwise use the first company name match
+      if (exactTickerMatch) {
+        foundData = exactTickerMatch.data;
+        foundCompanyName = exactTickerMatch.companyName;
+      } else if (companyNameMatches.length > 0) {
+        foundData = companyNameMatches[0].data;
+        foundCompanyName = companyNameMatches[0].companyName;
+      }
+      
+      if (!foundData) {
+        setSearchError('This company is yet to be added to our database');
+        setSearchLoading(false);
+        return;
+      }
+      
+      setFinancialData(foundData);
+      setShowFinancialPopup(true);
+      
+    } catch (error) {
+      console.error('Error searching for company financials:', error);
+      setSearchError('Error searching for company data. Please try again.');
+    } finally {
+      setSearchLoading(false);
     }
   };
 
@@ -176,7 +254,7 @@ function App() {
             <div className="hero-content">
               <h1 className="hero-title">
                 <TextType 
-                  text={["k u r i o", "Understand businesses", "Follow the money", "Stay Kurious"]}
+                  text={["k u r i o", "Understand businesses", "Follow the money", "Stay Kurious!"]}
                   typingSpeed={75}
                   pauseDuration={1500}
                   showCursor={true}
@@ -261,12 +339,12 @@ function App() {
             <h2 className="kurio-action-title">Kurious about a company?</h2>
             
             <div className="input-container">
-              <div className="company-search-wrapper">
+              <div className="company-search-wrapper" style={{ position: 'relative' }}>
                 <input
                   type="text"
-                  placeholder="Enter company name"
+                  placeholder="Enter company ticker (e.g., NVDA for Nvidia or MSFT for Microsoft)"
                   value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
+                  onChange={(e) => handleCompanyNameChange(e.target.value)}
                   className="url-input"
                 />
                 <select
@@ -299,17 +377,21 @@ function App() {
                   className="submit-btn"
                   onClick={() => {
                     if (companyName.trim() && companyCountry) {
-                      console.log('Searching for company:', companyName, 'in', companyCountry);
-                      // Add your company search logic here
-                      setCompanyName('');
-                      setCompanyCountry('');
+                      searchCompanyFinancials(companyName.trim(), companyCountry);
                     }
                   }}
-                  disabled={!companyName.trim() || !companyCountry}
+                  disabled={!companyName.trim() || !companyCountry || searchLoading}
                 >
-                  Search
+                  {searchLoading ? 'Searching...' : 'Search'}
                 </button>
               </div>
+              
+              {/* Search Error Display */}
+              {searchError && (
+                <div className="search-error">
+                  <p>{searchError}</p>
+                </div>
+              )}
             </div>
           </div>
         </>
@@ -353,6 +435,18 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Financial Data Popup */}
+      <FinancialDataPopup
+        isOpen={showFinancialPopup}
+        onClose={() => {
+          setShowFinancialPopup(false);
+          setFinancialData(null);
+          setSearchError('');
+        }}
+        financialData={financialData}
+        companyName={companyName}
+      />
     </div>
   );
 }
