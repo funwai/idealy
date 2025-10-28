@@ -8,8 +8,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  padding: 20px;
+  z-index: 10001; /* Higher than main-header z-index: 10000 */
+  padding: 80px 20px 20px 20px; /* Add top padding to account for header height */
 }
 
 .financial-popup-content {
@@ -147,6 +147,10 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .financial-popup-overlay {
+    padding: 70px 10px 10px 10px; /* Adjust mobile padding for header */
+  }
+  
   .financial-popup-content {
     margin: 10px;
     max-height: 95vh;
