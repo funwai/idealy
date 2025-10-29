@@ -44,63 +44,94 @@ const FinancialDataPopup = ({ isOpen, onClose, financialData, companyName }) => 
 
     const incomeStatement = financialData.income_statement;
     
-    
-    // Define the order and labels for income statement items using the actual field names from your data
-    const incomeStatementItems = [
-      { keys: ['Total Revenue'], label: 'Total Revenue' },
-      { keys: ['Cost of Revenue'], label: 'Cost of Revenue' },
-      { keys: ['Gross Profit'], label: 'Gross Profit' },
-      { keys: ['Operating Expenses (Total)'], label: 'Operating Expenses' },
-      { keys: ['Interest Expense'], label: 'Interest Expense' },
-      { keys: ['Interest Income'], label: 'Interest Income' },
-      { keys: ['Other Income (Expense)'], label: 'Other Income (Expense)' },
-      { keys: ['Income Before Tax'], label: 'Income Before Tax' },
-      { keys: ['Income Tax Expense'], label: 'Income Tax Expense' },
-      { keys: ['Net Income'], label: 'Net Income' },
-      { keys: ['Net Income Attributable to Parent'], label: 'Net Income Attributable to Parent' },
-      { keys: ['Net Income Attributable to Noncontrolling Interest'], label: 'Net Income Attributable to Noncontrolling Interest' },
-      { keys: ['Earnings per Share (Basic)'], label: 'Earnings per Share (Basic)' },
-      { keys: ['Earnings per Share (Diluted)'], label: 'Earnings per Share (Diluted)' },
-      { keys: ['Weighted Average Shares Outstanding (Basic)'], label: 'Weighted Average Shares Outstanding (Basic)' },
-      { keys: ['Weighted Average Shares Outstanding (Diluted)'], label: 'Weighted Average Shares Outstanding (Diluted)' },
-      { keys: ['Research & Development'], label: 'Research & Development' },
-      { keys: ['Sales & Marketing'], label: 'Sales & Marketing' },
-      { keys: ['General & Administrative'], label: 'General & Administrative' },
-      { keys: ['Advertising Revenue'], label: 'Advertising Revenue' },
+    // Define the order and structure for income statement sections
+    const incomeStatementSections = [
+      {
+        title: "Revenue",
+        key: "revenue",
+        items: [
+          { key: "Total Revenue", label: "Total Revenue" },
+          { key: "Advertising Revenue", label: "Advertising Revenue" },
+          { key: "Interest Income", label: "Interest Income" },
+          { key: "Other Income", label: "Other Income" }
+        ]
+      },
+      {
+        title: "Expenses",
+        key: "expenses",
+        items: [
+          { key: "Cost of Revenue", label: "Cost of Revenue" },
+          { key: "Research & Development", label: "Research & Development" },
+          { key: "Sales & Marketing", label: "Sales & Marketing" },
+          { key: "General & Administrative", label: "General & Administrative" },
+          { key: "Operating Expenses (Total)", label: "Operating Expenses (Total)" },
+          { key: "Interest Expense", label: "Interest Expense" },
+          { key: "Income Tax Expense", label: "Income Tax Expense" }
+        ]
+      },
+      {
+        title: "Profit",
+        key: "profit",
+        items: [
+          { key: "Gross Profit", label: "Gross Profit" },
+          { key: "Operating Income", label: "Operating Income" },
+          { key: "Income Before Tax", label: "Income Before Tax" },
+          { key: "Net Income", label: "Net Income" }
+        ]
+      },
+      {
+        title: "Shares",
+        key: "shares",
+        items: [
+          { key: "Earnings per Share (Basic)", label: "Earnings per Share (Basic)" },
+          { key: "Earnings per Share (Diluted)", label: "Earnings per Share (Diluted)" },
+          { key: "Weighted Average Shares Outstanding (Basic)", label: "Weighted Average Shares Outstanding (Basic)" },
+          { key: "Weighted Average Shares Outstanding (Diluted)", label: "Weighted Average Shares Outstanding (Diluted)" }
+        ]
+      }
     ];
 
     return (
       <div className="income-statement-table">
         <h3>Income Statement</h3>
         
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {incomeStatementItems.map((item, index) => {
-              // Find the first available key for this item
-              const foundKey = item.keys.find(key => incomeStatement.hasOwnProperty(key));
-              const value = foundKey ? incomeStatement[foundKey] : null;
-              
-              return (
-                <tr key={index}>
-                  <td className="item-label">{item.label}</td>
-                  <td className="item-value">
-                    {value !== null && value !== undefined && value !== '' ? (
-                      item.label === 'Earnings Per Share' 
-                        ? formatNumber(value)
-                        : formatCurrency(value)
-                    ) : 'N/A'}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {incomeStatementSections.map((section, sectionIndex) => {
+          const sectionData = incomeStatement[section.key];
+          if (!sectionData) return null;
+
+          return (
+            <div key={sectionIndex} className="income-section">
+              <h4 className="section-title">{section.title}</h4>
+              <table className="section-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {section.items.map((item, itemIndex) => {
+                    const value = sectionData[item.key];
+                    const isEarningsPerShare = item.label.includes('Earnings per Share');
+                    
+                    return (
+                      <tr key={itemIndex}>
+                        <td className="item-label">{item.label}</td>
+                        <td className="item-value">
+                          {value !== null && value !== undefined && value !== '' ? (
+                            isEarningsPerShare 
+                              ? formatNumber(value)
+                              : formatCurrency(value)
+                          ) : 'N/A'}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          );
+        })}
       </div>
     );
   };

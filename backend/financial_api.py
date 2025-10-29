@@ -98,60 +98,111 @@ def parse_cashflow_from_xbrl(soup):
 
 
 def parse_income_from_xbrl(soup):
-    """Extract income statement data from XBRL soup"""
+    """
+    Extract key income statement values from an XBRL soup object and group
+    them into: revenue, expenses, profit, and shares.
+    If some values are missing, compute derived ones (e.g. Gross Profit = Revenue - Cost of Revenue).
+    """
+
+    # Define XBRL tags grouped by category
     tags = {
-        # 💰 Revenue and related income
-        "Total Revenue": [
-            "us-gaap:Revenues",
-            "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
-            "us-gaap:SalesRevenueNet",
-            "us-gaap:SalesRevenueGoodsNet",
-            "us-gaap:SalesRevenueServicesNet"
-        ],
-        "Advertising Revenue": ["us-gaap:AdvertisingRevenue"],
+        "revenue": {
+            "Total Revenue": [
+                "us-gaap:Revenues",
+                "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+                "us-gaap:SalesRevenueNet",
+                "us-gaap:SalesRevenueGoodsNet",
+                "us-gaap:SalesRevenueServicesNet"
+            ],
+            "Advertising Revenue": ["us-gaap:AdvertisingRevenue"],
+            "Interest Income": ["us-gaap:InterestIncome"],
+            "Other Income": ["us-gaap:OtherNonoperatingIncomeExpense"]
+        },
 
-        # ⚙️ Costs and Expenses
-        "Cost of Revenue": ["us-gaap:CostOfRevenue", "us-gaap:CostOfGoodsSold"],
-        "Gross Profit": ["us-gaap:GrossProfit"],
-        "Research & Development": ["us-gaap:ResearchAndDevelopmentExpense"],
-        "Sales & Marketing": ["us-gaap:SellingAndMarketingExpense"],
-        "General & Administrative": ["us-gaap:GeneralAndAdministrativeExpense"],
-        "Operating Expenses (Total)": ["us-gaap:OperatingExpenses"],
+        "expenses": {
+            "Cost of Revenue": ["us-gaap:CostOfRevenue", "us-gaap:CostOfGoodsSold"],
+            "Research & Development": ["us-gaap:ResearchAndDevelopmentExpense"],
+            "Sales & Marketing": ["us-gaap:SellingAndMarketingExpense"],
+            "General & Administrative": ["us-gaap:GeneralAndAdministrativeExpense"],
+            "Operating Expenses (Total)": ["us-gaap:OperatingExpenses"],
+            "Interest Expense": ["us-gaap:InterestExpense"],
+            "Income Tax Expense": ["us-gaap:IncomeTaxExpenseBenefit"]
+        },
 
-        # 🧾 Other Income/Expense
-        "Interest Income": ["us-gaap:InterestIncome"],
-        "Interest Expense": ["us-gaap:InterestExpense"],
-        "Other Income (Expense)": ["us-gaap:OtherNonoperatingIncomeExpense"],
-        "Income Before Tax": ["us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
-        "Income Tax Expense": ["us-gaap:IncomeTaxExpenseBenefit"],
+        "profit": {
+            "Gross Profit": ["us-gaap:GrossProfit"],
+            "Operating Income": ["us-gaap:OperatingIncomeLoss"],
+            "Income Before Tax": [
+                "us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+            ],
+            "Net Income": ["us-gaap:NetIncomeLoss"]
+        },
 
-        # 🧮 Net results
-        "Net Income": ["us-gaap:NetIncomeLoss"],
-        "Net Income Attributable to Parent": ["us-gaap:NetIncomeLossAttributableToParent"],
-        "Net Income Attributable to Noncontrolling Interest": ["us-gaap:NetIncomeLossAttributableToNoncontrollingInterest"],
-
-        # 🪙 EPS (Earnings per Share)
-        "Earnings per Share (Basic)": ["us-gaap:EarningsPerShareBasic"],
-        "Earnings per Share (Diluted)": ["us-gaap:EarningsPerShareDiluted"],
-        "Weighted Average Shares Outstanding (Basic)": ["us-gaap:WeightedAverageNumberOfSharesOutstandingBasic"],
-        "Weighted Average Shares Outstanding (Diluted)": ["us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"]
+        "shares": {
+            "Earnings per Share (Basic)": ["us-gaap:EarningsPerShareBasic"],
+            "Earnings per Share (Diluted)": ["us-gaap:EarningsPerShareDiluted"],
+            "Weighted Average Shares Outstanding (Basic)": [
+                "us-gaap:WeightedAverageNumberOfSharesOutstandingBasic"
+            ],
+            "Weighted Average Shares Outstanding (Diluted)": [
+                "us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding"
+            ]
+        }
     }
 
-    # Extract numeric values
-    data = {}
-    for label, tag_list in tags.items():
-        val = None
+    # Helper function to extract numeric value from XBRL
+    def extract_value(tag_list):
         for tag in tag_list:
             el = soup.find(tag)
             if el and el.text.strip():
                 try:
-                    val = float(el.text.strip().replace(",", ""))
-                    break
-                except:
-                    pass
-        data[label] = val
+                    return float(el.text.strip().replace(",", ""))
+                except ValueError:
+                    continue
+        return None
 
-    return data
+    # Parse raw values from XBRL
+    grouped_data = {}
+    for section, section_tags in tags.items():
+        grouped_data[section] = {}
+        for label, tag_list in section_tags.items():
+            grouped_data[section][label] = extract_value(tag_list)
+
+    # --- 🧮 Compute derived metrics ---
+    rev = grouped_data["revenue"].get("Total Revenue")
+    cost = grouped_data["expenses"].get("Cost of Revenue")
+    gross = grouped_data["profit"].get("Gross Profit")
+    op_exp = grouped_data["expenses"].get("Operating Expenses (Total)")
+    r_and_d = grouped_data["expenses"].get("Research & Development")
+    s_and_m = grouped_data["expenses"].get("Sales & Marketing")
+    g_and_a = grouped_data["expenses"].get("General & Administrative")
+    op_inc = grouped_data["profit"].get("Operating Income")
+
+    # Gross Profit = Revenue - Cost of Revenue
+    if gross is None and rev is not None and cost is not None:
+        grouped_data["profit"]["Gross Profit"] = rev - cost
+
+    # Operating Expenses (Total) = R&D + Sales & Marketing + G&A
+    if op_exp is None and any(v is not None for v in [r_and_d, s_and_m, g_and_a]):
+        total = sum(v for v in [r_and_d, s_and_m, g_and_a] if v is not None)
+        grouped_data["expenses"]["Operating Expenses (Total)"] = total
+
+    # Operating Income = Gross Profit - Operating Expenses
+    gross = grouped_data["profit"].get("Gross Profit")
+    op_exp = grouped_data["expenses"].get("Operating Expenses (Total)")
+    if op_inc is None and gross is not None and op_exp is not None:
+        grouped_data["profit"]["Operating Income"] = gross - op_exp
+
+    # Income Before Tax = Operating Income + (Interest Income - Interest Expense) + Other Income
+    inc_before_tax = grouped_data["profit"].get("Income Before Tax")
+    int_income = grouped_data["revenue"].get("Interest Income")
+    int_exp = grouped_data["expenses"].get("Interest Expense")
+    other_inc = grouped_data["revenue"].get("Other Income")
+    if inc_before_tax is None and op_inc is not None:
+        total_other = (int_income or 0) - (int_exp or 0) + (other_inc or 0)
+        grouped_data["profit"]["Income Before Tax"] = op_inc + total_other
+
+    return grouped_data
 
 
 def get_primary_xbrl_url(index_url):
