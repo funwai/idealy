@@ -8,6 +8,7 @@ import Companies from './pages/Companies';
 import Roles from './pages/Roles';
 import TextType from './components/TextType';
 import FinancialDataPopup from './components/FinancialDataPopup';
+import { askQuestion } from './api/ragApi';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -27,6 +28,11 @@ function App() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState('');
   
+  // Chat prompt state
+  const [chatMessage, setChatMessage] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+  const [chatError, setChatError] = useState('');
+  const [chatResponse, setChatResponse] = useState('');
   
   // Audio player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -163,6 +169,27 @@ function App() {
       setSearchError('Error searching for company data. Please try again.');
     } finally {
       setSearchLoading(false);
+    }
+  };
+
+  const handleSendMessage = async (message) => {
+    if (!message || !message.trim()) {
+      return;
+    }
+
+    setChatLoading(true);
+    setChatError('');
+    setChatResponse('');
+
+    try {
+      const result = await askQuestion(message.trim());
+      setChatResponse(result.answer);
+      setChatMessage(''); // Clear input after successful send
+    } catch (error) {
+      console.error('Error calling chat API:', error);
+      setChatError(error.message || 'Failed to get response. Please try again.');
+    } finally {
+      setChatLoading(false);
     }
   };
 
@@ -385,6 +412,48 @@ function App() {
                   {searchLoading ? 'Searching...' : 'Search'}
                 </button>
               </div>
+              
+              {/* Chat Input - Always visible */}
+              <div className="chat-input-wrapper">
+                <input
+                  type="text"
+                  className="chat-input"
+                  placeholder="Ask a question about companies or financial data..."
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  disabled={chatLoading}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      if (chatMessage.trim() && !chatLoading) {
+                        handleSendMessage(chatMessage);
+                      }
+                    }
+                  }}
+                />
+                <button
+                  className="chat-send-arrow"
+                  onClick={() => handleSendMessage(chatMessage)}
+                  disabled={!chatMessage.trim() || chatLoading}
+                  type="button"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                  </svg>
+                </button>
+              </div>
+              
+              {/* Chat Error and Response */}
+              {chatError && (
+                <div className="chat-error">
+                  <p>{chatError}</p>
+                </div>
+              )}
+              {chatResponse && (
+                <div className="chat-response">
+                  <p>{chatResponse}</p>
+                </div>
+              )}
               
               {/* Search Error Display */}
               {searchError && (

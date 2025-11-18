@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: funwai-rag-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
+    envVars:
+      # FIREBASE_SERVICE_ACCOUNT_JSON should be set in Render dashboard
+      # Go to your service > Environment > Add Environment Variable
+      # Name: FIREBASE_SERVICE_ACCOUNT_JSON
+      # Value: <paste entire JSON content here>
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false  # Don't commit this value
+    healthCheckPath: /
