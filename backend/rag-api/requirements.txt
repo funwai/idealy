@@ -1,6 +1,8 @@
 fastapi==0.104.1
 uvicorn==0.24.0
 google-cloud-storage==2.14.0
+langchain==0.3.7
+langchain-community==0.3.5
 sentence-transformers==2.2.2
 faiss-cpu==1.9.0.post1
 beautifulsoup4==4.12.2
@@ -10,5 +12,5 @@ python-dotenv==1.0.0
 # Required for main.py
 langchain-pinecone==0.2.13
 langchain-openai==0.2.8
-pinecone==5.4.0
+pinecone-client==5.4.0
 pydantic==2.9.2
