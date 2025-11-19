@@ -1,8 +1,8 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-google-cloud-storage==2.14.0
+fastapi==0.115.6
+uvicorn==0.32.1
+google-cloud-storage==3.6.0
 sentence-transformers==2.2.2
-faiss-cpu==1.9.0.post1
+faiss-cpu==1.9.0.post1 ; python_version < "3.13"
 beautifulsoup4==4.12.2
 requests==2.31.0
 python-dotenv==1.0.0
