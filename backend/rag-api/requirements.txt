@@ -1,15 +1,7 @@
 fastapi==0.115.6
 uvicorn==0.32.1
-google-cloud-storage==3.6.0
-sentence-transformers==2.2.2
-faiss-cpu==1.9.0.post1 ; python_version < "3.13"
-beautifulsoup4==4.12.2
-requests==2.31.0
-python-dotenv==1.0.0
-
-# Required for main.py
+pydantic==2.12.4
+pydantic-settings==2.6.1
 langchain-pinecone==0.2.13
 langchain-openai==1.0.3
 pinecone==7.3.0
-pydantic==2.12.4
-pydantic-settings==2.6.1
