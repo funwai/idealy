@@ -9,6 +9,6 @@ python-dotenv==1.0.0
 
 # Required for main.py
 langchain-pinecone==0.2.13
-langchain-openai==0.2.8
+langchain-openai==0.3.6
 pinecone-client==5.0.1
 pydantic==2.9.2
