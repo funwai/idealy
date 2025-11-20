@@ -101,8 +101,9 @@
   position: relative;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 8px 8px 8px 12px;
   transition: all 0.3s ease;
+  gap: 8px;
 }
 
 .chat-input-wrapper:focus-within {
@@ -118,6 +119,11 @@
   padding: 8px 0;
   background: transparent;
   color: #1f2937;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chat-input::placeholder {
@@ -134,7 +140,8 @@
   justify-content: center;
   color: #0E2B4D;
   transition: all 0.2s ease;
-  margin-left: 8px;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .chat-send-arrow:hover:not(:disabled) {
