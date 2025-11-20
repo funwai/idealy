@@ -31,6 +31,10 @@ class Settings(BaseSettings):
             origins = [origin.strip() for origin in self.allowed_origins.split(",")]
             return [origin for origin in origins if origin]
         return [
+            # Production frontend
+            "https://www.kurio-ai.com",
+            "https://kurio-ai.com",
+            # Local development
             "http://localhost:3000",
             "http://localhost:3001",
             "http://127.0.0.1:3000",
