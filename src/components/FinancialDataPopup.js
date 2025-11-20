@@ -1,7 +1,18 @@
 import React from 'react';
 import './FinancialDataPopup.css';
 
-const FinancialDataPopup = ({ isOpen, onClose, financialData, companyName }) => {
+const FinancialDataPopup = ({ 
+  isOpen, 
+  onClose, 
+  financialData, 
+  companyName,
+  chatMessage,
+  setChatMessage,
+  chatLoading,
+  chatError,
+  chatResponse,
+  handleSendMessage
+}) => {
   if (!isOpen) return null;
 
   const formatCurrency = (value) => {
@@ -147,7 +158,57 @@ const FinancialDataPopup = ({ isOpen, onClose, financialData, companyName }) => 
         </div>
         
         <div className="financial-popup-body">
-          {renderIncomeStatementTable()}
+          <div className="financial-popup-main-content">
+            <div className="financial-data-section">
+              {renderIncomeStatementTable()}
+            </div>
+            
+            <div className="chat-section">
+              <h2 className="chat-section-title">ASK KURIO-AI</h2>
+              
+              <div className="chat-input-wrapper">
+                <input
+                  type="text"
+                  className="chat-input"
+                  placeholder="Ask a question about this company or financial data..."
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  disabled={chatLoading}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      if (chatMessage.trim() && !chatLoading) {
+                        handleSendMessage(chatMessage);
+                      }
+                    }
+                  }}
+                />
+                <button
+                  className="chat-send-arrow"
+                  onClick={() => handleSendMessage(chatMessage)}
+                  disabled={!chatMessage.trim() || chatLoading}
+                  type="button"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" fill="none"/>
+                    <line x1="16" y1="16" x2="22" y2="22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+              
+              {/* Chat Error and Response */}
+              {chatError && (
+                <div className="chat-error">
+                  <p>{chatError}</p>
+                </div>
+              )}
+              {chatResponse && (
+                <div className="chat-response">
+                  <p>{chatResponse}</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
         
         <div className="financial-popup-footer">

@@ -16,7 +16,7 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  max-width: 800px;
+  max-width: 1400px;
   width: 100%;
   max-height: 90vh;
   overflow: hidden;
@@ -60,6 +60,128 @@
   padding: 24px;
   overflow-y: auto;
   flex: 1;
+}
+
+.financial-popup-main-content {
+  display: flex;
+  gap: 24px;
+  height: 100%;
+}
+
+.financial-data-section {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.chat-section {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #e5e7eb;
+  padding-left: 24px;
+}
+
+.chat-section-title {
+  color: #0E2B4D;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.chat-input-wrapper {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+
+.chat-input-wrapper:focus-within {
+  border-color: #FFCDD5;
+  box-shadow: 0 0 0 3px rgba(255, 205, 213, 0.3);
+}
+
+.chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  padding: 8px 0;
+  background: transparent;
+  color: #1f2937;
+}
+
+.chat-input::placeholder {
+  color: #9ca3af;
+}
+
+.chat-send-arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0E2B4D;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.chat-send-arrow:hover:not(:disabled) {
+  color: #FFCDD5;
+  transform: scale(1.1);
+}
+
+.chat-send-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.chat-send-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.chat-error {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.chat-error p {
+  margin: 0;
+}
+
+.chat-response {
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0c4a6e;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.chat-response p {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .income-statement-table h3 {
@@ -166,6 +288,21 @@
 }
 
 /* Responsive design */
+@media (max-width: 1024px) {
+  .financial-popup-main-content {
+    flex-direction: column;
+  }
+  
+  .chat-section {
+    flex: 1;
+    border-left: none;
+    border-top: 1px solid #e5e7eb;
+    padding-left: 0;
+    padding-top: 24px;
+    margin-top: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .financial-popup-overlay {
     padding: 70px 10px 10px 10px; /* Adjust mobile padding for header */
@@ -174,6 +311,7 @@
   .financial-popup-content {
     margin: 10px;
     max-height: 95vh;
+    max-width: 100%;
   }
   
   .financial-popup-header {
@@ -186,6 +324,19 @@
   
   .financial-popup-body {
     padding: 20px;
+  }
+  
+  .financial-popup-main-content {
+    gap: 16px;
+  }
+  
+  .chat-section {
+    flex: 1;
+    border-left: none;
+    border-top: 1px solid #e5e7eb;
+    padding-left: 0;
+    padding-top: 16px;
+    margin-top: 16px;
   }
   
   .section-table th,

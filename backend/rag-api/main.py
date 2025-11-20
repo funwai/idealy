@@ -138,25 +138,6 @@ async def refine_query_with_llm(llm: ChatOpenAI, original_query: str) -> str:
         return original_query
 
 
-async def similarity_search_with_scores(vector_store: PineconeVectorStore, query: str, k: int):
-    """Similarity search that returns documents with relevance scores"""
-    try:
-        # Use similarity_search_with_relevance_scores if available
-        if hasattr(vector_store, 'similarity_search_with_relevance_scores'):
-            results = await run_in_threadpool(
-                vector_store.similarity_search_with_relevance_scores,
-                query, k
-            )
-            return results
-        else:
-            # Fallback: regular similarity search
-            docs = await run_in_threadpool(vector_store.similarity_search, query, k)
-            return [(doc, 1.0) for doc in docs]  # Default score of 1.0
-    except Exception as e:
-        logger.error(f"Error in similarity_search_with_scores: {e}")
-        raise
-
-
 async def mmr_search(vector_store: PineconeVectorStore, query: str, k: int, fetch_k: int = 20):
     """Maximal Marginal Relevance search for diverse results"""
     try:

@@ -363,7 +363,7 @@ function App() {
           
           {/* What can you do with Kurio section */}
           <div className="kurio-action-section">
-            <h2 className="kurio-action-title">Kurious about a company?</h2>
+            <h2 className="kurio-action-title">Kurious about a company? Ask Kurio-AI</h2>
             
             <div className="input-container">
               <div className="company-search-wrapper" style={{ position: 'relative' }}>
@@ -409,51 +409,21 @@ function App() {
                   }}
                   disabled={!companyName.trim() || !companyCountry || searchLoading}
                 >
-                  {searchLoading ? 'Searching...' : 'Search'}
+                  {searchLoading ? (
+                    'Searching...'
+                  ) : (
+                    <>
+                      <img 
+                        src={require('./sparkles_emoji_yellow.png')} 
+                        alt="✨" 
+                        className="sparkle-emoji"
+                        style={{ width: '28px', height: '28px', marginRight: '8px', verticalAlign: 'middle' }}
+                      />
+                      Search
+                    </>
+                  )}
                 </button>
               </div>
-              
-              {/* Chat Input - Always visible */}
-              <div className="chat-input-wrapper">
-                <input
-                  type="text"
-                  className="chat-input"
-                  placeholder="Ask a question about companies or financial data..."
-                  value={chatMessage}
-                  onChange={(e) => setChatMessage(e.target.value)}
-                  disabled={chatLoading}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      if (chatMessage.trim() && !chatLoading) {
-                        handleSendMessage(chatMessage);
-                      }
-                    }
-                  }}
-                />
-                <button
-                  className="chat-send-arrow"
-                  onClick={() => handleSendMessage(chatMessage)}
-                  disabled={!chatMessage.trim() || chatLoading}
-                  type="button"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
-                  </svg>
-                </button>
-              </div>
-              
-              {/* Chat Error and Response */}
-              {chatError && (
-                <div className="chat-error">
-                  <p>{chatError}</p>
-                </div>
-              )}
-              {chatResponse && (
-                <div className="chat-response">
-                  <p>{chatResponse}</p>
-                </div>
-              )}
               
               {/* Search Error Display */}
               {searchError && (
@@ -512,9 +482,18 @@ function App() {
           setShowFinancialPopup(false);
           setFinancialData(null);
           setSearchError('');
+          setChatMessage('');
+          setChatResponse('');
+          setChatError('');
         }}
         financialData={financialData}
         companyName={companyName}
+        chatMessage={chatMessage}
+        setChatMessage={setChatMessage}
+        chatLoading={chatLoading}
+        chatError={chatError}
+        chatResponse={chatResponse}
+        handleSendMessage={handleSendMessage}
       />
     </div>
   );

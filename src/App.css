@@ -532,6 +532,11 @@ body {
   letter-spacing: 0.05em;
 }
 
+.ask-kurio-title {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
 .upload-method-toggle {
   display: flex;
   gap: 0.5rem;
@@ -615,6 +620,7 @@ body {
   align-items: stretch;
   flex-wrap: wrap;
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .file-input {
@@ -724,7 +730,7 @@ body {
 
 .chat-input-wrapper {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   display: flex;
   align-items: center;
   position: relative;
