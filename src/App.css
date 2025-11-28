@@ -156,7 +156,7 @@ body {
   background: #0E2B4D;
 }
 
-.roles-link {
+.companies-link {
   color: #FCFFFF !important;
   text-decoration: none;
   font-size: 0.9rem;
@@ -168,7 +168,7 @@ body {
   background: #0E2B4D;
 }
 
-.companies-link {
+.insights-link {
   color: #FCFFFF !important;
   text-decoration: none;
   font-size: 0.9rem;
@@ -207,22 +207,22 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.roles-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.roles-link.active {
-  border-color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
 .companies-link:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .companies-link.active {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.insights-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.insights-link.active {
   border-color: #ffffff;
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -532,10 +532,6 @@ body {
   letter-spacing: 0.05em;
 }
 
-.ask-kurio-title {
-  text-align: center;
-  margin: 1.5rem 0;
-}
 
 .upload-method-toggle {
   display: flex;
@@ -728,108 +724,6 @@ body {
   transform: none;
 }
 
-.chat-input-wrapper {
-  width: 100%;
-  margin-top: 1.5rem;
-  display: flex;
-  align-items: center;
-  position: relative;
-  background: white;
-  border: 2px solid #0E2B4D;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.chat-input-wrapper:focus-within {
-  border-color: #FFCDD5;
-  box-shadow: 0 0 0 3px rgba(255, 205, 213, 0.3);
-}
-
-.chat-input {
-  flex: 1;
-  padding: 1rem 1.25rem;
-  padding-right: 3.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #0E2B4D;
-  background: transparent;
-  outline: none;
-  height: 56px;
-  box-sizing: border-box;
-  font-weight: 500;
-}
-
-.chat-input:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.chat-input::placeholder {
-  color: rgba(14, 43, 77, 0.5);
-}
-
-.chat-send-arrow {
-  position: absolute;
-  right: 0.75rem;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  background: transparent;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #0E2B4D;
-  flex-shrink: 0;
-}
-
-.chat-send-arrow:hover:not(:disabled) {
-  background: rgba(14, 43, 77, 0.1);
-  transform: scale(1.1);
-}
-
-.chat-send-arrow:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.chat-send-arrow svg {
-  width: 20px;
-  height: 20px;
-}
-
-.chat-error {
-  padding: 0.75rem;
-  background: #fee;
-  border: 1px solid #fcc;
-  border-radius: 8px;
-  color: #c33;
-}
-
-.chat-error p {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.chat-response {
-  padding: 1rem;
-  background: #f0f7ff;
-  border: 1px solid #0E2B4D;
-  border-radius: 8px;
-  color: #0E2B4D;
-}
-
-.chat-response p {
-  margin: 0;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
 
 /* Responsive design for Kurio Action Section */
 @media (max-width: 768px) {
@@ -2739,5 +2633,409 @@ body {
   
   .company-meta {
     justify-content: center;
+  }
+}
+
+/* Insights Page */
+.insights-page {
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  padding: 140px 32px 64px;
+  background: #f4ece9;
+  color: #1c1533;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.insights-container {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.insights-header {
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.insights-header h1 {
+  font-size: 3rem;
+  letter-spacing: 0.2rem;
+  margin: 12px 0;
+}
+
+.insights-header .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  font-size: 0.85rem;
+  color: #a47f58;
+}
+
+.insights-header .subheading {
+  color: #2b254b;
+  max-width: 640px;
+}
+
+.insights-status {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(31, 16, 56, 0.1);
+  color: #2b254b;
+  margin-bottom: 24px;
+}
+
+.insights-status.error {
+  border-color: #b3261e;
+  color: #b3261e;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.insight-card {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(43, 37, 75, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(31, 16, 56, 0.05);
+}
+
+.insight-card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.insight-card-body {
+  padding: 20px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.insight-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: #a47f58;
+}
+
+.insight-category {
+  font-weight: 600;
+}
+
+.insight-date {
+  color: #746c8a;
+}
+
+.insight-card h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #1c1533;
+}
+
+.insight-summary {
+  color: #453a6b;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.insight-table {
+  margin-top: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(28, 21, 51, 0.08);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: inset 0 0 0 1px rgba(28, 21, 51, 0.03);
+}
+
+.insight-table-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #a47f58;
+}
+
+.insight-table-wrapper {
+  overflow-x: auto;
+}
+
+.insight-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.insight-table th,
+.insight-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(28, 21, 51, 0.08);
+}
+
+.insight-table th {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.15rem;
+  color: #746c8a;
+}
+
+.insight-table th.numeric-header {
+  text-align: right;
+}
+
+.insight-table td.numeric-cell {
+  text-align: right;
+}
+
+.insight-table tr:last-child td {
+  border-bottom: none;
+}
+
+.insight-table td {
+  color: #2b254b;
+}
+
+.insight-table td.negative-value {
+  background-color: #ffe5e5;
+  color: #c62828;
+}
+
+.insight-pdf {
+  margin-top: 1.5rem;
+  border: 1px solid rgba(28, 21, 51, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.insight-pdf-iframe {
+  width: 100%;
+  height: 800px;
+  min-height: 800px;
+  border: none;
+  display: block;
+}
+
+.insight-pdf-fallback {
+  padding: 1rem;
+  text-align: center;
+  background: #f4ece9;
+  border-top: 1px solid rgba(28, 21, 51, 0.08);
+}
+
+.insight-pdf-link {
+  color: #1c1533;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.insight-pdf-link:hover {
+  color: #a47f58;
+}
+
+.insight-json {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.insight-json summary {
+  cursor: pointer;
+  color: #1c1533;
+  font-weight: 600;
+}
+
+.insight-json pre {
+  margin-top: 0.75rem;
+  background: #1c1533;
+  color: #f4ece9;
+  padding: 0.75rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+/* Rich text content styling */
+.insight-summary .rich-text-paragraph {
+  margin: 0 0 1rem 0;
+  color: #453a6b;
+  line-height: 1.6;
+}
+
+.insight-summary .rich-text-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.insight-summary .rich-text-heading {
+  margin: 1.5rem 0 1rem 0;
+  color: #1c1533;
+  font-weight: 600;
+}
+
+.insight-summary .rich-text-heading:first-child {
+  margin-top: 0;
+}
+
+.insight-summary .rich-text-list {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  color: #453a6b;
+}
+
+.insight-summary .rich-text-list-item {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.insight-summary .rich-text-link {
+  color: #1c1533;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.insight-summary .rich-text-link:hover {
+  color: #a47f58;
+}
+
+/* Embedded assets in rich text */
+.rich-text-embedded-pdf {
+  margin: 1.5rem 0;
+  border: 1px solid rgba(28, 21, 51, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.rich-text-pdf-iframe {
+  width: 100%;
+  height: 800px;
+  min-height: 800px;
+  border: none;
+  display: block;
+}
+
+.rich-text-pdf-fallback {
+  padding: 1rem;
+  text-align: center;
+  background: #f4ece9;
+  border-top: 1px solid rgba(28, 21, 51, 0.08);
+}
+
+.rich-text-pdf-link {
+  color: #1c1533;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.rich-text-pdf-link:hover {
+  color: #a47f58;
+}
+
+.rich-text-embedded-image {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.rich-text-image {
+  max-width: 70%;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 auto;
+}
+
+.rich-text-embedded-asset {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f4ece9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.rich-text-asset-link {
+  color: #1c1533;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.rich-text-asset-link:hover {
+  color: #a47f58;
+}
+
+.insight-bibliography {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0d5d0;
+}
+
+.insight-bibliography strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #1c1533;
+  font-weight: 600;
+}
+
+.insight-bibliography-content {
+  color: #453a6b;
+  line-height: 1.6;
+}
+
+.insight-bibliography-content .rich-text-paragraph {
+  margin: 0 0 0.75rem 0;
+}
+
+.insight-bibliography-content .rich-text-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.insight-link {
+  color: #1c1533;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.insight-link:hover,
+.insight-link:focus-visible {
+  color: #a47f58;
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .insights-page {
+    padding: 120px 16px 48px;
+  }
+
+  .insights-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .insight-card-body {
+    padding: 20px;
   }
 }

@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { collection, query, getDocs } from 'firebase/firestore';
 import About from './pages/About';
 import Companies from './pages/Companies';
-import Roles from './pages/Roles';
+import Insights from './insights/Insights';
 import TextType from './components/TextType';
 import FinancialDataPopup from './components/FinancialDataPopup';
 import { askQuestion } from './api/ragApi';
@@ -221,16 +221,6 @@ function App() {
               Home
             </a>
             <a 
-              href="#roles" 
-              className={`roles-link ${currentPage === 'roles' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage('roles');
-              }}
-            >
-              Roles
-            </a>
-            <a 
               href="#companies" 
               className={`companies-link ${currentPage === 'companies' ? 'active' : ''}`}
               onClick={(e) => {
@@ -239,6 +229,16 @@ function App() {
               }}
             >
               Companies
+            </a>
+            <a 
+              href="#insights" 
+              className={`insights-link ${currentPage === 'insights' ? 'active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage('insights');
+              }}
+            >
+              Insights
             </a>
             <a 
               href="#about" 
@@ -414,7 +414,7 @@ function App() {
                   ) : (
                     <>
                       <img 
-                        src={require('./sparkles_emoji_yellow.png')} 
+                        src={require('./sparkles_emoji_yellow_rotated.png')} 
                         alt="✨" 
                         className="sparkle-emoji"
                         style={{ width: '28px', height: '28px', marginRight: '8px', verticalAlign: 'middle' }}
@@ -440,8 +440,8 @@ function App() {
         }} />
       ) : currentPage === 'companies' ? (
         <Companies />
-      ) : currentPage === 'roles' ? (
-        <Roles />
+      ) : currentPage === 'insights' ? (
+        <Insights />
       ) : null}
 
       {/* Login Modal */}

@@ -166,7 +166,7 @@ const FinancialDataPopup = ({
             <div className="chat-section">
               <h2 className="chat-section-title">
                 <img 
-                  src={require('../sparkles_emoji_yellow.png')} 
+                  src={require('../sparkles_emoji_yellow_rotated.png')} 
                   alt="✨" 
                   style={{ width: '28px', height: '28px', marginRight: '8px', verticalAlign: 'middle' }}
                 />

@@ -1,3 +1,25 @@
+# Contentful Integration
+
+The site now pulls the `Insights` page content directly from Contentful. Follow these steps to connect your own space:
+
+1. **Install dependencies**: `npm install` (the `contentful` SDK is already listed in `package.json`).
+2. **Create a `.env` file** (copy `env.sample`) and fill in:
+   - `REACT_APP_CONTENTFUL_SPACE_ID`
+   - `REACT_APP_CONTENTFUL_ENVIRONMENT` (defaults to `master` if omitted)
+   - `REACT_APP_CONTENTFUL_DELIVERY_TOKEN`
+   - `REACT_APP_CONTENTFUL_INSIGHTS_TYPE_ID` (the content type that holds your insight entries)
+3. **Model your content type** inside Contentful with at least the following fields (all optional but recommended):
+   - `title` (Short text)
+   - `summary` or `description` (Long text)
+   - `category` / `topic` (Short text)
+   - `publishedDate` (Date)
+   - `link` or `ctaLink` (Short text / URL)
+   - `heroImage` (Media - Asset)
+4. Publish a few entries of that content type. Images and optional fields are rendered automatically if present.
+5. Restart `npm start` after changing `.env` so Create React App can pick up the new values.
+
+If the Contentful client is not configured or no entries exist, the UI will show a helpful status message instead of crashing.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
