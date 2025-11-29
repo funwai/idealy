@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
-function About({ onNavigateToHome }) {
+function About() {
   // Vanta.js background effect
   const vantaRef = useRef(null);
 
@@ -89,7 +90,7 @@ function About({ onNavigateToHome }) {
             </div>
             <div className="feature">
               <h3>Contribute to the mission</h3>
-              <p>If you'd like to contribute to KURIO's mission, <span className="clickable-text" onClick={onNavigateToHome}>tell us</span> about your day-to-day and your job title. That's all we need - Our AI will read your entry and pick out the bits we need to inform other KURIO-us minds</p>
+              <p>If you'd like to contribute to KURIO's mission, <Link to="/" className="clickable-text">tell us</Link> about your day-to-day and your job title. That's all we need - Our AI will read your entry and pick out the bits we need to inform other KURIO-us minds</p>
             </div>
             <div className="feature">
               <h3>Learn from the open web</h3>

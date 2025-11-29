@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import { auth, db } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -10,13 +11,13 @@ import TextType from './components/TextType';
 import FinancialDataPopup from './components/FinancialDataPopup';
 import { askQuestion } from './api/ragApi';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [user, setUser] = useState(null);
-  const [currentPage, setCurrentPage] = useState('home');
   
   // Kurio input state (company search)
   const [companyName, setCompanyName] = useState('');
@@ -199,57 +200,42 @@ function App() {
       <header className="main-header">
         <div className="header-content">
           <div className="header-left">
-                         <img 
-               src={require('./KURIO_logo_transparent_background.png')} 
-               alt="Logo" 
-               className="header-logo" 
-               onClick={() => setCurrentPage('home')}
-               style={{ cursor: 'pointer' }}
-             />
+            <Link to="/">
+              <img 
+                src={require('./KURIO_logo_transparent_background.png')} 
+                alt="Logo" 
+                className="header-logo" 
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
           </div>
           <div className="header-center">
           </div>
           <div className="header-right">
-            <a 
-              href="#home" 
-              className={`home-link ${currentPage === 'home' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage('home');
-              }}
+            <Link 
+              to="/"
+              className={`home-link ${location.pathname === '/' ? 'active' : ''}`}
             >
               Home
-            </a>
-            <a 
-              href="#companies" 
-              className={`companies-link ${currentPage === 'companies' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage('companies');
-              }}
+            </Link>
+            <Link 
+              to="/Companies"
+              className={`companies-link ${location.pathname === '/Companies' ? 'active' : ''}`}
             >
               Companies
-            </a>
-            <a 
-              href="#insights" 
-              className={`insights-link ${currentPage === 'insights' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage('insights');
-              }}
+            </Link>
+            <Link 
+              to="/Insights"
+              className={`insights-link ${location.pathname === '/Insights' ? 'active' : ''}`}
             >
               Insights
-            </a>
-            <a 
-              href="#about" 
-              className={`about-link ${currentPage === 'about' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage('about');
-              }}
+            </Link>
+            <Link 
+              to="/About"
+              className={`about-link ${location.pathname === '/About' ? 'active' : ''}`}
             >
               About
-            </a>
+            </Link>
             {!user ? (
               <button 
                 className="login-button"
@@ -275,174 +261,171 @@ function App() {
       {/* Vanta.js Background Container */}
       <div id="vanta-background" className="vanta-background"></div>
 
-      {currentPage === 'home' ? (
-        <>
-          <div className="hero-section">
-            <div className="hero-content">
-              <h1 className="hero-title">
-                <TextType 
-                  text={["k u r i o", "Understand businesses", "Follow the money", "Stay Kurious!"]}
-                  typingSpeed={75}
-                  pauseDuration={1500}
-                  showCursor={true}
-                  cursorCharacter="|"
-                />
-              </h1>
-              <h2 className="hero-subtitle">People, Roles and Companies</h2>
-               
-                              <div className="audio-player">
-                 <div className="audio-controls">
-                   <span className="audio-question">Want to hear about what we do?</span>
-                   <button 
-                     className="play-pause-btn"
-                     onClick={() => {
-                       if (audioRef.current.paused) {
-                         audioRef.current.play();
-                         setIsPlaying(true);
-                       } else {
-                         audioRef.current.pause();
-                         setIsPlaying(false);
-                       }
-                     }}
-                     title={isPlaying ? "Pause" : "Play"}
-                   >
-                     {isPlaying ? (
-                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                         <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
-                         <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
-                       </svg>
-                     ) : (
-                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                         <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                       </svg>
-                     )}
-                   </button>
-                 </div>
-                
-                <div className="audio-progress">
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill"
-                      style={{ width: `${(currentTime / duration) * 100}%` }}
-                    ></div>
-                    <input
-                      type="range"
-                      className="progress-slider"
-                      min="0"
-                      max={duration || 0}
-                      value={currentTime}
-                      onChange={(e) => {
-                        const newTime = parseFloat(e.target.value);
-                        audioRef.current.currentTime = newTime;
-                        setCurrentTime(newTime);
+      <Routes>
+        <Route path="/" element={
+          <>
+            <div className="hero-section">
+              <div className="hero-content">
+                <h1 className="hero-title">
+                  <TextType 
+                    text={["k u r i o", "Understand businesses", "Follow the money", "Stay Kurious!"]}
+                    typingSpeed={75}
+                    pauseDuration={1500}
+                    showCursor={true}
+                    cursorCharacter="|"
+                  />
+                </h1>
+                <h2 className="hero-subtitle">People, Roles and Companies</h2>
+                 
+                <div className="audio-player">
+                  <div className="audio-controls">
+                    <span className="audio-question">Want to hear about what we do?</span>
+                    <button 
+                      className="play-pause-btn"
+                      onClick={() => {
+                        if (audioRef.current.paused) {
+                          audioRef.current.play();
+                          setIsPlaying(true);
+                        } else {
+                          audioRef.current.pause();
+                          setIsPlaying(false);
+                        }
                       }}
-                      step="0.1"
-                    />
+                      title={isPlaying ? "Pause" : "Play"}
+                    >
+                      {isPlaying ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                          <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                        </svg>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+                        </svg>
+                      )}
+                    </button>
                   </div>
-                  <div className="time-display">
-                    <span className="current-time">{formatTime(currentTime)}</span>
-                    <span className="duration">{formatTime(duration)}</span>
+                  
+                  <div className="audio-progress">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill"
+                        style={{ width: `${(currentTime / duration) * 100}%` }}
+                      ></div>
+                      <input
+                        type="range"
+                        className="progress-slider"
+                        min="0"
+                        max={duration || 0}
+                        value={currentTime}
+                        onChange={(e) => {
+                          const newTime = parseFloat(e.target.value);
+                          audioRef.current.currentTime = newTime;
+                          setCurrentTime(newTime);
+                        }}
+                        step="0.1"
+                      />
+                    </div>
+                    <div className="time-display">
+                      <span className="current-time">{formatTime(currentTime)}</span>
+                      <span className="duration">{formatTime(duration)}</span>
+                    </div>
                   </div>
+                  
+                  <audio
+                    ref={audioRef}
+                    src="/KURIO_hey.mp3"
+                    onLoadedMetadata={() => setDuration(audioRef.current.duration)}
+                    onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
+                    onEnded={() => {
+                      setIsPlaying(false);
+                      setCurrentTime(0);
+                    }}
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                  />
+                </div>
+              </div>
+            </div>
+            
+            {/* What can you do with Kurio section */}
+            <div className="kurio-action-section">
+              <h2 className="kurio-action-title">Kurious about a company? Ask Kurio-AI</h2>
+              
+              <div className="input-container">
+                <div className="company-search-wrapper" style={{ position: 'relative' }}>
+                  <input
+                    type="text"
+                    placeholder="Enter company ticker (e.g., NVDA for Nvidia or MSFT for Microsoft)"
+                    value={companyName}
+                    onChange={(e) => handleCompanyNameChange(e.target.value)}
+                    className="url-input"
+                  />
+                  <select
+                    value={companyCountry}
+                    onChange={(e) => setCompanyCountry(e.target.value)}
+                    className={`country-select ${companyCountry ? 'has-value' : ''}`}
+                  >
+                    <option value="">Where is the company based?</option>
+                    <option value="US">United States</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="JP">Japan</option>
+                    <option value="CN">China</option>
+                    <option value="IN">India</option>
+                    <option value="BR">Brazil</option>
+                    <option value="MX">Mexico</option>
+                    <option value="ES">Spain</option>
+                    <option value="IT">Italy</option>
+                    <option value="NL">Netherlands</option>
+                    <option value="SE">Sweden</option>
+                    <option value="CH">Switzerland</option>
+                    <option value="SG">Singapore</option>
+                    <option value="KR">South Korea</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                  <button 
+                    className="submit-btn"
+                    onClick={() => {
+                      if (companyName.trim() && companyCountry) {
+                        searchCompanyFinancials(companyName.trim(), companyCountry);
+                      }
+                    }}
+                    disabled={!companyName.trim() || !companyCountry || searchLoading}
+                  >
+                    {searchLoading ? (
+                      'Searching...'
+                    ) : (
+                      <>
+                        <img 
+                          src={require('./sparkles_emoji_yellow_rotated.png')} 
+                          alt="✨" 
+                          className="sparkle-emoji"
+                          style={{ width: '28px', height: '28px', marginRight: '8px', verticalAlign: 'middle' }}
+                        />
+                        Search
+                      </>
+                    )}
+                  </button>
                 </div>
                 
-                <audio
-                  ref={audioRef}
-                  src="/KURIO_hey.mp3"
-                  onLoadedMetadata={() => setDuration(audioRef.current.duration)}
-                  onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
-                  onEnded={() => {
-                    setIsPlaying(false);
-                    setCurrentTime(0);
-                  }}
-                  onPlay={() => setIsPlaying(true)}
-                  onPause={() => setIsPlaying(false)}
-                />
+                {/* Search Error Display */}
+                {searchError && (
+                  <div className="search-error">
+                    <p>{searchError}</p>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-          
-          {/* What can you do with Kurio section */}
-          <div className="kurio-action-section">
-            <h2 className="kurio-action-title">Kurious about a company? Ask Kurio-AI</h2>
-            
-            <div className="input-container">
-              <div className="company-search-wrapper" style={{ position: 'relative' }}>
-                <input
-                  type="text"
-                  placeholder="Enter company ticker (e.g., NVDA for Nvidia or MSFT for Microsoft)"
-                  value={companyName}
-                  onChange={(e) => handleCompanyNameChange(e.target.value)}
-                  className="url-input"
-                />
-                <select
-                  value={companyCountry}
-                  onChange={(e) => setCompanyCountry(e.target.value)}
-                  className={`country-select ${companyCountry ? 'has-value' : ''}`}
-                >
-                  <option value="">Where is the company based?</option>
-                  <option value="US">United States</option>
-                  <option value="GB">United Kingdom</option>
-                  <option value="CA">Canada</option>
-                  <option value="AU">Australia</option>
-                  <option value="DE">Germany</option>
-                  <option value="FR">France</option>
-                  <option value="JP">Japan</option>
-                  <option value="CN">China</option>
-                  <option value="IN">India</option>
-                  <option value="BR">Brazil</option>
-                  <option value="MX">Mexico</option>
-                  <option value="ES">Spain</option>
-                  <option value="IT">Italy</option>
-                  <option value="NL">Netherlands</option>
-                  <option value="SE">Sweden</option>
-                  <option value="CH">Switzerland</option>
-                  <option value="SG">Singapore</option>
-                  <option value="KR">South Korea</option>
-                  <option value="OTHER">Other</option>
-                </select>
-                <button 
-                  className="submit-btn"
-                  onClick={() => {
-                    if (companyName.trim() && companyCountry) {
-                      searchCompanyFinancials(companyName.trim(), companyCountry);
-                    }
-                  }}
-                  disabled={!companyName.trim() || !companyCountry || searchLoading}
-                >
-                  {searchLoading ? (
-                    'Searching...'
-                  ) : (
-                    <>
-                      <img 
-                        src={require('./sparkles_emoji_yellow_rotated.png')} 
-                        alt="✨" 
-                        className="sparkle-emoji"
-                        style={{ width: '28px', height: '28px', marginRight: '8px', verticalAlign: 'middle' }}
-                      />
-                      Search
-                    </>
-                  )}
-                </button>
-              </div>
-              
-              {/* Search Error Display */}
-              {searchError && (
-                <div className="search-error">
-                  <p>{searchError}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </>
-      ) : currentPage === 'about' ? (
-        <About onNavigateToHome={() => {
-          setCurrentPage('home');
-        }} />
-      ) : currentPage === 'companies' ? (
-        <Companies />
-      ) : currentPage === 'insights' ? (
-        <Insights />
-      ) : null}
+          </>
+        } />
+        <Route path="/About" element={<About />} />
+        <Route path="/Companies" element={<Companies />} />
+        <Route path="/Insights" element={<Insights />} />
+      </Routes>
 
       {/* Login Modal */}
       {showLogin && (
@@ -496,6 +479,14 @@ function App() {
         handleSendMessage={handleSendMessage}
       />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 
