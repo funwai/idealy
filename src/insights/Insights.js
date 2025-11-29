@@ -285,7 +285,6 @@ const formatCellValue = (value) => {
 };
 
 const Insights = () => {
-  console.log('🎯 Insights component rendering');
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -342,37 +341,18 @@ const Insights = () => {
           let pdfUrl = null;
           
           // Function to extract PDF URL from a Contentful asset
-          const extractPdfFromAsset = (asset, fieldName = '') => {
+          const extractPdfFromAsset = (asset) => {
             if (!asset) return null;
-            
-            console.log(`🔍 Checking asset in field "${fieldName}":`, {
-              type: typeof asset,
-              isObject: typeof asset === 'object',
-              hasFields: !!asset.fields,
-              hasFile: !!asset.fields?.file,
-              hasUrl: !!asset.fields?.file?.url,
-              contentType: asset.fields?.file?.contentType,
-              sysType: asset.sys?.type,
-              sysLinkType: asset.sys?.linkType,
-            });
             
             // If it's already a linked asset with fields (fully resolved)
             if (asset.fields?.file?.url) {
               const url = asset.fields.file.url;
               const contentType = asset.fields.file.contentType;
-              console.log(`📄 Asset file found - URL: ${url}, ContentType: ${contentType}`);
               
               // Check if it's a PDF by content type or file extension
               if (contentType === 'application/pdf' || url.toLowerCase().endsWith('.pdf')) {
-                const fullUrl = url.startsWith('http') ? url : `https:${url}`;
-                console.log(`✅ PDF URL extracted: ${fullUrl}`);
-                return fullUrl;
+                return url.startsWith('http') ? url : `https:${url}`;
               }
-            }
-            
-            // If it's a sys reference (not fully resolved), log it
-            if (asset.sys?.type === 'Link' && asset.sys?.linkType === 'Asset') {
-              console.log(`⚠️ Asset is a sys reference (not resolved):`, asset.sys.id);
             }
             
             // If it has a direct URL property
@@ -384,28 +364,21 @@ const Insights = () => {
           };
           
           // Search through all fields for asset fields
-          console.log('🔎 Searching all fields for PDF assets...');
           for (const [fieldName, fieldValue] of Object.entries(fields)) {
             if (!fieldValue) continue;
             
-            console.log(`  Checking field "${fieldName}" (type: ${typeof fieldValue}, isArray: ${Array.isArray(fieldValue)})`);
-            
             // Check if this field is an asset
-            const assetPdf = extractPdfFromAsset(fieldValue, fieldName);
+            const assetPdf = extractPdfFromAsset(fieldValue);
             if (assetPdf) {
-              console.log(`✅ Found PDF in field "${fieldName}":`, assetPdf);
               pdfUrl = assetPdf;
               break;
             }
             
             // Also check if it's an array of assets
             if (Array.isArray(fieldValue)) {
-              console.log(`  Field "${fieldName}" is an array with ${fieldValue.length} items`);
-              for (let i = 0; i < fieldValue.length; i++) {
-                const item = fieldValue[i];
-                const assetPdf = extractPdfFromAsset(item, `${fieldName}[${i}]`);
+              for (const item of fieldValue) {
+                const assetPdf = extractPdfFromAsset(item);
                 if (assetPdf) {
-                  console.log(`✅ Found PDF in array field "${fieldName}[${i}]":`, assetPdf);
                   pdfUrl = assetPdf;
                   break;
                 }
@@ -416,11 +389,7 @@ const Insights = () => {
           
           // 2. Check in article_Body rich text field for embedded assets
           if (!pdfUrl && articleBody) {
-            console.log('🔍 Checking article_Body for embedded PDF assets...');
             pdfUrl = extractPdfFromRichText(articleBody);
-            if (pdfUrl) {
-              console.log('✅ Found PDF embedded in article_Body:', pdfUrl);
-            }
           }
           
           // 3. Check in jsonData
@@ -428,26 +397,6 @@ const Insights = () => {
             pdfUrl =
               findPdfUrlInJson(rawJsonData) ||
               findPdfUrlInJson(normalizedJsonData);
-          }
-          
-          // Debug logging
-          if (pdfUrl) {
-            console.log('✅ PDF URL extracted:', pdfUrl);
-          } else {
-            console.log('⚠️ No PDF URL found in entry');
-            console.log('📋 Available fields:', Object.keys(fields));
-            console.log('🔍 Checking field types:', 
-              Object.entries(fields).map(([key, val]) => ({
-                field: key,
-                type: typeof val,
-                isObject: typeof val === 'object' && val !== null,
-                hasFields: typeof val === 'object' && val?.fields,
-                hasFile: typeof val === 'object' && val?.fields?.file,
-              }))
-            );
-            if (rawJsonData) {
-              console.log('📦 jsonData structure:', JSON.stringify(rawJsonData, null, 2).substring(0, 500));
-            }
           }
 
           const derivedCategory =

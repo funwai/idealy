@@ -113,7 +113,7 @@ function AppContent() {
   };
 
 
-  const searchCompanyFinancials = async (companyName, country) => {
+  const searchCompanyFinancials = async (companyName) => {
     setSearchLoading(true);
     setSearchError('');
     
@@ -123,7 +123,6 @@ function AppContent() {
       const querySnapshot = await getDocs(q);
       
       let foundData = null;
-      let foundCompanyName = '';
       let exactTickerMatch = null;
       let companyNameMatches = [];
       
@@ -150,10 +149,8 @@ function AppContent() {
       // Use exact ticker match if available, otherwise use the first company name match
       if (exactTickerMatch) {
         foundData = exactTickerMatch.data;
-        foundCompanyName = exactTickerMatch.companyName;
       } else if (companyNameMatches.length > 0) {
         foundData = companyNameMatches[0].data;
-        foundCompanyName = companyNameMatches[0].companyName;
       }
       
       if (!foundData) {
@@ -208,8 +205,6 @@ function AppContent() {
                 style={{ cursor: 'pointer' }}
               />
             </Link>
-          </div>
-          <div className="header-center">
           </div>
           <div className="header-right">
             <Link 
@@ -391,7 +386,7 @@ function AppContent() {
                     className="submit-btn"
                     onClick={() => {
                       if (companyName.trim() && companyCountry) {
-                        searchCompanyFinancials(companyName.trim(), companyCountry);
+                        searchCompanyFinancials(companyName.trim());
                       }
                     }}
                     disabled={!companyName.trim() || !companyCountry || searchLoading}
