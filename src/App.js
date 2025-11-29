@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import './App.css';
 import { auth, db } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -418,8 +418,11 @@ function AppContent() {
           </>
         } />
         <Route path="/About" element={<About />} />
+        <Route path="/about" element={<Navigate to="/About" replace />} />
         <Route path="/Companies" element={<Companies />} />
+        <Route path="/companies" element={<Navigate to="/Companies" replace />} />
         <Route path="/Insights" element={<Insights />} />
+        <Route path="/insights" element={<Navigate to="/Insights" replace />} />
       </Routes>
 
       {/* Login Modal */}

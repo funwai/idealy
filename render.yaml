@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: kurio-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run serve
+    envVars:
+      - key: NODE_ENV
+        value: production
+
