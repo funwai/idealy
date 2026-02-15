@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react
 import './App.css';
 import { auth, db } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { collection, query, getDocs } from 'firebase/firestore';
+import { collection, doc, getDocs, getDoc } from 'firebase/firestore';
 import About from './pages/About';
 import Companies from './pages/Companies';
 import Insights from './insights/Insights';
@@ -113,58 +113,98 @@ function AppContent() {
   };
 
 
-  const searchCompanyFinancials = async (companyName) => {
+  const searchCompanyFinancials = async (searchInput) => {
     setSearchLoading(true);
     setSearchError('');
-    
+    const ticker = searchInput.trim().toUpperCase();
+
     try {
-      // First, try to find by company name in the data
-      const q = query(collection(db, 'company_financials'));
-      const querySnapshot = await getDocs(q);
-      
-      let foundData = null;
-      let exactTickerMatch = null;
-      let companyNameMatches = [];
-      
-      // Search through all documents for a matching company name
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        const docCompanyName = data.company_name || data.name || '';
-        const ticker = doc.id; // Document ID is the ticker
-        
-        // More precise matching - check if the search term matches the ticker or company name exactly
-        const searchTerm = companyName.toLowerCase().trim();
-        const tickerMatch = ticker.toLowerCase() === searchTerm;
-        const companyNameMatch = docCompanyName.toLowerCase().includes(searchTerm) || 
-                                 searchTerm.includes(docCompanyName.toLowerCase());
-        
-        // Prioritize exact ticker matches
-        if (tickerMatch) {
-          exactTickerMatch = { data, companyName: docCompanyName || ticker };
-        } else if (companyNameMatch && docCompanyName.length > 0) {
-          companyNameMatches.push({ data, companyName: docCompanyName || ticker });
-        }
-      });
-      
-      // Use exact ticker match if available, otherwise use the first company name match
-      if (exactTickerMatch) {
-        foundData = exactTickerMatch.data;
-      } else if (companyNameMatches.length > 0) {
-        foundData = companyNameMatches[0].data;
-      }
-      
-      if (!foundData) {
+      // 1. Get filings from companies/{ticker}/filings
+      const filingsRef = collection(db, 'companies', ticker, 'filings');
+      const filingsSnapshot = await getDocs(filingsRef);
+
+      if (filingsSnapshot.empty) {
         setSearchError('This company is yet to be added to our database');
         setSearchLoading(false);
         return;
       }
-      
+
+      // 2. Get latest 10K filing (e.g. 2025_10K)
+      const filings = filingsSnapshot.docs
+        .map((d) => ({ id: d.id, data: d.data() }))
+        .filter((f) => /^\d{4}_10K$/i.test(f.id))
+        .sort((a, b) => {
+          const yearA = parseInt(a.id.split('_')[0], 10);
+          const yearB = parseInt(b.id.split('_')[0], 10);
+          return yearB - yearA;
+        });
+
+      if (filings.length === 0) {
+        setSearchError('No 10-K filings found for this company');
+        setSearchLoading(false);
+        return;
+      }
+
+      const latestFiling = filings[0];
+      const statementsPath = ['companies', ticker, 'filings', latestFiling.id, 'statements'];
+
+      // 3. Get incomeStatement and cashFlow docs (they contain storageGsPath)
+      const incomeStatementDoc = await getDoc(doc(db, ...statementsPath, 'incomeStatement'));
+      const cashFlowDoc = await getDoc(doc(db, ...statementsPath, 'cashFlow'));
+
+      let incomeStatement = null;
+      let cashFlow = null;
+
+      const fetchFromApi = async (storageGsPath) => {
+        const res = await fetch(`/api/financial-statement?path=${encodeURIComponent(storageGsPath)}`);
+        const contentType = res.headers.get('content-type') || '';
+        const text = await res.text();
+
+        if (!contentType.includes('application/json')) {
+          if (text.trim().startsWith('<')) {
+            throw new Error(
+              'API returned HTML instead of JSON. In development: run "npm run api" in a separate terminal. In production: ensure the API is deployed.'
+            );
+          }
+          throw new Error(`Unexpected response: ${res.status}`);
+        }
+        try {
+          return JSON.parse(text);
+        } catch {
+          throw new Error('Invalid JSON from API');
+        }
+      };
+
+      if (incomeStatementDoc.exists()) {
+        const data = incomeStatementDoc.data();
+        if (data.storageGsPath) {
+          incomeStatement = await fetchFromApi(data.storageGsPath);
+        }
+      }
+      if (cashFlowDoc.exists()) {
+        const data = cashFlowDoc.data();
+        if (data.storageGsPath) {
+          cashFlow = await fetchFromApi(data.storageGsPath);
+        }
+      }
+
+      if (!incomeStatement && !cashFlow) {
+        setSearchError('No financial statements found for this company');
+        setSearchLoading(false);
+        return;
+      }
+
+      const foundData = {
+        income_statement: incomeStatement,
+        cash_flow: cashFlow,
+        filing_year: latestFiling.id.split('_')[0],
+      };
+
       setFinancialData(foundData);
       setShowFinancialPopup(true);
-      
     } catch (error) {
       console.error('Error searching for company financials:', error);
-      setSearchError('Error searching for company data. Please try again.');
+      setSearchError(error.message || 'Error fetching company data. Please try again.');
     } finally {
       setSearchLoading(false);
     }
@@ -468,7 +508,7 @@ function AppContent() {
           setChatError('');
         }}
         financialData={financialData}
-        companyName={companyName}
+        companyName={companyName.trim().toUpperCase()}
         chatMessage={chatMessage}
         setChatMessage={setChatMessage}
         chatLoading={chatLoading}
