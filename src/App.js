@@ -10,6 +10,7 @@ import Insights from './insights/Insights';
 import TextType from './components/TextType';
 import FinancialDataPopup from './components/FinancialDataPopup';
 import { askQuestion } from './api/ragApi';
+import FINANCIAL_API_BASE_URL from './api/financialApiConfig';
 
 function AppContent() {
   const location = useLocation();
@@ -116,49 +117,30 @@ function AppContent() {
   const searchCompanyFinancials = async (companyName) => {
     setSearchLoading(true);
     setSearchError('');
+    const ticker = companyName.trim().toUpperCase();
 
     try {
-      const q = query(collection(db, 'company_financials'));
-      const querySnapshot = await getDocs(q);
+      const url = `${FINANCIAL_API_BASE_URL}/api/financial-data?ticker=${encodeURIComponent(ticker)}`;
+      const response = await fetch(url);
 
-      let foundData = null;
-      let exactTickerMatch = null;
-      let companyNameMatches = [];
-
-      querySnapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        const docCompanyName = data.company_name || data.name || '';
-        const ticker = docSnap.id;
-
-        const searchTerm = companyName.toLowerCase().trim();
-        const tickerMatch = ticker.toLowerCase() === searchTerm;
-        const companyNameMatch = docCompanyName.toLowerCase().includes(searchTerm) ||
-          searchTerm.includes(docCompanyName.toLowerCase());
-
-        if (tickerMatch) {
-          exactTickerMatch = { data, companyName: docCompanyName || ticker };
-        } else if (companyNameMatch && docCompanyName.length > 0) {
-          companyNameMatches.push({ data, companyName: docCompanyName || ticker });
-        }
-      });
-
-      if (exactTickerMatch) {
-        foundData = exactTickerMatch.data;
-      } else if (companyNameMatches.length > 0) {
-        foundData = companyNameMatches[0].data;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `API returned ${response.status}`);
       }
 
-      if (!foundData) {
-        setSearchError('This company is yet to be added to our database');
+      const data = await response.json();
+
+      if (!data.income_statement && !data.cash_flow) {
+        setSearchError('No financial statements found for this company');
         setSearchLoading(false);
         return;
       }
 
-      setFinancialData(foundData);
+      setFinancialData(data);
       setShowFinancialPopup(true);
     } catch (error) {
-      console.error('Error searching for company financials:', error);
-      setSearchError('Error searching for company data. Please try again.');
+      console.error('Error fetching financial data:', error);
+      setSearchError(error.message || 'Error fetching company data. Please try again.');
     } finally {
       setSearchLoading(false);
     }

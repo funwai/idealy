@@ -25,16 +25,28 @@ app.use(express.json());
 // Option 1: Use service account JSON (set GOOGLE_APPLICATION_CREDENTIALS env var)
 // Option 2: Use environment variables for credentials
 if (!admin.apps.length) {
-  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-    // If service account JSON is provided as env var (base64 encoded)
-    const serviceAccount = JSON.parse(
-      Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT, 'base64').toString()
-    );
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      projectId: 'funwai-resume',
-      storageBucket: 'funwai-resume.firebasestorage.app'
-    });
+  console.log('Initializing Firebase Admin...');
+  const serviceAccountEnv = process.env.FIREBASE_SERVICE_ACCOUNT_JSON || process.env.FIREBASE_SERVICE_ACCOUNT;
+  console.log('FIREBASE_SERVICE_ACCOUNT_JSON exists:', !!process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+  console.log('FIREBASE_SERVICE_ACCOUNT exists:', !!process.env.FIREBASE_SERVICE_ACCOUNT);
+  console.log('GOOGLE_APPLICATION_CREDENTIALS exists:', !!process.env.GOOGLE_APPLICATION_CREDENTIALS);
+  
+  if (serviceAccountEnv) {
+    try {
+      // Service account JSON provided as base64-encoded env var
+      const decoded = Buffer.from(serviceAccountEnv, 'base64').toString();
+      const serviceAccount = JSON.parse(decoded);
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        projectId: 'funwai-resume',
+        storageBucket: 'funwai-resume.firebasestorage.app'
+      });
+      console.log('Firebase Admin initialized successfully with service account');
+    } catch (error) {
+      console.error('Error initializing Firebase Admin:', error.message);
+      console.error('Make sure FIREBASE_SERVICE_ACCOUNT_JSON is base64-encoded JSON');
+      throw error;
+    }
   } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     // Use service account file path
     admin.initializeApp({
@@ -51,7 +63,7 @@ if (!admin.apps.length) {
       });
     } catch (error) {
       console.error('Firebase Admin initialization error:', error.message);
-      console.error('Set FIREBASE_SERVICE_ACCOUNT (base64 JSON) or GOOGLE_APPLICATION_CREDENTIALS');
+      console.error('Set FIREBASE_SERVICE_ACCOUNT_JSON (base64 JSON) or GOOGLE_APPLICATION_CREDENTIALS');
     }
   }
 }
