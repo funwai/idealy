@@ -191,11 +191,57 @@
   word-wrap: break-word;
 }
 
-.income-statement-table h3 {
+.income-statement-table h3,
+.cash-flow-table h3 {
   margin: 0 0 20px 0;
   font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
+}
+
+/* Tabs */
+.financial-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover:not(:disabled) {
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+.tab-button.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  font-weight: 600;
+}
+
+.tab-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tab-content {
+  min-height: 200px;
+}
+
+.cash-flow-table {
+  margin-top: 0;
 }
 
 /* Section styling */

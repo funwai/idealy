@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FinancialDataPopup.css';
 
 const FinancialDataPopup = ({ 
@@ -13,6 +13,8 @@ const FinancialDataPopup = ({
   chatResponse,
   handleSendMessage
 }) => {
+  const [activeTab, setActiveTab] = useState('income');
+  
   if (!isOpen) return null;
 
   const formatCurrency = (value) => {
@@ -147,6 +149,61 @@ const FinancialDataPopup = ({
     );
   };
 
+  const renderCashFlowTable = () => {
+    if (!financialData) {
+      return (
+        <div className="no-data">
+          <p>No financial data available for this company.</p>
+        </div>
+      );
+    }
+
+    if (!financialData.cash_flow) {
+      return (
+        <div className="no-data">
+          <p>No cash flow statement data available for this company.</p>
+        </div>
+      );
+    }
+
+    const cashFlow = financialData.cash_flow;
+    const entries = Object.entries(cashFlow).filter(([, value]) => value != null);
+
+    if (entries.length === 0) {
+      return (
+        <div className="no-data">
+          <p>No cash flow data available for this company.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="cash-flow-table">
+        <h3>Cash Flow Statement</h3>
+        <div className="income-section">
+          <table className="section-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map(([label, value]) => (
+                <tr key={label}>
+                  <td className="item-label">{label}</td>
+                  <td className="item-value">
+                    {typeof value === 'number' ? formatCurrency(value) : formatNumber(value)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="financial-popup-overlay" onClick={onClose}>
       <div className="financial-popup-content" onClick={(e) => e.stopPropagation()}>
@@ -160,7 +217,29 @@ const FinancialDataPopup = ({
         <div className="financial-popup-body">
           <div className="financial-popup-main-content">
             <div className="financial-data-section">
-              {renderIncomeStatementTable()}
+              {/* Tabs */}
+              <div className="financial-tabs">
+                <button
+                  className={`tab-button ${activeTab === 'income' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('income')}
+                  disabled={!financialData?.income_statement}
+                >
+                  Income Statement
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'cashflow' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('cashflow')}
+                  disabled={!financialData?.cash_flow}
+                >
+                  Cash Flow Statement
+                </button>
+              </div>
+
+              {/* Tab Content */}
+              <div className="tab-content">
+                {activeTab === 'income' && renderIncomeStatementTable()}
+                {activeTab === 'cashflow' && renderCashFlowTable()}
+              </div>
             </div>
             
             <div className="chat-section">
