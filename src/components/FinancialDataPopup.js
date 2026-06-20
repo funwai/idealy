@@ -278,7 +278,6 @@ const FinancialDataPopup = ({
                 </button>
               </div>
               
-              {/* Chat Error and Response */}
               {chatError && (
                 <div className="chat-error">
                   <p>{chatError}</p>

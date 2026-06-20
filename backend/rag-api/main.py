@@ -2,14 +2,18 @@ from contextlib import asynccontextmanager
 from typing import List
 import logging
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
+from google.cloud import firestore
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from pinecone import Pinecone
+
+from firebase_client import create_firestore_client
+from ingestion import get_ingestion_record, list_ingestion_records
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -20,6 +24,11 @@ class Settings(BaseSettings):
     pinecone_api_key: str = Field(..., alias="PINECONE_API_KEY")
     pinecone_index_name: str = Field(..., alias="PINECONE_INDEX_NAME")
     openai_api_key: str = Field(..., alias="OPENAI_API_KEY")
+    firebase_service_account_json: str | None = Field(
+        default=None,
+        alias="FIREBASE_SERVICE_ACCOUNT_JSON",
+    )
+    gcp_project_id: str | None = Field(default=None, alias="GCP_PROJECT_ID")
     allowed_origins: str | None = Field(
         default=None,
         alias="ALLOWED_ORIGINS",
@@ -68,6 +77,17 @@ async def lifespan(_: FastAPI):
 
     app.state.vector_store = vector_store
     app.state.llm = llm
+
+    try:
+        app.state.firestore = create_firestore_client(
+            service_account_value=settings.firebase_service_account_json,
+            project_id=settings.gcp_project_id,
+        )
+        logger.info("Firestore client initialized for ingestion reads")
+    except Exception as exc:
+        app.state.firestore = None
+        logger.warning("Firestore client not initialized: %s", exc)
+
     yield
 
 
@@ -87,13 +107,26 @@ app.add_middleware(
 # ---------------------------------------------
 # Models and Retrieval Strategies
 # ---------------------------------------------
-class Query(BaseModel):
+class AskRequest(BaseModel):
     question: str
     retrieval_method: str = Field(
         default="llm_enhanced",
         description="Retrieval method: 'similarity', 'mmr', 'multi_query', 'llm_enhanced', or 'hybrid'"
     )
     k: int = Field(default=5, description="Number of documents to retrieve")
+
+
+def _require_firestore(request: Request) -> firestore.Client:
+    db = request.app.state.firestore
+    if db is None:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Firestore is not configured. Set FIREBASE_SERVICE_ACCOUNT_JSON "
+                "(file path, JSON string, or base64-encoded JSON) and optionally GCP_PROJECT_ID."
+            ),
+        )
+    return db
 
 
 async def expand_query_with_llm(llm: ChatOpenAI, original_query: str) -> List[str]:
@@ -243,6 +276,41 @@ async def health_check():
     return {"status": "ok"}
 
 
+@app.get("/api/ingestion/files")
+async def list_ingestion_files(
+    request: Request,
+    ticker: str | None = Query(default=None, description="Filter by ticker symbol, e.g. NFLX"),
+    status: str | None = Query(default=None, description="Filter by status: running, success, etc."),
+    limit: int = Query(default=100, ge=1, le=500, description="Maximum records to return"),
+):
+    """List ingestion manifest documents from ingestion/10k/files."""
+    db = _require_firestore(request)
+    records = await run_in_threadpool(
+        list_ingestion_records,
+        db,
+        ticker=ticker,
+        status=status,
+        limit=limit,
+    )
+    return {
+        "count": len(records),
+        "items": records,
+    }
+
+
+@app.get("/api/ingestion/files/{ticker}/{year}")
+async def get_ingestion_file(request: Request, ticker: str, year: int):
+    """Get one ingestion manifest document by ticker and filing year."""
+    db = _require_firestore(request)
+    record = await run_in_threadpool(get_ingestion_record, db, ticker, year)
+    if record is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No ingestion record found for {ticker.strip().upper()} {year}",
+        )
+    return record
+
+
 @app.get("/debug/index-stats")
 async def debug_index_stats():
     """Debug endpoint to check if the Pinecone index has data"""
@@ -276,7 +344,7 @@ async def debug_index_stats():
 
 
 @app.post("/api/ask")
-async def ask(query: Query):
+async def ask(query: AskRequest):
     vector_store = app.state.vector_store
     llm = app.state.llm
 

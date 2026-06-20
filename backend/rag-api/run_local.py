@@ -21,6 +21,8 @@ def main():
         print("   - PINECONE_API_KEY")
         print("   - PINECONE_INDEX_NAME")
         print("   - OPENAI_API_KEY")
+        print("   - FIREBASE_SERVICE_ACCOUNT_JSON (for /api/ingestion/* routes)")
+        print("   - GCP_PROJECT_ID (optional)")
         print()
         response = input("Continue anyway? (y/n): ")
         if response.lower() != 'y':
