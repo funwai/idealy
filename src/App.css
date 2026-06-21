@@ -2621,7 +2621,7 @@ body {
     height: 80px;
     margin-bottom: 0.5rem;
   }
-  
+
   .company-name {
     font-size: 1rem;
     justify-content: center;
@@ -2633,6 +2633,292 @@ body {
   
   .company-meta {
     justify-content: center;
+  }
+}
+
+/* Companies section header (Bloomberg-style subsection nav) */
+.companies-container--wide {
+  max-width: 1200px;
+}
+
+.companies-section-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(14, 43, 77, 0.15);
+}
+
+.companies-section-header__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.companies-section-header__title {
+  margin: 0;
+  color: #0E2B4D;
+  font-family: 'Kiona', 'Helvetica', 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.companies-section-header__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.companies-section-header__link-item {
+  margin: 0;
+}
+
+.companies-section-header__link {
+  color: #0E2B4D;
+  text-decoration: none;
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding-bottom: 0.15rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.companies-section-header__link:hover {
+  color: #334155;
+}
+
+.companies-section-header__link.is-active {
+  color: #0E2B4D;
+  border-bottom-color: #0E2B4D;
+  font-weight: 600;
+}
+
+.companies-subsection {
+  margin-top: 0.5rem;
+}
+
+/* Company data availability dashboard */
+.data-availability-summary {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.data-availability-stat {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(14, 43, 77, 0.12);
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.data-availability-stat__value {
+  color: #0E2B4D;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.data-availability-stat__label {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.data-availability-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.data-availability-toolbar label {
+  color: #0E2B4D;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.data-availability-search {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(14, 43, 77, 0.2);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.data-availability-search:focus {
+  outline: none;
+  border-color: #FFCDD5;
+  box-shadow: 0 0 0 3px rgba(255, 205, 213, 0.35);
+}
+
+.data-availability-refresh {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 0 1.25rem;
+  border: none;
+  border-radius: 12px;
+  background: #0E2B4D;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 8px rgba(14, 43, 77, 0.12);
+}
+
+.data-availability-refresh:hover {
+  background: #163d6b;
+}
+
+.data-availability-error {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #9f1239;
+}
+
+.data-availability-table-wrap {
+  --table-row-height: 3.1rem;
+  --table-header-height: 3rem;
+  max-height: calc(
+    var(--table-header-height) + (var(--table-visible-rows, 15) * var(--table-row-height))
+  );
+  overflow-y: auto;
+  overflow-x: auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  scrollbar-gutter: stable;
+}
+
+.data-availability-table-wrap::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.data-availability-table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(14, 43, 77, 0.25);
+  border-radius: 999px;
+}
+
+.data-availability-table-wrap::-webkit-scrollbar-track {
+  background: rgba(14, 43, 77, 0.06);
+  border-radius: 999px;
+}
+
+.data-availability-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.data-availability-table th,
+.data-availability-table td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(14, 43, 77, 0.08);
+}
+
+.data-availability-table th {
+  color: #0E2B4D;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  box-shadow: 0 1px 0 rgba(14, 43, 77, 0.08);
+}
+
+.data-availability-table td {
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.data-availability-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.data-availability-ticker {
+  font-weight: 700;
+  color: #0E2B4D;
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+}
+
+.data-availability-ticker-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #0E2B4D;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.data-availability-ticker-button:hover:not(:disabled) {
+  color: #163d6b;
+}
+
+.data-availability-ticker-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .companies-section-header__title {
+    font-size: 1.5rem;
+  }
+
+  .companies-section-header__links {
+    gap: 0.5rem 1rem;
+  }
+
+  .companies-section-header__link {
+    font-size: 0.875rem;
+  }
+
+  .data-availability-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .data-availability-summary {
+    flex-direction: column;
+  }
+
+  .data-availability-refresh {
+    width: 100%;
+    min-width: 0;
   }
 }
 

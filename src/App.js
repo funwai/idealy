@@ -6,14 +6,15 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { collection, query, getDocs } from 'firebase/firestore';
 import About from './pages/About';
 import Companies from './pages/Companies';
+import IndividualCompanies from './pages/companies/IndividualCompanies';
+import CompanyDataAvailability from './pages/companies/CompanyDataAvailability';
 import Insights from './insights/Insights';
 import TextType from './components/TextType';
-import FinancialDataPopup from './components/FinancialDataPopup';
-import { askQuestion } from './api/ragApi';
-import FINANCIAL_API_BASE_URL from './api/financialApiConfig';
+import { FinancialPopupProvider, useFinancialPopup } from './context/FinancialPopupContext';
 
 function AppContent() {
   const location = useLocation();
+  const { openFinancialPopup, searchLoading, popupError, setPopupError } = useFinancialPopup();
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,18 +24,6 @@ function AppContent() {
   // Kurio input state (company search)
   const [companyName, setCompanyName] = useState('');
   const [companyCountry, setCompanyCountry] = useState('');
-  
-  // Financial data popup state
-  const [showFinancialPopup, setShowFinancialPopup] = useState(false);
-  const [financialData, setFinancialData] = useState(null);
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [searchError, setSearchError] = useState('');
-  
-  // Chat prompt state
-  const [chatMessage, setChatMessage] = useState('');
-  const [chatLoading, setChatLoading] = useState(false);
-  const [chatError, setChatError] = useState('');
-  const [chatResponse, setChatResponse] = useState('');
   
   // Audio player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -110,61 +99,7 @@ function AppContent() {
   // Handle company name input change
   const handleCompanyNameChange = (value) => {
     setCompanyName(value);
-    setSearchError('');
-  };
-
-
-  const searchCompanyFinancials = async (companyName) => {
-    setSearchLoading(true);
-    setSearchError('');
-    const ticker = companyName.trim().toUpperCase();
-
-    try {
-      const url = `${FINANCIAL_API_BASE_URL}/api/financial-data?ticker=${encodeURIComponent(ticker)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `API returned ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (!data.income_statement && !data.cash_flow) {
-        setSearchError('No financial statements found for this company');
-        setSearchLoading(false);
-        return;
-      }
-
-      setFinancialData(data);
-      setShowFinancialPopup(true);
-    } catch (error) {
-      console.error('Error fetching financial data:', error);
-      setSearchError(error.message || 'Error fetching company data. Please try again.');
-    } finally {
-      setSearchLoading(false);
-    }
-  };
-
-  const handleSendMessage = async (message) => {
-    if (!message || !message.trim()) {
-      return;
-    }
-
-    setChatLoading(true);
-    setChatError('');
-    setChatResponse('');
-
-    try {
-      const result = await askQuestion(message.trim());
-      setChatResponse(result.answer);
-      setChatMessage(''); // Clear input after successful send
-    } catch (error) {
-      console.error('Error calling chat API:', error);
-      setChatError(error.message || 'Failed to get response. Please try again.');
-    } finally {
-      setChatLoading(false);
-    }
+    setPopupError('');
   };
 
   return (
@@ -190,8 +125,8 @@ function AppContent() {
               Home
             </Link>
             <Link 
-              to="/Companies"
-              className={`companies-link ${location.pathname === '/Companies' ? 'active' : ''}`}
+              to="/Companies/individual"
+              className={`companies-link ${location.pathname.startsWith('/Companies') ? 'active' : ''}`}
             >
               Companies
             </Link>
@@ -362,7 +297,7 @@ function AppContent() {
                     className="submit-btn"
                     onClick={() => {
                       if (companyName.trim() && companyCountry) {
-                        searchCompanyFinancials(companyName.trim());
+                        openFinancialPopup(companyName.trim());
                       }
                     }}
                     disabled={!companyName.trim() || !companyCountry || searchLoading}
@@ -384,9 +319,9 @@ function AppContent() {
                 </div>
                 
                 {/* Search Error Display */}
-                {searchError && (
+                {popupError && (
                   <div className="search-error">
-                    <p>{searchError}</p>
+                    <p>{popupError}</p>
                   </div>
                 )}
               </div>
@@ -395,8 +330,13 @@ function AppContent() {
         } />
         <Route path="/About" element={<About />} />
         <Route path="/about" element={<Navigate to="/About" replace />} />
-        <Route path="/Companies" element={<Companies />} />
-        <Route path="/companies" element={<Navigate to="/Companies" replace />} />
+        <Route path="/Companies" element={<Companies />}>
+          <Route index element={<Navigate to="/Companies/individual" replace />} />
+          <Route path="individual" element={<IndividualCompanies />} />
+          <Route path="data-availability" element={<CompanyDataAvailability />} />
+        </Route>
+        <Route path="/companies" element={<Navigate to="/Companies/individual" replace />} />
+        <Route path="/companies/*" element={<Navigate to="/Companies/individual" replace />} />
         <Route path="/Insights" element={<Insights />} />
         <Route path="/insights" element={<Navigate to="/Insights" replace />} />
       </Routes>
@@ -432,26 +372,6 @@ function AppContent() {
         </div>
       )}
 
-      {/* Financial Data Popup */}
-      <FinancialDataPopup
-        isOpen={showFinancialPopup}
-        onClose={() => {
-          setShowFinancialPopup(false);
-          setFinancialData(null);
-          setSearchError('');
-          setChatMessage('');
-          setChatResponse('');
-          setChatError('');
-        }}
-        financialData={financialData}
-        companyName={companyName}
-        chatMessage={chatMessage}
-        setChatMessage={setChatMessage}
-        chatLoading={chatLoading}
-        chatError={chatError}
-        chatResponse={chatResponse}
-        handleSendMessage={handleSendMessage}
-      />
     </div>
   );
 }
@@ -459,7 +379,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <FinancialPopupProvider>
+        <AppContent />
+      </FinancialPopupProvider>
     </BrowserRouter>
   );
 }
