@@ -21,55 +21,73 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Initialize Firebase Admin SDK
-// Option 1: Use service account JSON (set GOOGLE_APPLICATION_CREDENTIALS env var)
-// Option 2: Use environment variables for credentials
-if (!admin.apps.length) {
+const db = admin.firestore();
+const storage = admin.storage();
+
+function loadServiceAccount(rawValue) {
+  const trimmed = rawValue.trim();
+  if (!trimmed) {
+    throw new Error('Service account value is empty');
+  }
+
+  if (trimmed.startsWith('{')) {
+    return JSON.parse(trimmed);
+  }
+
+  try {
+    return JSON.parse(trimmed);
+  } catch (_) {
+    // Fall through to base64 decode.
+  }
+
+  const decoded = Buffer.from(trimmed, 'base64').toString('utf-8');
+  return JSON.parse(decoded);
+}
+
+function initializeFirebaseAdmin() {
+  if (admin.apps.length) {
+    return;
+  }
+
   console.log('Initializing Firebase Admin...');
-  const serviceAccountEnv = process.env.FIREBASE_SERVICE_ACCOUNT_JSON || process.env.FIREBASE_SERVICE_ACCOUNT;
-  console.log('FIREBASE_SERVICE_ACCOUNT_JSON exists:', !!process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-  console.log('FIREBASE_SERVICE_ACCOUNT exists:', !!process.env.FIREBASE_SERVICE_ACCOUNT);
-  console.log('GOOGLE_APPLICATION_CREDENTIALS exists:', !!process.env.GOOGLE_APPLICATION_CREDENTIALS);
-  
+  const serviceAccountEnv =
+    process.env.FIREBASE_SERVICE_ACCOUNT_JSON ||
+    process.env.FIREBASE_SERVICE_ACCOUNT;
+
   if (serviceAccountEnv) {
     try {
-      // Service account JSON provided as base64-encoded env var
-      const decoded = Buffer.from(serviceAccountEnv, 'base64').toString();
-      const serviceAccount = JSON.parse(decoded);
+      const serviceAccount = loadServiceAccount(serviceAccountEnv);
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
         projectId: 'funwai-resume',
-        storageBucket: 'funwai-resume.firebasestorage.app'
+        storageBucket: 'funwai-resume.firebasestorage.app',
       });
       console.log('Firebase Admin initialized successfully with service account');
+      return;
     } catch (error) {
-      console.error('Error initializing Firebase Admin:', error.message);
-      console.error('Make sure FIREBASE_SERVICE_ACCOUNT_JSON is base64-encoded JSON');
+      console.error('Error initializing Firebase Admin from env var:', error.message);
       throw error;
     }
-  } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    // Use service account file path
+  }
+
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     admin.initializeApp({
       credential: admin.credential.applicationDefault(),
       projectId: 'funwai-resume',
-      storageBucket: 'funwai-resume.firebasestorage.app'
+      storageBucket: 'funwai-resume.firebasestorage.app',
     });
-  } else {
-    // Fallback: try to use default credentials (works on Render with env vars)
-    try {
-      admin.initializeApp({
-        projectId: 'funwai-resume',
-        storageBucket: 'funwai-resume.firebasestorage.app'
-      });
-    } catch (error) {
-      console.error('Firebase Admin initialization error:', error.message);
-      console.error('Set FIREBASE_SERVICE_ACCOUNT_JSON (base64 JSON) or GOOGLE_APPLICATION_CREDENTIALS');
-    }
+    console.log('Firebase Admin initialized with application default credentials');
+    return;
   }
+
+  admin.initializeApp({
+    projectId: 'funwai-resume',
+    storageBucket: 'funwai-resume.firebasestorage.app',
+  });
+  console.warn('Firebase Admin initialized without explicit service account credentials');
 }
 
-const db = admin.firestore();
-const storage = admin.storage();
+initializeFirebaseAdmin();
 
 /**
  * Convert gs:// URL to Firebase Storage HTTP URL
@@ -89,9 +107,10 @@ function getStorageUrl(gsPath) {
 /**
  * Fetch JSON from Firebase Storage using storageGsPath
  */
-async function fetchJsonFromStorage(storageGsPath) {
+async function fetchJsonFromStorage(storageGsPath, attempt = 1) {
+  const maxAttempts = 3;
+
   try {
-    // Parse gs:// URL
     if (!storageGsPath.startsWith('gs://')) {
       throw new Error('Invalid storage path format');
     }
@@ -101,14 +120,20 @@ async function fetchJsonFromStorage(storageGsPath) {
     const bucketName = withoutGs.substring(0, slashIdx);
     const objectPath = withoutGs.substring(slashIdx + 1);
 
-    // Get file from Firebase Storage
     const bucket = storage.bucket(bucketName);
     const file = bucket.file(objectPath);
-    
-    // Download and parse JSON
+
     const [contents] = await file.download();
     return JSON.parse(contents.toString());
   } catch (error) {
+    const retryable =
+      /premature close|ECONNRESET|ETIMEDOUT|socket hang up|network/i.test(error.message);
+
+    if (retryable && attempt < maxAttempts) {
+      await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+      return fetchJsonFromStorage(storageGsPath, attempt + 1);
+    }
+
     console.error('Error fetching from storage:', error);
     throw new Error(`Failed to fetch JSON from storage: ${error.message}`);
   }
