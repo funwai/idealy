@@ -21,9 +21,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const db = admin.firestore();
-const storage = admin.storage();
-
 function loadServiceAccount(rawValue) {
   const trimmed = rawValue.trim();
   if (!trimmed) {
@@ -88,6 +85,9 @@ function initializeFirebaseAdmin() {
 }
 
 initializeFirebaseAdmin();
+
+const db = admin.firestore();
+const storage = admin.storage();
 
 /**
  * Convert gs:// URL to Firebase Storage HTTP URL
