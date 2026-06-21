@@ -1,8 +1,13 @@
 import FINANCIAL_API_BASE_URL from './financialApiConfig';
 
-export async function fetchFinancialData(ticker) {
+export async function fetchFinancialData(ticker, year = null) {
   const normalizedTicker = ticker.trim().toUpperCase();
-  const url = `${FINANCIAL_API_BASE_URL}/api/financial-data?ticker=${encodeURIComponent(normalizedTicker)}`;
+  const params = new URLSearchParams({ ticker: normalizedTicker });
+  if (year) {
+    params.set('year', String(year));
+  }
+
+  const url = `${FINANCIAL_API_BASE_URL}/api/financial-data?${params.toString()}`;
   const response = await fetch(url);
 
   if (!response.ok) {

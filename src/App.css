@@ -2872,23 +2872,35 @@ body {
   font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
 }
 
-.data-availability-ticker-button {
+.data-availability-years {
+  color: #1e293b;
+}
+
+.data-availability-year-item {
+  display: inline;
+}
+
+.data-availability-year-separator {
+  color: #64748b;
+}
+
+.data-availability-year-button {
   padding: 0;
   border: none;
   background: none;
   color: #0E2B4D;
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.data-availability-ticker-button:hover:not(:disabled) {
+.data-availability-year-button:hover:not(:disabled) {
   color: #163d6b;
 }
 
-.data-availability-ticker-button:disabled {
+.data-availability-year-button:disabled {
   cursor: wait;
   opacity: 0.7;
   text-decoration: none;

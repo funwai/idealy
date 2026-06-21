@@ -3,7 +3,7 @@
  * Fetches income statement and cash flow data from Firestore + Firebase Storage
  * 
  * Endpoints:
- * GET /api/financial-data?ticker=AAPL - Get latest financial data for a ticker
+ * GET /api/financial-data?ticker=AAPL&year=2024 - Get financial data for a ticker/year
  * GET /api/health - Health check
  */
 
@@ -134,7 +134,7 @@ app.get('/api/financial-data', async (req, res) => {
       return res.status(404).json({ error: `No filings found for ticker ${ticker}` });
     }
 
-    // 2. Get latest 10K filing (e.g. 2025_10K)
+    // 2. Get 10-K filings (e.g. 2025_10K)
     const filings = filingsSnapshot.docs
       .map((doc) => ({ id: doc.id, data: doc.data() }))
       .filter((f) => /^\d{4}_10K$/i.test(f.id))
@@ -148,13 +148,29 @@ app.get('/api/financial-data', async (req, res) => {
       return res.status(404).json({ error: `No 10-K filings found for ticker ${ticker}` });
     }
 
-    const latestFiling = filings[0];
-    const filingYear = latestFiling.id.split('_')[0];
+    const requestedYear = req.query.year?.trim();
+    let selectedFiling = filings[0];
+
+    if (requestedYear) {
+      const matchingFiling = filings.find(
+        (filing) => filing.id.split('_')[0] === requestedYear
+      );
+
+      if (!matchingFiling) {
+        return res.status(404).json({
+          error: `No 10-K filing found for ticker ${ticker} in ${requestedYear}`,
+        });
+      }
+
+      selectedFiling = matchingFiling;
+    }
+
+    const filingYear = selectedFiling.id.split('_')[0];
     const statementsRef = db
       .collection('companies')
       .doc(ticker)
       .collection('filings')
-      .doc(latestFiling.id)
+      .doc(selectedFiling.id)
       .collection('statements');
 
     // 3. Get incomeStatement and cashFlow docs

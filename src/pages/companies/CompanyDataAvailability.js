@@ -50,7 +50,7 @@ function groupFilingsByTicker(items) {
 const TABLE_VISIBLE_ROWS = 8;
 
 const CompanyDataAvailability = () => {
-  const { openFinancialPopup, searchLoading, loadingTicker, popupError, setPopupError } = useFinancialPopup();
+  const { openFinancialPopup, searchLoading, loadingSelection, popupError, setPopupError } = useFinancialPopup();
   const [filings, setFilings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -84,10 +84,12 @@ const CompanyDataAvailability = () => {
     return groupedCompanies.filter((company) => company.ticker.includes(query));
   }, [groupedCompanies, search]);
 
-  const handleTickerClick = (ticker) => {
+  const handleYearClick = (ticker, year) => {
     setPopupError('');
-    openFinancialPopup(ticker);
+    openFinancialPopup(ticker, year);
   };
+
+  const getLoadingLabel = (ticker, year) => `${ticker}-${year}`;
 
   if (loading) {
     return <div className="loading-placeholder">Loading data availability...</div>;
@@ -151,20 +153,32 @@ const CompanyDataAvailability = () => {
             <tbody>
               {filteredCompanies.map((company) => (
                 <tr key={company.ticker}>
-                  <td className="data-availability-ticker">
-                    <button
-                      type="button"
-                      className="data-availability-ticker-button"
-                      onClick={() => handleTickerClick(company.ticker)}
-                      disabled={searchLoading}
-                      aria-label={`View financial data for ${company.ticker}`}
-                    >
-                      {searchLoading && loadingTicker === company.ticker
-                        ? 'Loading...'
-                        : (company.ticker || '—')}
-                    </button>
+                  <td className="data-availability-ticker">{company.ticker || '—'}</td>
+                  <td className="data-availability-years">
+                    {(company.years ?? []).length > 0 ? (
+                      company.years.map((year, index) => {
+                        const loadingLabel = getLoadingLabel(company.ticker, year);
+                        const isLoading = searchLoading && loadingSelection === loadingLabel;
+
+                        return (
+                          <span key={`${company.ticker}-${year}`} className="data-availability-year-item">
+                            {index > 0 && <span className="data-availability-year-separator">, </span>}
+                            <button
+                              type="button"
+                              className="data-availability-year-button"
+                              onClick={() => handleYearClick(company.ticker, year)}
+                              disabled={searchLoading}
+                              aria-label={`View ${company.ticker} ${year} financial data`}
+                            >
+                              {isLoading ? 'Loading...' : year}
+                            </button>
+                          </span>
+                        );
+                      })
+                    ) : (
+                      '—'
+                    )}
                   </td>
-                  <td>{(company.years ?? []).length > 0 ? company.years.join(', ') : '—'}</td>
                   <td>{formatUpdatedAt(company.latestUpdatedAt)}</td>
                 </tr>
               ))}

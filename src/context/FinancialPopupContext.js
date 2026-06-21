@@ -11,7 +11,7 @@ export function FinancialPopupProvider({ children }) {
   const [financialPopupCompanyName, setFinancialPopupCompanyName] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
   const [popupError, setPopupError] = useState('');
-  const [loadingTicker, setLoadingTicker] = useState('');
+  const [loadingSelection, setLoadingSelection] = useState('');
   const [chatMessage, setChatMessage] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
   const [chatError, setChatError] = useState('');
@@ -27,19 +27,23 @@ export function FinancialPopupProvider({ children }) {
     setChatError('');
   }, []);
 
-  const openFinancialPopup = useCallback(async (ticker) => {
+  const openFinancialPopup = useCallback(async (ticker, year = null) => {
     const normalizedTicker = ticker.trim().toUpperCase();
     if (!normalizedTicker) {
       return;
     }
 
+    const selectionKey = year ? `${normalizedTicker}-${year}` : normalizedTicker;
+
     setSearchLoading(true);
-    setLoadingTicker(normalizedTicker);
+    setLoadingSelection(selectionKey);
     setPopupError('');
 
     try {
-      const data = await fetchFinancialData(normalizedTicker);
-      setFinancialPopupCompanyName(normalizedTicker);
+      const data = await fetchFinancialData(normalizedTicker, year);
+      setFinancialPopupCompanyName(
+        year ? `${normalizedTicker} ${year}` : normalizedTicker
+      );
       setFinancialData(data);
       setShowFinancialPopup(true);
     } catch (error) {
@@ -47,7 +51,7 @@ export function FinancialPopupProvider({ children }) {
       setPopupError(error.message || 'Error fetching company data. Please try again.');
     } finally {
       setSearchLoading(false);
-      setLoadingTicker('');
+      setLoadingSelection('');
     }
   }, []);
 
@@ -78,7 +82,7 @@ export function FinancialPopupProvider({ children }) {
         openFinancialPopup,
         closeFinancialPopup,
         searchLoading,
-        loadingTicker,
+        loadingSelection,
         popupError,
         setPopupError,
       }}
