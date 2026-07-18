@@ -1,20 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import './App.css';
-import { auth, db } from './firebase/config';
+import { auth } from './firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { collection, query, getDocs } from 'firebase/firestore';
 import About from './pages/About';
 import Companies from './pages/Companies';
 import IndividualCompanies from './pages/companies/IndividualCompanies';
 import CompanyDataAvailability from './pages/companies/CompanyDataAvailability';
 import Insights from './insights/Insights';
 import TextType from './components/TextType';
+import KurioAiChat from './components/KurioAiChat';
 import { FinancialPopupProvider, useFinancialPopup } from './context/FinancialPopupContext';
+import { KurioChatProvider, useKurioChat } from './context/KurioChatContext';
 
 function AppContent() {
   const location = useLocation();
-  const { openFinancialPopup, searchLoading, popupError, setPopupError } = useFinancialPopup();
+  const { popupError, setPopupError } = useFinancialPopup();
+  const {
+    chatMessage,
+    setChatMessage,
+    chatLoading,
+    chatError,
+    chatResponse,
+    handleSendMessage,
+  } = useKurioChat();
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -256,10 +265,17 @@ function AppContent() {
             
             {/* What can you do with Kurio section */}
             <div className="kurio-action-section">
-              <h2 className="kurio-action-title">Kurious about a company? Ask Kurio-AI</h2>
+              <h2 className="kurio-action-title">
+                Kurious about a company? Ask Kurio-AI
+                <img
+                  src={require('./sparkles_emoji_yellow_rotated.png')}
+                  alt="✨"
+                  style={{ width: '28px', height: '28px', marginLeft: '8px', verticalAlign: 'middle' }}
+                />
+              </h2>
               
               <div className="input-container">
-                <div className="company-search-wrapper" style={{ position: 'relative' }}>
+                <div className="company-search-layout">
                   <input
                     type="text"
                     placeholder="Enter company ticker (e.g., NVDA for Nvidia or MSFT for Microsoft)"
@@ -293,32 +309,18 @@ function AppContent() {
                     <option value="KR">South Korea</option>
                     <option value="OTHER">Other</option>
                   </select>
-                  <button 
-                    className="submit-btn"
-                    onClick={() => {
-                      if (companyName.trim() && companyCountry) {
-                        openFinancialPopup(companyName.trim());
-                      }
-                    }}
-                    disabled={!companyName.trim() || !companyCountry || searchLoading}
-                  >
-                    {searchLoading ? (
-                      'Searching...'
-                    ) : (
-                      <>
-                        <img 
-                          src={require('./sparkles_emoji_yellow_rotated.png')} 
-                          alt="✨" 
-                          className="sparkle-emoji"
-                          style={{ width: '28px', height: '28px', marginRight: '8px', verticalAlign: 'middle' }}
-                        />
-                        Search
-                      </>
-                    )}
-                  </button>
+
+                  <KurioAiChat
+                    chatMessage={chatMessage}
+                    setChatMessage={setChatMessage}
+                    chatLoading={chatLoading}
+                    chatError={chatError}
+                    chatResponse={chatResponse}
+                    handleSendMessage={handleSendMessage}
+                    variant="inline"
+                  />
                 </div>
-                
-                {/* Search Error Display */}
+
                 {popupError && (
                   <div className="search-error">
                     <p>{popupError}</p>
@@ -379,9 +381,11 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <FinancialPopupProvider>
-        <AppContent />
-      </FinancialPopupProvider>
+      <KurioChatProvider>
+        <FinancialPopupProvider>
+          <AppContent />
+        </FinancialPopupProvider>
+      </KurioChatProvider>
     </BrowserRouter>
   );
 }

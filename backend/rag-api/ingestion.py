@@ -94,17 +94,3 @@ def list_ingestion_records(
     records = [serialize_ingestion_doc(doc.id, doc.to_dict()) for doc in docs]
     records.sort(key=lambda record: (record.get("ticker") or "", record.get("year") or 0), reverse=True)
     return records
-
-
-def already_ingested(
-    db: firestore.Client,
-    ticker: str,
-    year: int,
-    file_hash: str,
-    doc_type: str = INGESTION_DOC_TYPE,
-) -> bool:
-    """Return True when the manifest shows a successful ingest for the same file hash."""
-    record = get_ingestion_record(db, ticker, year, doc_type)
-    if not record:
-        return False
-    return record.get("sha256") == file_hash and record.get("status") == "success"

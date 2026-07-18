@@ -90,21 +90,6 @@ const db = admin.firestore();
 const storage = admin.storage();
 
 /**
- * Convert gs:// URL to Firebase Storage HTTP URL
- */
-function getStorageUrl(gsPath) {
-  if (gsPath.startsWith('gs://')) {
-    const withoutGs = gsPath.replace('gs://', '');
-    const slashIdx = withoutGs.indexOf('/');
-    const bucket = withoutGs.substring(0, slashIdx);
-    const objectPath = withoutGs.substring(slashIdx + 1);
-    const encoded = objectPath.split('/').map(encodeURIComponent).join('/');
-    return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encoded}?alt=media`;
-  }
-  return null;
-}
-
-/**
  * Fetch JSON from Firebase Storage using storageGsPath
  */
 async function fetchJsonFromStorage(storageGsPath, attempt = 1) {
