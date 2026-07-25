@@ -3172,3 +3172,16 @@ body {
     padding: 20px;
   }
 }
+
+.site-footer {
+  margin-top: auto;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+}
+
+.site-footer__copyright {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(14, 43, 77, 0.65);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

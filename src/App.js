@@ -374,6 +374,11 @@ function AppContent() {
         </div>
       )}
 
+      <footer className="site-footer">
+        <p className="site-footer__copyright">
+          © {new Date().getFullYear()} Intrepid Labs Ltd. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
