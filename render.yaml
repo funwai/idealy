@@ -1,4 +1,6 @@
 services:
+  # Must be a Web Service (Node), not a Static Site — deep links like
+  # /Insights and /About need server.js to rewrite to index.html.
   - type: web
     name: kurio-frontend
     env: node
