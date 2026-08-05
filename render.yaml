@@ -1,17 +1,12 @@
 services:
-  # Must be a Web Service (Node), not a Static Site — deep links like
-  # /Insights and /About need server.js to rewrite to index.html.
+  # www.kurio-ai.com is served as a Render Static Site (CDN).
+  # Deep links like /Insights need a rewrite to index.html for React Router.
   - type: web
     name: kurio-frontend
-    env: node
+    runtime: static
     buildCommand: npm install && npm run build
-    startCommand: npm run serve
-    envVars:
-      - key: NODE_ENV
-        value: production
-
-
-
-
-
-
+    staticPublishPath: ./build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
