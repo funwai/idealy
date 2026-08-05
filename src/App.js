@@ -249,7 +249,7 @@ function AppContent() {
                   
                   <audio
                     ref={audioRef}
-                    src="/KURIO_hey.mp3"
+                    src="/Kurio_Intro_Voice.mp3"
                     onLoadedMetadata={() => setDuration(audioRef.current.duration)}
                     onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
                     onEnded={() => {
