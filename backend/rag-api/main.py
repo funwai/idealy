@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 class Settings(BaseSettings):
     pinecone_api_key: str = Field(..., alias="PINECONE_API_KEY")
     pinecone_index_name: str = Field(..., alias="PINECONE_INDEX_NAME")
+    pinecone_namespace: str = Field(default="10k", alias="PINECONE_NAMESPACE")
     openai_api_key: str = Field(..., alias="OPENAI_API_KEY")
     firebase_service_account_json: str | None = Field(
         default=None,
@@ -69,7 +70,17 @@ async def lifespan(_: FastAPI):
     )
     pinecone_client = Pinecone(api_key=settings.pinecone_api_key)
     index = pinecone_client.Index(settings.pinecone_index_name)
-    vector_store = PineconeVectorStore(embedding=embeddings, index=index)
+    # Must match the namespace used by RAG_Pinecone Ingestion.ipynb (default: "10k")
+    vector_store = PineconeVectorStore(
+        embedding=embeddings,
+        index=index,
+        namespace=settings.pinecone_namespace,
+    )
+    logger.info(
+        "Pinecone vector store ready (index=%s, namespace=%s)",
+        settings.pinecone_index_name,
+        settings.pinecone_namespace,
+    )
     llm = ChatOpenAI(
         model="gpt-4o-mini",
         temperature=0,
@@ -331,6 +342,7 @@ async def debug_index_stats():
         
         return {
             "index_name": settings.pinecone_index_name,
+            "namespace": settings.pinecone_namespace,
             "index_stats": stats,
             "test_query_results": len(test_docs),
             "embedding_model": "text-embedding-3-large",
@@ -341,6 +353,7 @@ async def debug_index_stats():
         return {
             "error": str(e),
             "index_name": settings.pinecone_index_name,
+            "namespace": settings.pinecone_namespace,
         }
 
 
