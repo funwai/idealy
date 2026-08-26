@@ -5,6 +5,7 @@ pydantic-settings==2.6.1
 langchain-pinecone==0.2.13
 langchain-openai==1.0.3
 pinecone==7.3.0
+sentence-transformers==3.4.1
 google-cloud-firestore==2.21.0
 google-auth==2.40.3
 python-dotenv==1.1.0

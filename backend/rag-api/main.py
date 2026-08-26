@@ -8,9 +8,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import firestore
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from langchain_core.embeddings import Embeddings
 from langchain_pinecone import PineconeVectorStore
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
 from pinecone import Pinecone
+from sentence_transformers import SentenceTransformer
 
 from firebase_client import create_firestore_client
 from ingestion import get_ingestion_record, list_ingestion_records
@@ -18,6 +20,31 @@ from ingestion import get_ingestion_record, list_ingestion_records
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Must match RAG_Pinecone Ingestion.ipynb (index dimension 384)
+EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDING_DIMENSION = 384
+
+
+class MiniLMEmbeddings(Embeddings):
+    """Same embedding model/settings used when upserting 10-K chunks to Pinecone."""
+
+    def __init__(self, model_name: str = EMBEDDING_MODEL_NAME):
+        self.model = SentenceTransformer(model_name)
+
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        return self.model.encode(
+            texts,
+            show_progress_bar=False,
+            normalize_embeddings=True,
+        ).tolist()
+
+    def embed_query(self, text: str) -> List[float]:
+        return self.model.encode(
+            [text],
+            show_progress_bar=False,
+            normalize_embeddings=True,
+        )[0].tolist()
 
 
 class Settings(BaseSettings):
@@ -64,10 +91,8 @@ settings = Settings()
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-large",
-        openai_api_key=settings.openai_api_key,
-    )
+    # Use the same 384-d MiniLM model that built the Pinecone index
+    embeddings = MiniLMEmbeddings()
     pinecone_client = Pinecone(api_key=settings.pinecone_api_key)
     index = pinecone_client.Index(settings.pinecone_index_name)
     # Must match the namespace used by RAG_Pinecone Ingestion.ipynb (default: "10k")
@@ -77,9 +102,11 @@ async def lifespan(_: FastAPI):
         namespace=settings.pinecone_namespace,
     )
     logger.info(
-        "Pinecone vector store ready (index=%s, namespace=%s)",
+        "Pinecone vector store ready (index=%s, namespace=%s, embedding=%s, dim=%s)",
         settings.pinecone_index_name,
         settings.pinecone_namespace,
+        EMBEDDING_MODEL_NAME,
+        EMBEDDING_DIMENSION,
     )
     llm = ChatOpenAI(
         model="gpt-4o-mini",
@@ -345,8 +372,8 @@ async def debug_index_stats():
             "namespace": settings.pinecone_namespace,
             "index_stats": stats,
             "test_query_results": len(test_docs),
-            "embedding_model": "text-embedding-3-large",
-            "embedding_dimension": 3072,
+            "embedding_model": EMBEDDING_MODEL_NAME,
+            "embedding_dimension": EMBEDDING_DIMENSION,
         }
     except Exception as e:
         logger.error(f"Error getting index stats: {str(e)}", exc_info=True)
