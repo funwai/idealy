@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from typing import List
 import logging
 
+import numpy as np
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,7 +13,7 @@ from langchain_core.embeddings import Embeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import ChatOpenAI
 from pinecone import Pinecone
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 from firebase_client import create_firestore_client
 from ingestion import get_ingestion_record, list_ingestion_records
@@ -21,30 +22,37 @@ from ingestion import get_ingestion_record, list_ingestion_records
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Must match RAG_Pinecone Ingestion.ipynb (index dimension 384)
+# Must match RAG_Pinecone Ingestion.ipynb (index dimension 384).
+# fastembed ONNX is used instead of sentence-transformers/PyTorch so Render
+# free/starter instances do not OOM (exit 137) on boot.
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 EMBEDDING_DIMENSION = 384
 
 
+def _l2_normalize(vector) -> List[float]:
+    arr = np.asarray(vector, dtype=np.float32)
+    norm = float(np.linalg.norm(arr))
+    if norm == 0.0:
+        return arr.tolist()
+    return (arr / norm).tolist()
+
+
 class MiniLMEmbeddings(Embeddings):
-    """Same embedding model/settings used when upserting 10-K chunks to Pinecone."""
+    """
+    384-d MiniLM embeddings compatible with the existing Pinecone index.
+    Uses fastembed (ONNX) to stay within Render memory limits.
+    """
 
     def __init__(self, model_name: str = EMBEDDING_MODEL_NAME):
-        self.model = SentenceTransformer(model_name)
+        logger.info("Loading embedding model via fastembed: %s", model_name)
+        self.model = TextEmbedding(model_name=model_name)
 
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
-        return self.model.encode(
-            texts,
-            show_progress_bar=False,
-            normalize_embeddings=True,
-        ).tolist()
+        return [_l2_normalize(vec) for vec in self.model.embed(texts)]
 
     def embed_query(self, text: str) -> List[float]:
-        return self.model.encode(
-            [text],
-            show_progress_bar=False,
-            normalize_embeddings=True,
-        )[0].tolist()
+        # query_embed matches document embed for MiniLM; keep API explicit
+        return _l2_normalize(next(self.model.query_embed(text)))
 
 
 class Settings(BaseSettings):
@@ -91,7 +99,7 @@ settings = Settings()
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    # Use the same 384-d MiniLM model that built the Pinecone index
+    # Use the same 384-d MiniLM model family that built the Pinecone index
     embeddings = MiniLMEmbeddings()
     pinecone_client = Pinecone(api_key=settings.pinecone_api_key)
     index = pinecone_client.Index(settings.pinecone_index_name)
