@@ -7,7 +7,7 @@ import json
 import os
 from pathlib import Path
 
-from google.cloud import firestore
+from google.cloud import firestore, storage
 from google.oauth2 import service_account
 
 
@@ -55,3 +55,27 @@ def create_firestore_client(
         return firestore.Client(project=resolved_project)
 
     return firestore.Client()
+
+
+def create_storage_client(
+    service_account_value: str | None = None,
+    project_id: str | None = None,
+) -> storage.Client:
+    """
+    Create a Cloud Storage client using the same credential resolution as Firestore.
+    """
+    raw = service_account_value or os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+    resolved_project = project_id or os.getenv("GCP_PROJECT_ID")
+
+    if raw:
+        info = _load_service_account_info(raw)
+        credentials = service_account.Credentials.from_service_account_info(info)
+        return storage.Client(
+            project=resolved_project or info.get("project_id"),
+            credentials=credentials,
+        )
+
+    if resolved_project:
+        return storage.Client(project=resolved_project)
+
+    return storage.Client()

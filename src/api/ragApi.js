@@ -77,8 +77,8 @@ export const listIngestionFiles = async (options = {}) => {
  * Calls the RAG API to ask a question
  * @param {string} question - The question to ask
  * @param {Object} options - Optional parameters
- * @param {string} options.retrieval_method - Retrieval method: 'similarity', 'mmr', 'multi_query', 'llm_enhanced', or 'hybrid' (default: 'llm_enhanced')
- * @param {number} options.k - Number of documents to retrieve (default: 5)
+ * @param {string} options.retrieval_method - Retrieval method: 'similarity', 'mmr', 'multi_query', 'llm_enhanced', or 'hybrid' (default: 'similarity')
+ * @param {number} options.k - Number of documents to retrieve (default: 8)
  * @param {number} options.retries - Number of retry attempts (default: 1)
  * @returns {Promise<{answer: string}>} - The response containing the answer
  * @throws {Error} - If the API call fails
@@ -89,8 +89,8 @@ export const askQuestion = async (question, options = {}) => {
   }
 
   const {
-    retrieval_method = 'llm_enhanced',
-    k = 5,
+    retrieval_method = 'similarity',
+    k = 8,
     retries = 1
   } = options;
 
