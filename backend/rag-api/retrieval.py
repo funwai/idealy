@@ -95,15 +95,20 @@ def pinecone_similarity_search(
     k: int,
     namespace: str,
     resolver: ChunkTextResolver,
+    ticker: str | None = None,
 ) -> List[Document]:
     """Query Pinecone and return documents with hydrated page content."""
     vector = embed_query(query)
-    result = index.query(
-        vector=vector,
-        top_k=k,
-        namespace=namespace,
-        include_metadata=True,
-    )
+    query_kwargs: Dict[str, Any] = {
+        "vector": vector,
+        "top_k": k,
+        "namespace": namespace,
+        "include_metadata": True,
+    }
+    normalized = (ticker or "").strip().upper()
+    if normalized:
+        query_kwargs["filter"] = {"ticker": {"$eq": normalized}}
+    result = index.query(**query_kwargs)
     docs: List[Document] = []
     for match in getattr(result, "matches", None) or []:
         meta = dict(getattr(match, "metadata", None) or {})

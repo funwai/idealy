@@ -91,8 +91,13 @@ export const askQuestion = async (question, options = {}) => {
   const {
     retrieval_method = 'similarity',
     k = 8,
-    retries = 1
+    retries = 1,
+    ticker = null,
   } = options;
+
+  const normalizedTicker = ticker && ticker.trim()
+    ? ticker.trim().toUpperCase()
+    : null;
 
   const makeRequest = async () => {
     const response = await fetchWithTimeout(`${API_BASE_URL}/api/ask`, {
@@ -104,6 +109,7 @@ export const askQuestion = async (question, options = {}) => {
         question: question.trim(),
         retrieval_method: retrieval_method,
         k: k,
+        ...(normalizedTicker ? { ticker: normalizedTicker } : {}),
       }),
     });
 

@@ -8,6 +8,7 @@ const KurioAiChat = ({
   chatError,
   chatResponse,
   handleSendMessage,
+  companyTicker = '',
   variant = 'inline',
 }) => {
   const sectionClassName = variant === 'inline'
@@ -28,14 +29,14 @@ const KurioAiChat = ({
             if (e.key === 'Enter') {
               e.preventDefault();
               if (chatMessage.trim() && !chatLoading) {
-                handleSendMessage(chatMessage);
+                handleSendMessage(chatMessage, companyTicker);
               }
             }
           }}
         />
         <button
           className="chat-send-arrow"
-          onClick={() => handleSendMessage(chatMessage)}
+          onClick={() => handleSendMessage(chatMessage, companyTicker)}
           disabled={!chatMessage.trim() || chatLoading}
           type="button"
           aria-label="Send question"

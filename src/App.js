@@ -317,6 +317,7 @@ function AppContent() {
                     chatError={chatError}
                     chatResponse={chatResponse}
                     handleSendMessage={handleSendMessage}
+                    companyTicker={companyName}
                     variant="inline"
                   />
                 </div>

@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from typing import List
 import json
 import logging
+import re
 
 import numpy as np
 from fastapi import FastAPI, HTTPException, Query, Request
@@ -170,6 +171,19 @@ app.add_middleware(
 # ---------------------------------------------
 # Models and Retrieval Strategies
 # ---------------------------------------------
+_TICKER_STOPWORDS = {
+    "AI", "CEO", "CFO", "COO", "EPS", "ESG", "EU", "GAAP", "IPO", "SEC", "UK", "US",
+}
+
+
+def ticker_from_question(question: str) -> str | None:
+    """Pick an explicit ticker token such as AAPL from the question text."""
+    for token in re.findall(r"\b[A-Z]{2,5}(?:-[A-Z])?\b", question or ""):
+        if token not in _TICKER_STOPWORDS:
+            return token
+    return None
+
+
 class AskRequest(BaseModel):
     question: str
     retrieval_method: str = Field(
@@ -177,6 +191,10 @@ class AskRequest(BaseModel):
         description="Retrieval method: 'similarity', 'mmr', 'multi_query', 'llm_enhanced', or 'hybrid'"
     )
     k: int = Field(default=8, description="Number of documents to retrieve")
+    ticker: str | None = Field(
+        default=None,
+        description="Optional company ticker. Limits retrieval to that filing.",
+    )
 
 
 def _json_safe(value):
@@ -184,7 +202,7 @@ def _json_safe(value):
     return json.loads(json.dumps(value, default=str))
 
 
-def search_docs(query: str, k: int):
+def search_docs(query: str, k: int, ticker: str | None = None):
     """Similarity search that hydrates chunk text from metadata or GCS."""
     return pinecone_similarity_search(
         index=app.state.pinecone_index,
@@ -193,6 +211,7 @@ def search_docs(query: str, k: int):
         k=k,
         namespace=settings.pinecone_namespace,
         resolver=app.state.chunk_resolver,
+        ticker=ticker,
     )
 
 
@@ -251,7 +270,7 @@ async def refine_query_with_llm(llm: ChatOpenAI, original_query: str) -> str:
         return original_query
 
 
-async def mmr_search(query: str, k: int, fetch_k: int = 20):
+async def mmr_search(query: str, k: int, fetch_k: int = 20, ticker: str | None = None):
     """Maximal Marginal Relevance search for diverse results"""
     try:
         vector_store = app.state.vector_store
@@ -264,13 +283,13 @@ async def mmr_search(query: str, k: int, fetch_k: int = 20):
             if docs_with_content:
                 return docs_with_content
         logger.warning("MMR returned no text; falling back to hydrated similarity search")
-        return await run_in_threadpool(search_docs, query, k)
+        return await run_in_threadpool(search_docs, query, k, ticker)
     except Exception as e:
         logger.error(f"Error in MMR search: {e}")
         raise
 
 
-async def multi_query_retrieval(llm: ChatOpenAI, query: str, k: int):
+async def multi_query_retrieval(llm: ChatOpenAI, query: str, k: int, ticker: str | None = None):
     """Generate multiple queries and combine results"""
     # Generate multiple query variations
     queries = await expand_query_with_llm(llm, query)
@@ -282,7 +301,7 @@ async def multi_query_retrieval(llm: ChatOpenAI, query: str, k: int):
     
     for q in queries:
         try:
-            docs = await run_in_threadpool(search_docs, q, k)
+            docs = await run_in_threadpool(search_docs, q, k, ticker)
             for doc in docs:
                 # Use page_content as a simple deduplication key
                 doc_id = hash(doc.page_content[:100])  # First 100 chars as ID
@@ -297,7 +316,7 @@ async def multi_query_retrieval(llm: ChatOpenAI, query: str, k: int):
     return all_docs[:k]
 
 
-async def llm_enhanced_retrieval(llm: ChatOpenAI, query: str, k: int):
+async def llm_enhanced_retrieval(llm: ChatOpenAI, query: str, k: int, ticker: str | None = None):
     """Use LLM to refine query, then search with both original and refined text."""
     refined_query = await refine_query_with_llm(llm, query)
     logger.info(f"Original query: {query}")
@@ -311,7 +330,7 @@ async def llm_enhanced_retrieval(llm: ChatOpenAI, query: str, k: int):
     seen_ids = set()
     per_query_k = max(k, 8)
     for q in queries:
-        docs = await run_in_threadpool(search_docs, q, per_query_k)
+        docs = await run_in_threadpool(search_docs, q, per_query_k, ticker)
         for doc in docs:
             doc_id = hash(doc.page_content[:100])
             if doc_id not in seen_ids:
@@ -320,28 +339,28 @@ async def llm_enhanced_retrieval(llm: ChatOpenAI, query: str, k: int):
     return all_docs[: max(k, 8)]
 
 
-async def hybrid_retrieval(llm: ChatOpenAI, query: str, k: int):
+async def hybrid_retrieval(llm: ChatOpenAI, query: str, k: int, ticker: str | None = None):
     """Combine multiple retrieval methods for best results"""
     # Get results from multiple methods
     results = []
     
     # 1. LLM-enhanced search
     try:
-        llm_docs = await llm_enhanced_retrieval(llm, query, k)
+        llm_docs = await llm_enhanced_retrieval(llm, query, k, ticker=ticker)
         results.extend(llm_docs)
     except Exception as e:
         logger.warning(f"LLM-enhanced retrieval failed: {e}")
     
     # 2. Multi-query retrieval
     try:
-        multi_docs = await multi_query_retrieval(llm, query, k // 2)
+        multi_docs = await multi_query_retrieval(llm, query, k // 2, ticker=ticker)
         results.extend(multi_docs)
     except Exception as e:
         logger.warning(f"Multi-query retrieval failed: {e}")
     
     # 3. Regular similarity search as fallback
     try:
-        sim_docs = await run_in_threadpool(search_docs, query, k)
+        sim_docs = await run_in_threadpool(search_docs, query, k, ticker)
         results.extend(sim_docs)
     except Exception as e:
         logger.warning(f"Similarity search failed: {e}")
@@ -455,32 +474,45 @@ async def debug_index_stats():
 async def ask(query: AskRequest):
     llm = app.state.llm
 
-    logger.info(f"Received question: {query.question} (method: {query.retrieval_method})")
+    ticker = (query.ticker or "").strip().upper() or ticker_from_question(query.question)
+    logger.info(
+        "Received question: %s (method: %s, ticker: %s)",
+        query.question,
+        query.retrieval_method,
+        ticker or "any",
+    )
     
     # 1. Retrieve most relevant documents using selected method
     try:
         if query.retrieval_method == "similarity":
-            docs = await run_in_threadpool(search_docs, query.question, query.k)
+            docs = await run_in_threadpool(search_docs, query.question, query.k, ticker)
         elif query.retrieval_method == "mmr":
-            docs = await mmr_search(query.question, query.k)
+            docs = await mmr_search(query.question, query.k, ticker=ticker)
         elif query.retrieval_method == "multi_query":
-            docs = await multi_query_retrieval(llm, query.question, query.k)
+            docs = await multi_query_retrieval(llm, query.question, query.k, ticker=ticker)
         elif query.retrieval_method == "llm_enhanced":
-            docs = await llm_enhanced_retrieval(llm, query.question, query.k)
+            docs = await llm_enhanced_retrieval(llm, query.question, query.k, ticker=ticker)
         elif query.retrieval_method == "hybrid":
-            docs = await hybrid_retrieval(llm, query.question, query.k)
+            docs = await hybrid_retrieval(llm, query.question, query.k, ticker=ticker)
         else:
             logger.warning(f"Unknown retrieval method: {query.retrieval_method}, using similarity")
-            docs = await run_in_threadpool(search_docs, query.question, query.k)
+            docs = await run_in_threadpool(search_docs, query.question, query.k, ticker)
         
         logger.info(f"Found {len(docs)} documents using {query.retrieval_method} method")
         
         if not docs:
-            logger.warning("No documents returned from search")
-            raise HTTPException(
-                status_code=404,
-                detail="I could not find relevant information in the knowledge base. The index may be empty or the query doesn't match any documents.",
-            )
+            logger.warning("No documents returned from search (ticker=%s)", ticker or "any")
+            if ticker:
+                detail = (
+                    f"I could not find a 10-K for {ticker} in the knowledge base. "
+                    "That company may not be ingested yet."
+                )
+            else:
+                detail = (
+                    "I could not find relevant information in the knowledge base. "
+                    "The index may be empty or the query doesn't match any documents."
+                )
+            raise HTTPException(status_code=404, detail=detail)
         
         # Filter out documents with empty content
         docs_with_content = [doc for doc in docs if doc.page_content and doc.page_content.strip()]
@@ -509,9 +541,10 @@ async def ask(query: AskRequest):
         )
 
     # 2. Build prompt
+    ticker_line = f"The user asked about ticker {ticker}.\n" if ticker else ""
     prompt = f"""
     You are a factual assistant. Answer using the provided 10-K context.
-    If the context does not contain enough information to answer, say:
+    {ticker_line}If the context does not contain enough information to answer, say:
     "I could not find relevant information in the knowledge base."
 
     CONTEXT:

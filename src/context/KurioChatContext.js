@@ -9,7 +9,7 @@ export function KurioChatProvider({ children }) {
   const [chatError, setChatError] = useState('');
   const [chatResponse, setChatResponse] = useState('');
 
-  const handleSendMessage = useCallback(async (message) => {
+  const handleSendMessage = useCallback(async (message, ticker) => {
     if (!message || !message.trim()) {
       return;
     }
@@ -19,7 +19,9 @@ export function KurioChatProvider({ children }) {
     setChatResponse('');
 
     try {
-      const result = await askQuestion(message.trim());
+      const result = await askQuestion(message.trim(), {
+        ticker: ticker || null,
+      });
       setChatResponse(result.answer);
       setChatMessage('');
     } catch (error) {
