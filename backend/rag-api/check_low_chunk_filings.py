@@ -26,13 +26,38 @@ NAMESPACE = os.getenv("PINECONE_NAMESPACE", "10k")
 DEFAULT_MAX_CHUNKS = 50
 
 
+def _vector_id(item) -> str | None:
+    """Accept a raw id string or a Pinecone list item (object or dict)."""
+    if isinstance(item, str):
+        return item
+    vector_id = getattr(item, "id", None)
+    if isinstance(vector_id, str):
+        return vector_id
+    if isinstance(item, dict):
+        raw = item.get("id")
+        if isinstance(raw, str):
+            return raw
+    return None
+
+
 def list_vector_ids(index, namespace: str) -> list[str]:
+    """Collect vector ids from index.list().
+
+    Older clients yield lists of id strings. The current client yields a page
+    whose .vectors are items with an id. Stringifying that page is not an id.
+    """
     ids: list[str] = []
     for batch in index.list(namespace=namespace, limit=100):
         if isinstance(batch, (list, tuple)):
-            ids.extend(str(item) for item in batch)
-        elif batch is not None:
-            ids.append(str(batch))
+            items = batch
+        else:
+            items = getattr(batch, "vectors", None)
+            if items is None and batch is not None:
+                items = [batch]
+        for item in items or []:
+            vector_id = _vector_id(item)
+            if vector_id:
+                ids.append(vector_id)
     return ids
 
 
