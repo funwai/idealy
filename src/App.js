@@ -32,7 +32,6 @@ function AppContent() {
   
   // Kurio input state (company search)
   const [companyName, setCompanyName] = useState('');
-  const [companyCountry, setCompanyCountry] = useState('');
   
   // Audio player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -283,32 +282,6 @@ function AppContent() {
                     onChange={(e) => handleCompanyNameChange(e.target.value)}
                     className="url-input"
                   />
-                  <select
-                    value={companyCountry}
-                    onChange={(e) => setCompanyCountry(e.target.value)}
-                    className={`country-select ${companyCountry ? 'has-value' : ''}`}
-                  >
-                    <option value="">Where is the company based?</option>
-                    <option value="US">United States</option>
-                    <option value="GB">United Kingdom</option>
-                    <option value="CA">Canada</option>
-                    <option value="AU">Australia</option>
-                    <option value="DE">Germany</option>
-                    <option value="FR">France</option>
-                    <option value="JP">Japan</option>
-                    <option value="CN">China</option>
-                    <option value="IN">India</option>
-                    <option value="BR">Brazil</option>
-                    <option value="MX">Mexico</option>
-                    <option value="ES">Spain</option>
-                    <option value="IT">Italy</option>
-                    <option value="NL">Netherlands</option>
-                    <option value="SE">Sweden</option>
-                    <option value="CH">Switzerland</option>
-                    <option value="SG">Singapore</option>
-                    <option value="KR">South Korea</option>
-                    <option value="OTHER">Other</option>
-                  </select>
 
                   <KurioAiChat
                     chatMessage={chatMessage}

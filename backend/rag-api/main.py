@@ -8,6 +8,7 @@ import numpy as np
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from google.cloud import firestore
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -167,6 +168,22 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+def _safe_error_detail(exc: Exception) -> str:
+    """Return an error string that is safe to show in the browser."""
+    message = re.sub(r"sk-[A-Za-z0-9_\-]+", "[redacted]", str(exc)).strip()
+    return message[:500] or "Internal server error"
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    """JSON errors keep CORS headers. A plain-text 500 is hidden as a network failure."""
+    logger.error("Unhandled error on %s", request.url.path, exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": _safe_error_detail(exc)},
+    )
 
 # ---------------------------------------------
 # Models and Retrieval Strategies
@@ -555,5 +572,14 @@ async def ask(query: AskRequest):
     """
 
     # 3. Query the LLM
-    response = await llm.ainvoke(prompt)
-    return {"answer": response.content}
+    try:
+        response = await llm.ainvoke(prompt)
+    except Exception as e:
+        logger.error("Error during answer generation: %s", e, exc_info=True)
+        raise HTTPException(
+            status_code=502,
+            detail=f"The answer service failed: {_safe_error_detail(e)}",
+        )
+
+    answer = response.content if isinstance(response.content, str) else str(response.content)
+    return {"answer": answer}
