@@ -277,7 +277,7 @@ function AppContent() {
                 <div className="company-search-layout">
                   <input
                     type="text"
-                    placeholder="Enter company ticker (e.g., NVDA for Nvidia or MSFT for Microsoft)"
+                    placeholder="Ticker (e.g. AAPL)"
                     value={companyName}
                     onChange={(e) => handleCompanyNameChange(e.target.value)}
                     className="url-input"
