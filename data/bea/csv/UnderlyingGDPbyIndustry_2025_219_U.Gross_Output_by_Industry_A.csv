@@ -1,0 +1,192 @@
+﻿TableID,Frequency,Year,Industry,IndustrYDescription,DataValue,NoteRef
+219,A,2025,11,"Agriculture, forestry, fishing, and hunting",650.9,219
+219,A,2025,111,Crop production,242.0,219
+219,A,2025,111CA,Farms,578.3,219
+219,A,2025,112,Animal production and aquaculture,336.3,219
+219,A,2025,113FF,"Forestry, fishing, and related activities",72.6,219
+219,A,2025,21,Mining,704.9,219
+219,A,2025,211,Oil and gas extraction,445.4,219
+219,A,2025,212,"Mining, except oil and gas",148.8,219
+219,A,2025,213,Support activities for mining,110.7,219
+219,A,2025,22,Utilities,684.3,219
+219,A,2025,2211,"Electric power generation, transmission, and distribution",535.3,219
+219,A,2025,2212NW,"Natural gas distribution and water, sewage and other systems",149.0,219
+219,A,2025,23,Construction,2588.9,219
+219,A,2025,23EH,"Education, hospital, and health structures",236.4,219
+219,A,2025,23MR,Maintenance and repair construction,399.2,219
+219,A,2025,23OC,Office and commercial structures,263.0,219
+219,A,2025,23OR,Other residential construction,556.2,219
+219,A,2025,23OT,Other nonresidential structures,365.4,219
+219,A,2025,23PC,Power and communication structures,161.0,219
+219,A,2025,23SF,Single-family residential structures,402.3,219
+219,A,2025,23TH,Transportation structures and highways and streets,205.6,219
+219,A,2025,311,Food manufacturing,1033.2,219
+219,A,2025,311FT,Food and beverage and tobacco products,1251.8,219
+219,A,2025,3121,Beverage manufacturing,139.5,219
+219,A,2025,3122,Tobacco product manufacturing,79.1,219
+219,A,2025,313TT,Textile mills and textile product mills,48.5,219
+219,A,2025,315AL,Apparel and leather and allied products,24.8,219
+219,A,2025,31G,Manufacturing,7230.0,219
+219,A,2025,31ND,Nondurable goods,3537.5,219
+219,A,2025,321,Wood products,161.3,219
+219,A,2025,322,Paper products,211.8,219
+219,A,2025,323,Printing and related support activities,87.2,219
+219,A,2025,324,Petroleum and coal products,588.1,219
+219,A,2025,325,Chemical products,1036.0,219
+219,A,2025,3251,Basic chemical manufacturing,295.2,219
+219,A,2025,3252,"Resin, rubber, and artificial fibers manufacturing",124.0,219
+219,A,2025,3254,Pharmaceutical and medicine manufacturing,368.8,219
+219,A,2025,325X,Other chemical manufacturing,248.0,219
+219,A,2025,326,Plastics and rubber products,289.5,219
+219,A,2025,327,Nonmetallic mineral products,175.5,219
+219,A,2025,331,Primary metals,283.8,219
+219,A,2025,3311IS,Iron and steel mills and manufacturing from purchased steel,148.0,219
+219,A,2025,3313NF,Nonferrous metal production and processing and foundries,135.8,219
+219,A,2025,332,Fabricated metal products,460.6,219
+219,A,2025,333,Machinery,457.1,219
+219,A,2025,33311,Agricultural implement manufacturing,40.5,219
+219,A,2025,33312,Construction machinery manufacturing,43.4,219
+219,A,2025,33313,Mining and oil and gas field machinery manufacturing,15.0,219
+219,A,2025,3332OM,Other machinery,358.1,219
+219,A,2025,334,Computer and electronic products,447.1,219
+219,A,2025,3341,Computer and peripheral equipment manufacturing,35.2,219
+219,A,2025,3342,Communications equipment manufacturing,52.6,219
+219,A,2025,3344,Semiconductor and other electronic component manufacturing,151.0,219
+219,A,2025,3345,"Navigational, measuring, electromedical, and control instruments manufacturing",199.6,219
+219,A,2025,334X,Other computer and electronic product manufacturing,8.8,219
+219,A,2025,335,"Electrical equipment, appliances, and components",202.6,219
+219,A,2025,336111,Automobile manufacturing,29.3,219
+219,A,2025,336112,Light truck and utility vehicle manufacturing,349.9,219
+219,A,2025,33612,Heavy duty truck manufacturing,41.0,219
+219,A,2025,3361MV,"Motor vehicles, bodies and trailers, and parts",790.9,219
+219,A,2025,3362BP,"Motor vehicle body, trailer, and parts manufacturing",370.7,219
+219,A,2025,3364,Aerospace product and parts manufacturing,361.0,219
+219,A,2025,3364OT,Other transportation equipment,446.0,219
+219,A,2025,3365AO,All other transportation equipment manufacturing,85.0,219
+219,A,2025,337,Furniture and related products,84.9,219
+219,A,2025,339,Miscellaneous manufacturing,182.6,219
+219,A,2025,3391,Medical equipment and supplies manufacturing,108.7,219
+219,A,2025,3399,Other miscellaneous manufacturing,73.9,219
+219,A,2025,33DG,Durable goods,3692.5,219
+219,A,2025,42,Wholesale trade,3105.3,219
+219,A,2025,4231,Motor vehicle and motor vehicle parts and supplies merchant wholesalers,211.0,219
+219,A,2025,4234,Professional and commercial equipment and supplies merchant wholesalers,278.4,219
+219,A,2025,4236,Household appliances and electrical and electronic goods merchant wholesalers,402.3,219
+219,A,2025,4238,"Machinery, equipment, and supplies merchant wholesalers",269.3,219
+219,A,2025,423X,Other durable goods merchant wholesalers,372.4,219
+219,A,2025,4242,Drugs and druggists sundries merchant wholesalers,366.7,219
+219,A,2025,4244,Grocery and related products merchant wholesalers,231.7,219
+219,A,2025,4247,Petroleum and petroleum products merchant wholesalers,204.0,219
+219,A,2025,424X,Other nondurable goods merchant wholesalers,429.4,219
+219,A,2025,425,Wholesale electronic markets and agents and brokers,71.5,219
+219,A,2025,42ID,Customs duties,268.7,219
+219,A,2025,441,Motor vehicle and parts dealers,573.0,219
+219,A,2025,444,Building material and garden equipment and supplies dealers,196.6,219
+219,A,2025,445,Food and beverage stores,359.8,219
+219,A,2025,446,Health and personal care stores,167.2,219
+219,A,2025,447,Gasoline stations,148.3,219
+219,A,2025,448,Clothing and clothing accessories stores,185.8,219
+219,A,2025,44RT,Retail trade,2945.2,219
+219,A,2025,452,General merchandise stores,316.2,219
+219,A,2025,454,Nonstore retailers,718.1,219
+219,A,2025,481,Air transportation,350.0,219
+219,A,2025,482,Rail transportation,92.3,219
+219,A,2025,483,Water transportation,78.1,219
+219,A,2025,484,Truck transportation,556.9,219
+219,A,2025,485,Transit and ground passenger transportation,200.2,219
+219,A,2025,486,Pipeline transportation,79.2,219
+219,A,2025,487OS,Other transportation and support activities,369.6,219
+219,A,2025,48A,Scenic and sightseeing transportation and support activities,213.6,219
+219,A,2025,48TW,Transportation and warehousing,1930.9,219
+219,A,2025,492,Couriers and messengers,156.0,219
+219,A,2025,493,Warehousing and storage,204.6,219
+219,A,2025,4A0,Other retail,1696.1,219
+219,A,2025,4A0X,All other retail,280.1,219
+219,A,2025,51,Information,2882.9,219
+219,A,2025,511,"Publishing industries, except internet (includes software)",724.4,219
+219,A,2025,5111,"Newspaper, periodical, book, and directory publishers",102.0,219
+219,A,2025,5112,Software publishers,622.4,219
+219,A,2025,512,Motion picture and sound recording industries,210.5,219
+219,A,2025,513,Broadcasting and telecommunications,944.9,219
+219,A,2025,514,"Data processing, internet publishing, and other information services",1003.1,219
+219,A,2025,515,Broadcasting (except Internet),228.8,219
+219,A,2025,5171,Wired telecommunications carriers,320.4,219
+219,A,2025,5172,Wireless telecommunications carriers (except satellites),336.5,219
+219,A,2025,5174OT,"Other telecommunications, including satellite",59.3,219
+219,A,2025,518,"Data processing, hosting, and related services",476.3,219
+219,A,2025,519,Other information services,526.8,219
+219,A,2025,52,Finance and insurance,4379.9,219
+219,A,2025,521CI,"Federal Reserve banks, credit intermediation, and related activities",1473.5,219
+219,A,2025,523,"Securities, commodity contracts, and investments",1035.8,219
+219,A,2025,524,Insurance carriers and related activities,1609.3,219
+219,A,2025,524113,Direct life insurance carriers,128.9,219
+219,A,2025,5241XX,"Insurance carriers, except direct life insurance",843.5,219
+219,A,2025,5242,"Agencies, brokerages, and other insurance related activities",636.8,219
+219,A,2025,525,"Funds, trusts, and other financial vehicles",261.3,219
+219,A,2025,53,Real estate and rental and leasing,5977.3,219
+219,A,2025,531,Real estate,5321.8,219
+219,A,2025,532RL,Rental and leasing services and lessors of intangible assets,655.5,219
+219,A,2025,54,"Professional, scientific, and technical services",3650.6,219
+219,A,2025,5411,Legal services,537.8,219
+219,A,2025,5412,"Accounting, tax preparation, bookkeeping, and payroll services",241.9,219
+219,A,2025,5412OP,"Miscellaneous professional, scientific, and technical services",2330.1,219
+219,A,2025,5413,"Architectural, engineering, and related services",534.9,219
+219,A,2025,5415,Computer systems design and related services,782.6,219
+219,A,2025,5416,"Management, scientific, and technical consulting services",493.5,219
+219,A,2025,5417,Scientific research and development services,495.7,219
+219,A,2025,5418,"Advertising, public relations, and related services",236.8,219
+219,A,2025,541X,"Specialized design services and other professional, scientific, and technical services",327.4,219
+219,A,2025,55,Management of companies and enterprises,878.2,219
+219,A,2025,56,Administrative and waste management services,1556.0,219
+219,A,2025,561,Administrative and support services,1369.0,219
+219,A,2025,5613,Employment services,436.9,219
+219,A,2025,5617,Services to buildings and dwellings,377.0,219
+219,A,2025,561X,Other administrative and support services,555.1,219
+219,A,2025,562,Waste management and remediation services,187.0,219
+219,A,2025,6,"Educational services, health care, and social assistance",4338.4,219
+219,A,2025,61,Educational services,500.7,219
+219,A,2025,62,Health care and social assistance,3837.8,219
+219,A,2025,621,Ambulatory health care services,1741.4,219
+219,A,2025,6211,Offices of physicians,745.5,219
+219,A,2025,6212,Offices of dentists,198.9,219
+219,A,2025,6213,Offices of other health practitioners,199.3,219
+219,A,2025,6214,Outpatient care centers,279.1,219
+219,A,2025,6215OH,Other ambulatory health care services,318.5,219
+219,A,2025,622,Hospitals,1353.2,219
+219,A,2025,623,Nursing and residential care facilities,368.5,219
+219,A,2025,624,Social assistance,374.7,219
+219,A,2025,7,"Arts, entertainment, recreation, accommodation, and food services",2428.1,219
+219,A,2025,71,"Arts, entertainment, and recreation",599.5,219
+219,A,2025,711AS,"Performing arts, spectator sports, museums, and related activities",333.8,219
+219,A,2025,713,"Amusements, gambling, and recreation industries",265.7,219
+219,A,2025,72,Accommodation and food services,1828.6,219
+219,A,2025,721,Accommodation,393.1,219
+219,A,2025,722,Food services and drinking places,1435.4,219
+219,A,2025,81,"Other services, except government",1102.4,219
+219,A,2025,811,Repair and maintenance,364.0,219
+219,A,2025,812,Personal and laundry services,327.5,219
+219,A,2025,813,"Religious, grantmaking, civic, professional, and similar organizations",386.6,219
+219,A,2025,814,Private households,24.3,219
+219,A,2025,FIRE,"Finance, insurance, real estate, rental, and leasing",10357.2,219
+219,A,2025,G,Government,5762.7,219
+219,A,2025,GF,Federal,1671.1,219
+219,A,2025,GFE,Government enterprises,112.0,219
+219,A,2025,GFG,Federal general government,1559.1,219
+219,A,2025,GFGD,National defense,932.4,219
+219,A,2025,GFGN,Nondefense,626.7,219
+219,A,2025,GSL,State and local,4091.6,219
+219,A,2025,GSLE,Government enterprises,509.6,219
+219,A,2025,GSLG,State and local general government,3582.0,219
+219,A,2025,GSLGE,State and local government educational services,1583.1,219
+219,A,2025,GSLGH,State and local government hospitals and health services,500.1,219
+219,A,2025,GSLGO,State and local government other services,1498.8,219
+219,A,2025,HS,Housing,3345.1,219
+219,A,2025,HSO,Owner-occupied housing,2550.6,219
+219,A,2025,HST,Tenant-occupied housing,794.5,219
+219,A,2025,ICT,Information-communications-technology-producing industries <sup>3</sup>,3582.9,219;219.3.A
+219,A,2025,II,All industries,52797.1,219
+219,A,2025,ORE,Other real estate,1976.7,219
+219,A,2025,PGOOD,Private goods-producing industries <sup>1</sup>,11174.8,219;219.1.A
+219,A,2025,PROF,Professional and business services,6084.8,219
+219,A,2025,PSERV,Private services-producing industries <sup>2</sup>,35859.6,219;219.2.A
+219,A,2025,PVT,Private industries,47034.4,219

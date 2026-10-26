@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 
 const COMPANIES_SECTIONS = [
@@ -9,7 +8,7 @@ const COMPANIES_SECTIONS = [
 const CompaniesLayout = () => {
   return (
     <div className="companies-page">
-      <div className="companies-container companies-container--wide">
+      <div className="companies-container">
         <section className="companies-section-header" aria-label="Companies sections">
           <div className="companies-section-header__title-row">
             <h3 className="companies-section-header__title">Companies</h3>

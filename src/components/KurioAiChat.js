@@ -1,4 +1,3 @@
-import React from 'react';
 import './FinancialDataPopup.css';
 
 const KurioAiChat = ({
@@ -9,14 +8,9 @@ const KurioAiChat = ({
   chatResponse,
   handleSendMessage,
   companyTicker = '',
-  variant = 'inline',
 }) => {
-  const sectionClassName = variant === 'inline'
-    ? 'chat-section chat-section--inline'
-    : 'chat-section';
-
   return (
-    <div className={sectionClassName}>
+    <div className="chat-section">
       <div className="chat-input-wrapper">
         <input
           type="text"

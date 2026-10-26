@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
+import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import { fetchEntries } from './contentfulClient';
 
 const tryParseJson = (value) => {
@@ -364,7 +364,7 @@ const Insights = () => {
           };
           
           // Search through all fields for asset fields
-          for (const [fieldName, fieldValue] of Object.entries(fields)) {
+          for (const fieldValue of Object.values(fields)) {
             if (!fieldValue) continue;
             
             // Check if this field is an asset
@@ -424,7 +424,6 @@ const Insights = () => {
              link: derivedLink,
              heroImage: derivedHeroImage,
             jsonData: normalizedJsonData,
-            jsonRaw: rawJsonData,
             tableData,
             pdfUrl,
           };

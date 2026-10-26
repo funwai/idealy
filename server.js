@@ -14,11 +14,6 @@ if (!fs.existsSync(indexHtml)) {
 app.use(express.static(buildPath, {
   index: false,
   maxAge: '1y',
-  setHeaders: (res, filePath) => {
-    if (filePath.endsWith('index.html')) {
-      res.setHeader('Cache-Control', 'no-cache');
-    }
-  },
 }));
 
 // SPA fallback: any non-file route (e.g. /Insights, /About) serves index.html

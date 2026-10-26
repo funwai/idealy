@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './FinancialDataPopup.css';
 
 const FinancialDataPopup = ({
@@ -208,7 +208,7 @@ const FinancialDataPopup = ({
         </div>
 
         <div className="financial-popup-body">
-          <div className="financial-popup-main-content financial-popup-main-content--statements-only">
+          <div className="financial-popup-main-content">
             <div className="financial-data-section">
               <div className="financial-tabs">
                 <button

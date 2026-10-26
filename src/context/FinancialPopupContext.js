@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import FinancialDataPopup from '../components/FinancialDataPopup';
 import { fetchFinancialData } from '../api/financialApi';
 

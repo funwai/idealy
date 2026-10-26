@@ -1,0 +1,192 @@
+﻿TableID,Frequency,Year,Industry,IndustrYDescription,DataValue,NoteRef
+210,A,2025,11,"Agriculture, forestry, fishing, and hunting",255.9,210
+210,A,2025,111,Crop production,88.4,210
+210,A,2025,111CA,Farms,203.5,210
+210,A,2025,112,Animal production and aquaculture,115.1,210
+210,A,2025,113FF,"Forestry, fishing, and related activities",52.4,210
+210,A,2025,21,Mining,398.7,210
+210,A,2025,211,Oil and gas extraction,251.7,210
+210,A,2025,212,"Mining, except oil and gas",81.2,210
+210,A,2025,213,Support activities for mining,65.7,210
+210,A,2025,22,Utilities,507.7,210
+210,A,2025,2211,"Electric power generation, transmission, and distribution",405.4,210
+210,A,2025,2212NW,"Natural gas distribution and water, sewage and other systems",102.4,210
+210,A,2025,23,Construction,1340.0,210
+210,A,2025,23EH,"Education, hospital, and health structures",135.6,210
+210,A,2025,23MR,Maintenance and repair construction,199.5,210
+210,A,2025,23OC,Office and commercial structures,129.5,210
+210,A,2025,23OR,Other residential construction,244.4,210
+210,A,2025,23OT,Other nonresidential structures,210.2,210
+210,A,2025,23PC,Power and communication structures,105.4,210
+210,A,2025,23SF,Single-family residential structures,210.9,210
+210,A,2025,23TH,Transportation structures and highways and streets,104.7,210
+210,A,2025,311,Food manufacturing,271.5,210
+210,A,2025,311FT,Food and beverage and tobacco products,384.0,210
+210,A,2025,3121,Beverage manufacturing,56.1,210
+210,A,2025,3122,Tobacco product manufacturing,56.5,210
+210,A,2025,313TT,Textile mills and textile product mills,17.7,210
+210,A,2025,315AL,Apparel and leather and allied products,12.2,210
+210,A,2025,31G,Manufacturing,2930.1,210
+210,A,2025,31ND,Nondurable goods,1348.8,210
+210,A,2025,321,Wood products,55.5,210
+210,A,2025,322,Paper products,70.9,210
+210,A,2025,323,Printing and related support activities,42.5,210
+210,A,2025,324,Petroleum and coal products,148.0,210
+210,A,2025,325,Chemical products,579.4,210
+210,A,2025,3251,Basic chemical manufacturing,138.1,210
+210,A,2025,3252,"Resin, rubber, and artificial fibers manufacturing",42.1,210
+210,A,2025,3254,Pharmaceutical and medicine manufacturing,269.6,210
+210,A,2025,325X,Other chemical manufacturing,129.5,210
+210,A,2025,326,Plastics and rubber products,94.1,210
+210,A,2025,327,Nonmetallic mineral products,85.1,210
+210,A,2025,331,Primary metals,77.8,210
+210,A,2025,3311IS,Iron and steel mills and manufacturing from purchased steel,40.7,210
+210,A,2025,3313NF,Nonferrous metal production and processing and foundries,37.1,210
+210,A,2025,332,Fabricated metal products,199.2,210
+210,A,2025,333,Machinery,220.2,210
+210,A,2025,33311,Agricultural implement manufacturing,20.3,210
+210,A,2025,33312,Construction machinery manufacturing,20.7,210
+210,A,2025,33313,Mining and oil and gas field machinery manufacturing,6.4,210
+210,A,2025,3332OM,Other machinery,172.8,210
+210,A,2025,334,Computer and electronic products,315.4,210
+210,A,2025,3341,Computer and peripheral equipment manufacturing,26.0,210
+210,A,2025,3342,Communications equipment manufacturing,30.0,210
+210,A,2025,3344,Semiconductor and other electronic component manufacturing,112.7,210
+210,A,2025,3345,"Navigational, measuring, electromedical, and control instruments manufacturing",141.4,210
+210,A,2025,334X,Other computer and electronic product manufacturing,5.4,210
+210,A,2025,335,"Electrical equipment, appliances, and components",87.1,210
+210,A,2025,336111,Automobile manufacturing,14.9,210
+210,A,2025,336112,Light truck and utility vehicle manufacturing,63.9,210
+210,A,2025,33612,Heavy duty truck manufacturing,6.9,210
+210,A,2025,3361MV,"Motor vehicles, bodies and trailers, and parts",185.1,210
+210,A,2025,3362BP,"Motor vehicle body, trailer, and parts manufacturing",99.4,210
+210,A,2025,3364,Aerospace product and parts manufacturing,158.9,210
+210,A,2025,3364OT,Other transportation equipment,201.5,210
+210,A,2025,3365AO,All other transportation equipment manufacturing,42.6,210
+210,A,2025,337,Furniture and related products,35.4,210
+210,A,2025,339,Miscellaneous manufacturing,118.9,210
+210,A,2025,3391,Medical equipment and supplies manufacturing,78.0,210
+210,A,2025,3399,Other miscellaneous manufacturing,40.9,210
+210,A,2025,33DG,Durable goods,1581.3,210
+210,A,2025,42,Wholesale trade,1952.4,210
+210,A,2025,4231,Motor vehicle and motor vehicle parts and supplies merchant wholesalers,111.7,210
+210,A,2025,4234,Professional and commercial equipment and supplies merchant wholesalers,185.1,210
+210,A,2025,4236,Household appliances and electrical and electronic goods merchant wholesalers,202.1,210
+210,A,2025,4238,"Machinery, equipment, and supplies merchant wholesalers",166.3,210
+210,A,2025,423X,Other durable goods merchant wholesalers,228.6,210
+210,A,2025,4242,Drugs and druggists sundries merchant wholesalers,188.4,210
+210,A,2025,4244,Grocery and related products merchant wholesalers,137.0,210
+210,A,2025,4247,Petroleum and petroleum products merchant wholesalers,164.2,210
+210,A,2025,424X,Other nondurable goods merchant wholesalers,264.6,210
+210,A,2025,425,Wholesale electronic markets and agents and brokers,35.9,210
+210,A,2025,42ID,Customs duties,268.7,210
+210,A,2025,441,Motor vehicle and parts dealers,357.1,210
+210,A,2025,444,Building material and garden equipment and supplies dealers,144.9,210
+210,A,2025,445,Food and beverage stores,234.7,210
+210,A,2025,446,Health and personal care stores,95.9,210
+210,A,2025,447,Gasoline stations,87.8,210
+210,A,2025,448,Clothing and clothing accessories stores,86.2,210
+210,A,2025,44RT,Retail trade,1810.4,210
+210,A,2025,452,General merchandise stores,226.3,210
+210,A,2025,454,Nonstore retailers,401.5,210
+210,A,2025,481,Air transportation,182.6,210
+210,A,2025,482,Rail transportation,50.6,210
+210,A,2025,483,Water transportation,26.2,210
+210,A,2025,484,Truck transportation,248.8,210
+210,A,2025,485,Transit and ground passenger transportation,86.7,210
+210,A,2025,486,Pipeline transportation,52.0,210
+210,A,2025,487OS,Other transportation and support activities,229.9,210
+210,A,2025,48A,Scenic and sightseeing transportation and support activities,116.5,210
+210,A,2025,48TW,Transportation and warehousing,1008.9,210
+210,A,2025,492,Couriers and messengers,113.4,210
+210,A,2025,493,Warehousing and storage,132.2,210
+210,A,2025,4A0,Other retail,992.3,210
+210,A,2025,4A0X,All other retail,176.0,210
+210,A,2025,51,Information,1766.4,210
+210,A,2025,511,"Publishing industries, except internet (includes software)",507.5,210
+210,A,2025,5111,"Newspaper, periodical, book, and directory publishers",66.2,210
+210,A,2025,5112,Software publishers,441.3,210
+210,A,2025,512,Motion picture and sound recording industries,114.3,210
+210,A,2025,513,Broadcasting and telecommunications,548.6,210
+210,A,2025,514,"Data processing, internet publishing, and other information services",596.0,210
+210,A,2025,515,Broadcasting (except Internet),122.1,210
+210,A,2025,5171,Wired telecommunications carriers,189.4,210
+210,A,2025,5172,Wireless telecommunications carriers (except satellites),205.2,210
+210,A,2025,5174OT,"Other telecommunications, including satellite",31.9,210
+210,A,2025,518,"Data processing, hosting, and related services",315.0,210
+210,A,2025,519,Other information services,281.0,210
+210,A,2025,52,Finance and insurance,2687.6,210
+210,A,2025,521CI,"Federal Reserve banks, credit intermediation, and related activities",1237.9,210
+210,A,2025,523,"Securities, commodity contracts, and investments",491.9,210
+210,A,2025,524,Insurance carriers and related activities,943.0,210
+210,A,2025,524113,Direct life insurance carriers,74.3,210
+210,A,2025,5241XX,"Insurance carriers, except direct life insurance",501.4,210
+210,A,2025,5242,"Agencies, brokerages, and other insurance related activities",367.2,210
+210,A,2025,525,"Funds, trusts, and other financial vehicles",14.9,210
+210,A,2025,53,Real estate and rental and leasing,4234.1,210
+210,A,2025,531,Real estate,3881.5,210
+210,A,2025,532RL,Rental and leasing services and lessors of intangible assets,352.6,210
+210,A,2025,54,"Professional, scientific, and technical services",2465.2,210
+210,A,2025,5411,Legal services,423.9,210
+210,A,2025,5412,"Accounting, tax preparation, bookkeeping, and payroll services",191.6,210
+210,A,2025,5412OP,"Miscellaneous professional, scientific, and technical services",1472.1,210
+210,A,2025,5413,"Architectural, engineering, and related services",331.3,210
+210,A,2025,5415,Computer systems design and related services,569.2,210
+210,A,2025,5416,"Management, scientific, and technical consulting services",354.2,210
+210,A,2025,5417,Scientific research and development services,235.9,210
+210,A,2025,5418,"Advertising, public relations, and related services",146.4,210
+210,A,2025,541X,"Specialized design services and other professional, scientific, and technical services",212.7,210
+210,A,2025,55,Management of companies and enterprises,558.6,210
+210,A,2025,56,Administrative and waste management services,919.9,210
+210,A,2025,561,Administrative and support services,823.6,210
+210,A,2025,5613,Employment services,351.1,210
+210,A,2025,5617,Services to buildings and dwellings,175.2,210
+210,A,2025,561X,Other administrative and support services,297.3,210
+210,A,2025,562,Waste management and remediation services,96.4,210
+210,A,2025,6,"Educational services, health care, and social assistance",2680.4,210
+210,A,2025,61,Educational services,353.2,210
+210,A,2025,62,Health care and social assistance,2327.2,210
+210,A,2025,621,Ambulatory health care services,1127.4,210
+210,A,2025,6211,Offices of physicians,457.0,210
+210,A,2025,6212,Offices of dentists,149.3,210
+210,A,2025,6213,Offices of other health practitioners,143.8,210
+210,A,2025,6214,Outpatient care centers,169.9,210
+210,A,2025,6215OH,Other ambulatory health care services,207.4,210
+210,A,2025,622,Hospitals,728.3,210
+210,A,2025,623,Nursing and residential care facilities,222.3,210
+210,A,2025,624,Social assistance,249.3,210
+210,A,2025,7,"Arts, entertainment, recreation, accommodation, and food services",1286.6,210
+210,A,2025,71,"Arts, entertainment, and recreation",321.3,210
+210,A,2025,711AS,"Performing arts, spectator sports, museums, and related activities",177.9,210
+210,A,2025,713,"Amusements, gambling, and recreation industries",143.4,210
+210,A,2025,72,Accommodation and food services,965.3,210
+210,A,2025,721,Accommodation,256.4,210
+210,A,2025,722,Food services and drinking places,708.9,210
+210,A,2025,81,"Other services, except government",629.7,210
+210,A,2025,811,Repair and maintenance,191.6,210
+210,A,2025,812,Personal and laundry services,164.5,210
+210,A,2025,813,"Religious, grantmaking, civic, professional, and similar organizations",249.3,210
+210,A,2025,814,Private households,24.3,210
+210,A,2025,FIRE,"Finance, insurance, real estate, rental, and leasing",6921.8,210
+210,A,2025,G,Government,3428.6,210
+210,A,2025,GDP,Gross domestic product,30861.3,210
+210,A,2025,GF,Federal,1097.5,210
+210,A,2025,GFE,Government enterprises,85.4,210
+210,A,2025,GFG,Federal general government,1012.0,210
+210,A,2025,GFGD,National defense,565.3,210
+210,A,2025,GFGN,Nondefense,446.7,210
+210,A,2025,GSL,State and local,2331.1,210
+210,A,2025,GSLE,Government enterprises,161.4,210
+210,A,2025,GSLG,State and local general government,2169.7,210
+210,A,2025,GSLGE,State and local government educational services,1130.0,210
+210,A,2025,GSLGH,State and local government hospitals and health services,212.0,210
+210,A,2025,GSLGO,State and local government other services,827.7,210
+210,A,2025,HS,Housing,3028.0,210
+210,A,2025,HSO,Owner-occupied housing,2256.6,210
+210,A,2025,HST,Tenant-occupied housing,771.4,210
+210,A,2025,ICT,Information-communications-technology-producing industries <sup>3</sup>,2313.1,210;210.3.A
+210,A,2025,ORE,Other real estate,853.5,210
+210,A,2025,PGOOD,Private goods-producing industries <sup>1</sup>,4924.7,210;210.1.A
+210,A,2025,PROF,Professional and business services,3943.7,210
+210,A,2025,PSERV,Private services-producing industries <sup>2</sup>,22508.0,210;210.2.A
+210,A,2025,PVT,Private industries,27432.7,210

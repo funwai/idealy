@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import { askQuestion } from '../api/ragApi';
 
 const KurioChatContext = createContext(null);

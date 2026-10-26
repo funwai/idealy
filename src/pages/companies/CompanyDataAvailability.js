@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { listIngestionFiles } from '../../api/ragApi';
 import { useFinancialPopup } from '../../context/FinancialPopupContext';
 
@@ -40,9 +40,9 @@ function groupFilingsByTicker(items) {
 
   return Array.from(grouped.values())
     .map((entry) => ({
-      ...entry,
+      ticker: entry.ticker,
+      latestUpdatedAt: entry.latestUpdatedAt,
       years: [...new Set(entry.filings.map((filing) => filing.year).filter(Boolean))].sort((a, b) => b - a),
-      filings: entry.filings.sort((a, b) => (b.year || 0) - (a.year || 0)),
     }))
     .sort((a, b) => a.ticker.localeCompare(b.ticker));
 }

@@ -1,0 +1,1837 @@
+{
+  "BEAAPI": {
+    "Request": {
+      "RequestParam": [
+        {
+          "ParameterName": "USERID",
+          "ParameterValue": "REDACTED"
+        },
+        {
+          "ParameterName": "METHOD",
+          "ParameterValue": "GETDATA"
+        },
+        {
+          "ParameterName": "DATASETNAME",
+          "ParameterValue": "UNDERLYINGGDPBYINDUSTRY"
+        },
+        {
+          "ParameterName": "TABLEID",
+          "ParameterValue": "219"
+        },
+        {
+          "ParameterName": "YEAR",
+          "ParameterValue": "2025"
+        },
+        {
+          "ParameterName": "INDUSTRY",
+          "ParameterValue": "ALL"
+        },
+        {
+          "ParameterName": "FREQUENCY",
+          "ParameterValue": "A"
+        },
+        {
+          "ParameterName": "RESULTFORMAT",
+          "ParameterValue": "JSON"
+        }
+      ]
+    },
+    "Results": [
+      {
+        "Statistic": "GDP by Industry Table",
+        "UTCProductionTime": "2026-10-26T22:36:26.113",
+        "Dimensions": [
+          {
+            "Ordinal": "1",
+            "Name": "TableID",
+            "DataType": "numeric",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "2",
+            "Name": "Frequency",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "3",
+            "Name": "Year",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "4",
+            "Name": "Quarter",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "5",
+            "Name": "Industry",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "6",
+            "Name": "IndustryDescription",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "7",
+            "Name": "DataValue",
+            "DataType": "numeric",
+            "IsValue": "1"
+          }
+        ],
+        "Data": [
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "11",
+            "IndustrYDescription": "Agriculture, forestry, fishing, and hunting",
+            "DataValue": "650.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "111",
+            "IndustrYDescription": "Crop production",
+            "DataValue": "242.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "111CA",
+            "IndustrYDescription": "Farms",
+            "DataValue": "578.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "112",
+            "IndustrYDescription": "Animal production and aquaculture",
+            "DataValue": "336.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "113FF",
+            "IndustrYDescription": "Forestry, fishing, and related activities",
+            "DataValue": "72.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "21",
+            "IndustrYDescription": "Mining",
+            "DataValue": "704.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "211",
+            "IndustrYDescription": "Oil and gas extraction",
+            "DataValue": "445.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "212",
+            "IndustrYDescription": "Mining, except oil and gas",
+            "DataValue": "148.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "213",
+            "IndustrYDescription": "Support activities for mining",
+            "DataValue": "110.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "22",
+            "IndustrYDescription": "Utilities",
+            "DataValue": "684.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "2211",
+            "IndustrYDescription": "Electric power generation, transmission, and distribution",
+            "DataValue": "535.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "2212NW",
+            "IndustrYDescription": "Natural gas distribution and water, sewage and other systems",
+            "DataValue": "149.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23",
+            "IndustrYDescription": "Construction",
+            "DataValue": "2588.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23EH",
+            "IndustrYDescription": "Education, hospital, and health structures",
+            "DataValue": "236.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23MR",
+            "IndustrYDescription": "Maintenance and repair construction",
+            "DataValue": "399.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23OC",
+            "IndustrYDescription": "Office and commercial structures",
+            "DataValue": "263.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23OR",
+            "IndustrYDescription": "Other residential construction",
+            "DataValue": "556.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23OT",
+            "IndustrYDescription": "Other nonresidential structures",
+            "DataValue": "365.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23PC",
+            "IndustrYDescription": "Power and communication structures",
+            "DataValue": "161.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23SF",
+            "IndustrYDescription": "Single-family residential structures",
+            "DataValue": "402.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "23TH",
+            "IndustrYDescription": "Transportation structures and highways and streets",
+            "DataValue": "205.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "311",
+            "IndustrYDescription": "Food manufacturing",
+            "DataValue": "1033.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "311FT",
+            "IndustrYDescription": "Food and beverage and tobacco products",
+            "DataValue": "1251.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3121",
+            "IndustrYDescription": "Beverage manufacturing",
+            "DataValue": "139.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3122",
+            "IndustrYDescription": "Tobacco product manufacturing",
+            "DataValue": "79.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "313TT",
+            "IndustrYDescription": "Textile mills and textile product mills",
+            "DataValue": "48.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "315AL",
+            "IndustrYDescription": "Apparel and leather and allied products",
+            "DataValue": "24.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "31G",
+            "IndustrYDescription": "Manufacturing",
+            "DataValue": "7230.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "31ND",
+            "IndustrYDescription": "Nondurable goods",
+            "DataValue": "3537.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "321",
+            "IndustrYDescription": "Wood products",
+            "DataValue": "161.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "322",
+            "IndustrYDescription": "Paper products",
+            "DataValue": "211.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "323",
+            "IndustrYDescription": "Printing and related support activities",
+            "DataValue": "87.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "324",
+            "IndustrYDescription": "Petroleum and coal products",
+            "DataValue": "588.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "325",
+            "IndustrYDescription": "Chemical products",
+            "DataValue": "1036.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3251",
+            "IndustrYDescription": "Basic chemical manufacturing",
+            "DataValue": "295.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3252",
+            "IndustrYDescription": "Resin, rubber, and artificial fibers manufacturing",
+            "DataValue": "124.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3254",
+            "IndustrYDescription": "Pharmaceutical and medicine manufacturing",
+            "DataValue": "368.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "325X",
+            "IndustrYDescription": "Other chemical manufacturing",
+            "DataValue": "248.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "326",
+            "IndustrYDescription": "Plastics and rubber products",
+            "DataValue": "289.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "327",
+            "IndustrYDescription": "Nonmetallic mineral products",
+            "DataValue": "175.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "331",
+            "IndustrYDescription": "Primary metals",
+            "DataValue": "283.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3311IS",
+            "IndustrYDescription": "Iron and steel mills and manufacturing from purchased steel",
+            "DataValue": "148.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3313NF",
+            "IndustrYDescription": "Nonferrous metal production and processing and foundries",
+            "DataValue": "135.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "332",
+            "IndustrYDescription": "Fabricated metal products",
+            "DataValue": "460.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "333",
+            "IndustrYDescription": "Machinery",
+            "DataValue": "457.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "33311",
+            "IndustrYDescription": "Agricultural implement manufacturing",
+            "DataValue": "40.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "33312",
+            "IndustrYDescription": "Construction machinery manufacturing",
+            "DataValue": "43.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "33313",
+            "IndustrYDescription": "Mining and oil and gas field machinery manufacturing",
+            "DataValue": "15.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3332OM",
+            "IndustrYDescription": "Other machinery",
+            "DataValue": "358.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "334",
+            "IndustrYDescription": "Computer and electronic products",
+            "DataValue": "447.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3341",
+            "IndustrYDescription": "Computer and peripheral equipment manufacturing",
+            "DataValue": "35.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3342",
+            "IndustrYDescription": "Communications equipment manufacturing",
+            "DataValue": "52.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3344",
+            "IndustrYDescription": "Semiconductor and other electronic component manufacturing",
+            "DataValue": "151.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3345",
+            "IndustrYDescription": "Navigational, measuring, electromedical, and control instruments manufacturing",
+            "DataValue": "199.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "334X",
+            "IndustrYDescription": "Other computer and electronic product manufacturing",
+            "DataValue": "8.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "335",
+            "IndustrYDescription": "Electrical equipment, appliances, and components",
+            "DataValue": "202.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "336111",
+            "IndustrYDescription": "Automobile manufacturing",
+            "DataValue": "29.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "336112",
+            "IndustrYDescription": "Light truck and utility vehicle manufacturing",
+            "DataValue": "349.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "33612",
+            "IndustrYDescription": "Heavy duty truck manufacturing",
+            "DataValue": "41.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3361MV",
+            "IndustrYDescription": "Motor vehicles, bodies and trailers, and parts",
+            "DataValue": "790.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3362BP",
+            "IndustrYDescription": "Motor vehicle body, trailer, and parts manufacturing",
+            "DataValue": "370.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3364",
+            "IndustrYDescription": "Aerospace product and parts manufacturing",
+            "DataValue": "361.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3364OT",
+            "IndustrYDescription": "Other transportation equipment",
+            "DataValue": "446.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3365AO",
+            "IndustrYDescription": "All other transportation equipment manufacturing",
+            "DataValue": "85.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "337",
+            "IndustrYDescription": "Furniture and related products",
+            "DataValue": "84.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "339",
+            "IndustrYDescription": "Miscellaneous manufacturing",
+            "DataValue": "182.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3391",
+            "IndustrYDescription": "Medical equipment and supplies manufacturing",
+            "DataValue": "108.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "3399",
+            "IndustrYDescription": "Other miscellaneous manufacturing",
+            "DataValue": "73.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "33DG",
+            "IndustrYDescription": "Durable goods",
+            "DataValue": "3692.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "42",
+            "IndustrYDescription": "Wholesale trade",
+            "DataValue": "3105.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4231",
+            "IndustrYDescription": "Motor vehicle and motor vehicle parts and supplies merchant wholesalers",
+            "DataValue": "211.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4234",
+            "IndustrYDescription": "Professional and commercial equipment and supplies merchant wholesalers",
+            "DataValue": "278.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4236",
+            "IndustrYDescription": "Household appliances and electrical and electronic goods merchant wholesalers",
+            "DataValue": "402.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4238",
+            "IndustrYDescription": "Machinery, equipment, and supplies merchant wholesalers",
+            "DataValue": "269.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "423X",
+            "IndustrYDescription": "Other durable goods merchant wholesalers",
+            "DataValue": "372.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4242",
+            "IndustrYDescription": "Drugs and druggists sundries merchant wholesalers",
+            "DataValue": "366.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4244",
+            "IndustrYDescription": "Grocery and related products merchant wholesalers",
+            "DataValue": "231.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4247",
+            "IndustrYDescription": "Petroleum and petroleum products merchant wholesalers",
+            "DataValue": "204.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "424X",
+            "IndustrYDescription": "Other nondurable goods merchant wholesalers",
+            "DataValue": "429.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "425",
+            "IndustrYDescription": "Wholesale electronic markets and agents and brokers",
+            "DataValue": "71.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "42ID",
+            "IndustrYDescription": "Customs duties",
+            "DataValue": "268.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "441",
+            "IndustrYDescription": "Motor vehicle and parts dealers",
+            "DataValue": "573.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "444",
+            "IndustrYDescription": "Building material and garden equipment and supplies dealers",
+            "DataValue": "196.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "445",
+            "IndustrYDescription": "Food and beverage stores",
+            "DataValue": "359.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "446",
+            "IndustrYDescription": "Health and personal care stores",
+            "DataValue": "167.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "447",
+            "IndustrYDescription": "Gasoline stations",
+            "DataValue": "148.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "448",
+            "IndustrYDescription": "Clothing and clothing accessories stores",
+            "DataValue": "185.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "44RT",
+            "IndustrYDescription": "Retail trade",
+            "DataValue": "2945.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "452",
+            "IndustrYDescription": "General merchandise stores",
+            "DataValue": "316.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "454",
+            "IndustrYDescription": "Nonstore retailers",
+            "DataValue": "718.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "481",
+            "IndustrYDescription": "Air transportation",
+            "DataValue": "350.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "482",
+            "IndustrYDescription": "Rail transportation",
+            "DataValue": "92.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "483",
+            "IndustrYDescription": "Water transportation",
+            "DataValue": "78.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "484",
+            "IndustrYDescription": "Truck transportation",
+            "DataValue": "556.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "485",
+            "IndustrYDescription": "Transit and ground passenger transportation",
+            "DataValue": "200.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "486",
+            "IndustrYDescription": "Pipeline transportation",
+            "DataValue": "79.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "487OS",
+            "IndustrYDescription": "Other transportation and support activities",
+            "DataValue": "369.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "48A",
+            "IndustrYDescription": "Scenic and sightseeing transportation and support activities",
+            "DataValue": "213.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "48TW",
+            "IndustrYDescription": "Transportation and warehousing",
+            "DataValue": "1930.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "492",
+            "IndustrYDescription": "Couriers and messengers",
+            "DataValue": "156.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "493",
+            "IndustrYDescription": "Warehousing and storage",
+            "DataValue": "204.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4A0",
+            "IndustrYDescription": "Other retail",
+            "DataValue": "1696.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "4A0X",
+            "IndustrYDescription": "All other retail",
+            "DataValue": "280.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "51",
+            "IndustrYDescription": "Information",
+            "DataValue": "2882.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "511",
+            "IndustrYDescription": "Publishing industries, except internet (includes software)",
+            "DataValue": "724.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5111",
+            "IndustrYDescription": "Newspaper, periodical, book, and directory publishers",
+            "DataValue": "102.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5112",
+            "IndustrYDescription": "Software publishers",
+            "DataValue": "622.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "512",
+            "IndustrYDescription": "Motion picture and sound recording industries",
+            "DataValue": "210.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "513",
+            "IndustrYDescription": "Broadcasting and telecommunications",
+            "DataValue": "944.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "514",
+            "IndustrYDescription": "Data processing, internet publishing, and other information services",
+            "DataValue": "1003.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "515",
+            "IndustrYDescription": "Broadcasting (except Internet)",
+            "DataValue": "228.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5171",
+            "IndustrYDescription": "Wired telecommunications carriers",
+            "DataValue": "320.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5172",
+            "IndustrYDescription": "Wireless telecommunications carriers (except satellites)",
+            "DataValue": "336.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5174OT",
+            "IndustrYDescription": "Other telecommunications, including satellite",
+            "DataValue": "59.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "518",
+            "IndustrYDescription": "Data processing, hosting, and related services",
+            "DataValue": "476.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "519",
+            "IndustrYDescription": "Other information services",
+            "DataValue": "526.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "52",
+            "IndustrYDescription": "Finance and insurance",
+            "DataValue": "4379.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "521CI",
+            "IndustrYDescription": "Federal Reserve banks, credit intermediation, and related activities",
+            "DataValue": "1473.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "523",
+            "IndustrYDescription": "Securities, commodity contracts, and investments",
+            "DataValue": "1035.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "524",
+            "IndustrYDescription": "Insurance carriers and related activities",
+            "DataValue": "1609.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "524113",
+            "IndustrYDescription": "Direct life insurance carriers",
+            "DataValue": "128.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5241XX",
+            "IndustrYDescription": "Insurance carriers, except direct life insurance",
+            "DataValue": "843.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5242",
+            "IndustrYDescription": "Agencies, brokerages, and other insurance related activities",
+            "DataValue": "636.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "525",
+            "IndustrYDescription": "Funds, trusts, and other financial vehicles",
+            "DataValue": "261.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "53",
+            "IndustrYDescription": "Real estate and rental and leasing",
+            "DataValue": "5977.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "531",
+            "IndustrYDescription": "Real estate",
+            "DataValue": "5321.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "532RL",
+            "IndustrYDescription": "Rental and leasing services and lessors of intangible assets",
+            "DataValue": "655.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "54",
+            "IndustrYDescription": "Professional, scientific, and technical services",
+            "DataValue": "3650.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5411",
+            "IndustrYDescription": "Legal services",
+            "DataValue": "537.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5412",
+            "IndustrYDescription": "Accounting, tax preparation, bookkeeping, and payroll services",
+            "DataValue": "241.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5412OP",
+            "IndustrYDescription": "Miscellaneous professional, scientific, and technical services",
+            "DataValue": "2330.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5413",
+            "IndustrYDescription": "Architectural, engineering, and related services",
+            "DataValue": "534.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5415",
+            "IndustrYDescription": "Computer systems design and related services",
+            "DataValue": "782.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5416",
+            "IndustrYDescription": "Management, scientific, and technical consulting services",
+            "DataValue": "493.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5417",
+            "IndustrYDescription": "Scientific research and development services",
+            "DataValue": "495.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5418",
+            "IndustrYDescription": "Advertising, public relations, and related services",
+            "DataValue": "236.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "541X",
+            "IndustrYDescription": "Specialized design services and other professional, scientific, and technical services",
+            "DataValue": "327.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "55",
+            "IndustrYDescription": "Management of companies and enterprises",
+            "DataValue": "878.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "56",
+            "IndustrYDescription": "Administrative and waste management services",
+            "DataValue": "1556.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "561",
+            "IndustrYDescription": "Administrative and support services",
+            "DataValue": "1369.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5613",
+            "IndustrYDescription": "Employment services",
+            "DataValue": "436.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "5617",
+            "IndustrYDescription": "Services to buildings and dwellings",
+            "DataValue": "377.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "561X",
+            "IndustrYDescription": "Other administrative and support services",
+            "DataValue": "555.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "562",
+            "IndustrYDescription": "Waste management and remediation services",
+            "DataValue": "187.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "6",
+            "IndustrYDescription": "Educational services, health care, and social assistance",
+            "DataValue": "4338.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "61",
+            "IndustrYDescription": "Educational services",
+            "DataValue": "500.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "62",
+            "IndustrYDescription": "Health care and social assistance",
+            "DataValue": "3837.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "621",
+            "IndustrYDescription": "Ambulatory health care services",
+            "DataValue": "1741.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "6211",
+            "IndustrYDescription": "Offices of physicians",
+            "DataValue": "745.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "6212",
+            "IndustrYDescription": "Offices of dentists",
+            "DataValue": "198.9",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "6213",
+            "IndustrYDescription": "Offices of other health practitioners",
+            "DataValue": "199.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "6214",
+            "IndustrYDescription": "Outpatient care centers",
+            "DataValue": "279.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "6215OH",
+            "IndustrYDescription": "Other ambulatory health care services",
+            "DataValue": "318.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "622",
+            "IndustrYDescription": "Hospitals",
+            "DataValue": "1353.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "623",
+            "IndustrYDescription": "Nursing and residential care facilities",
+            "DataValue": "368.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "624",
+            "IndustrYDescription": "Social assistance",
+            "DataValue": "374.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "7",
+            "IndustrYDescription": "Arts, entertainment, recreation, accommodation, and food services",
+            "DataValue": "2428.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "71",
+            "IndustrYDescription": "Arts, entertainment, and recreation",
+            "DataValue": "599.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "711AS",
+            "IndustrYDescription": "Performing arts, spectator sports, museums, and related activities",
+            "DataValue": "333.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "713",
+            "IndustrYDescription": "Amusements, gambling, and recreation industries",
+            "DataValue": "265.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "72",
+            "IndustrYDescription": "Accommodation and food services",
+            "DataValue": "1828.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "721",
+            "IndustrYDescription": "Accommodation",
+            "DataValue": "393.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "722",
+            "IndustrYDescription": "Food services and drinking places",
+            "DataValue": "1435.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "81",
+            "IndustrYDescription": "Other services, except government",
+            "DataValue": "1102.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "811",
+            "IndustrYDescription": "Repair and maintenance",
+            "DataValue": "364.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "812",
+            "IndustrYDescription": "Personal and laundry services",
+            "DataValue": "327.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "813",
+            "IndustrYDescription": "Religious, grantmaking, civic, professional, and similar organizations",
+            "DataValue": "386.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "814",
+            "IndustrYDescription": "Private households",
+            "DataValue": "24.3",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "FIRE",
+            "IndustrYDescription": "Finance, insurance, real estate, rental, and leasing",
+            "DataValue": "10357.2",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "G",
+            "IndustrYDescription": "Government",
+            "DataValue": "5762.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GF",
+            "IndustrYDescription": "Federal",
+            "DataValue": "1671.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GFE",
+            "IndustrYDescription": "Government enterprises",
+            "DataValue": "112.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GFG",
+            "IndustrYDescription": "Federal general government",
+            "DataValue": "1559.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GFGD",
+            "IndustrYDescription": "National defense",
+            "DataValue": "932.4",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GFGN",
+            "IndustrYDescription": "Nondefense",
+            "DataValue": "626.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GSL",
+            "IndustrYDescription": "State and local",
+            "DataValue": "4091.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GSLE",
+            "IndustrYDescription": "Government enterprises",
+            "DataValue": "509.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GSLG",
+            "IndustrYDescription": "State and local general government",
+            "DataValue": "3582.0",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GSLGE",
+            "IndustrYDescription": "State and local government educational services",
+            "DataValue": "1583.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GSLGH",
+            "IndustrYDescription": "State and local government hospitals and health services",
+            "DataValue": "500.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "GSLGO",
+            "IndustrYDescription": "State and local government other services",
+            "DataValue": "1498.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "HS",
+            "IndustrYDescription": "Housing",
+            "DataValue": "3345.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "HSO",
+            "IndustrYDescription": "Owner-occupied housing",
+            "DataValue": "2550.6",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "HST",
+            "IndustrYDescription": "Tenant-occupied housing",
+            "DataValue": "794.5",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "ICT",
+            "IndustrYDescription": "Information-communications-technology-producing industries <sup>3</sup>",
+            "DataValue": "3582.9",
+            "NoteRef": "219;219.3.A"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "II",
+            "IndustrYDescription": "All industries",
+            "DataValue": "52797.1",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "ORE",
+            "IndustrYDescription": "Other real estate",
+            "DataValue": "1976.7",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "PGOOD",
+            "IndustrYDescription": "Private goods-producing industries <sup>1</sup>",
+            "DataValue": "11174.8",
+            "NoteRef": "219;219.1.A"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "PROF",
+            "IndustrYDescription": "Professional and business services",
+            "DataValue": "6084.8",
+            "NoteRef": "219"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "PSERV",
+            "IndustrYDescription": "Private services-producing industries <sup>2</sup>",
+            "DataValue": "35859.6",
+            "NoteRef": "219;219.2.A"
+          },
+          {
+            "TableID": "219",
+            "Frequency": "A",
+            "Year": "2025",
+            "Industry": "PVT",
+            "IndustrYDescription": "Private industries",
+            "DataValue": "47034.4",
+            "NoteRef": "219"
+          }
+        ],
+        "Notes": [
+          {
+            "NoteRef": "219.1.A",
+            "NoteText": "1. Consists of agriculture, forestry, fishing, and hunting; mining; construction; and manufacturing."
+          },
+          {
+            "NoteRef": "219.2.A",
+            "NoteText": "2. Consists of utilities; wholesale trade; retail trade; transportation and warehousing; information; finance, insurance, real estate, rental, and leasing; professional and business services; educational services, health care, and social assistance; arts, entertainment, recreation, accommodation, and food services; and other services, except government."
+          },
+          {
+            "NoteRef": "219.3.A",
+            "NoteText": "3. Consists of computer and electronic product manufacturing (excluding navigational, measuring, electromedical, and control instruments manufacturing); software publishers; broadcasting and telecommunications; data processing, hosting and related services; internet publishing and broadcasting and web search portals; and computer systems design and related services."
+          },
+          {
+            "NoteRef": "219.0.A",
+            "NoteText": "Note. Detail may not add to total due to rounding."
+          },
+          {
+            "NoteRef": "219.0.A",
+            "NoteText": "Note. The Bureau of Economic Analysis does not include these detailed estimates in the published tables because their quality is significantly less than that of the higher level aggregates in which they are included."
+          },
+          {
+            "NoteRef": "219",
+            "NoteText": "U.Gross Output by Industry [Billions of dollars]"
+          }
+        ]
+      }
+    ]
+  }
+}

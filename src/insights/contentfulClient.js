@@ -37,6 +37,4 @@ export const fetchEntries = async (options = {}) => {
   }
 };
 
-export default client;
-
 

@@ -63,56 +63,13 @@
 }
 
 .financial-popup-main-content {
-  display: flex;
-  gap: 24px;
   height: 100%;
 }
 
-.financial-popup-main-content--statements-only {
-  display: block;
-}
-
-.financial-popup-main-content--statements-only .financial-data-section {
-  width: 100%;
-}
-
-.chat-section {
-  flex: 0 0 320px;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid #e5e7eb;
-  padding-left: 24px;
-}
-
-.chat-section.chat-section--inline {
-  flex: none;
-  width: 100%;
-  max-width: 900px;
-  margin: 0;
-  border-left: none;
-  padding-left: 0;
-  text-align: left;
-}
-
-.chat-section.chat-section--inline .chat-section-title {
-  text-align: center;
-}
-
 .financial-data-section {
-  flex: 1;
+  width: 100%;
   min-width: 0;
   overflow-y: auto;
-}
-
-.chat-section-title {
-  color: #0E2B4D;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0 0 1.5rem 0;
-  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-align: center;
 }
 
 .chat-input-wrapper {
@@ -199,11 +156,6 @@
 .chat-send-arrow:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.chat-send-arrow svg {
-  width: 20px;
-  height: 20px;
 }
 
 .chat-error {
@@ -388,21 +340,6 @@
 }
 
 /* Responsive design */
-@media (max-width: 1024px) {
-  .financial-popup-main-content {
-    flex-direction: column;
-  }
-  
-  .chat-section {
-    flex: 1;
-    border-left: none;
-    border-top: 1px solid #e5e7eb;
-    padding-left: 0;
-    padding-top: 24px;
-    margin-top: 24px;
-  }
-}
-
 @media (max-width: 768px) {
   .financial-popup-overlay {
     padding: 70px 10px 10px 10px; /* Adjust mobile padding for header */
@@ -426,23 +363,9 @@
     padding: 20px;
   }
   
-  .financial-popup-main-content {
-    gap: 16px;
-  }
-  
-  .chat-section {
-    flex: 1;
-    border-left: none;
-    border-top: 1px solid #e5e7eb;
-    padding-left: 0;
-    padding-top: 16px;
-    margin-top: 16px;
-  }
-  
   .section-table th,
   .section-table td {
     padding: 8px 12px;
     font-size: 0.875rem;
   }
 }
-

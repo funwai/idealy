@@ -1,0 +1,316 @@
+{
+  "dataset": "UnderlyingGDPbyIndustry",
+  "year": 2025,
+  "created_at_utc": "2026-10-26T22:36:27.147885+00:00",
+  "tables": [
+    {
+      "dataset": "UnderlyingGDPbyIndustry",
+      "year_requested": 2025,
+      "table_id": "210",
+      "table_description": "U.Value Added by Industry (A)",
+      "row_count": 191,
+      "columns": [
+        "TableID",
+        "Frequency",
+        "Year",
+        "Industry",
+        "IndustrYDescription",
+        "DataValue",
+        "NoteRef"
+      ],
+      "raw_json_path": "data\\bea\\raw\\UnderlyingGDPbyIndustry_2025_210_U.Value_Added_by_Industry_A_20261026T223624Z.json",
+      "csv_path": "data\\bea\\csv\\UnderlyingGDPbyIndustry_2025_210_U.Value_Added_by_Industry_A.csv",
+      "response_metadata": {
+        "Statistic": "GDP by Industry Table",
+        "UTCProductionTime": "2026-10-26T22:35:52.180",
+        "Dimensions": [
+          {
+            "Ordinal": "1",
+            "Name": "TableID",
+            "DataType": "numeric",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "2",
+            "Name": "Frequency",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "3",
+            "Name": "Year",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "4",
+            "Name": "Quarter",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "5",
+            "Name": "Industry",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "6",
+            "Name": "IndustryDescription",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "7",
+            "Name": "DataValue",
+            "DataType": "numeric",
+            "IsValue": "1"
+          }
+        ],
+        "Notes": [
+          {
+            "NoteRef": "210.1.A",
+            "NoteText": "1. Consists of agriculture, forestry, fishing, and hunting; mining; construction; and manufacturing."
+          },
+          {
+            "NoteRef": "210.2.A",
+            "NoteText": "2. Consists of utilities; wholesale trade; retail trade; transportation and warehousing; information; finance, insurance, real estate, rental, and leasing; professional and business services; educational services, health care, and social assistance; arts, entertainment, recreation, accommodation, and food services; and other services, except government."
+          },
+          {
+            "NoteRef": "210.3.A",
+            "NoteText": "3. Consists of computer and electronic product manufacturing (excluding navigational, measuring, electromedical, and control instruments manufacturing); software publishers; broadcasting and telecommunications; data processing, hosting and related services; internet publishing and broadcasting and web search portals; and computer systems design and related services."
+          },
+          {
+            "NoteRef": "210.0.A",
+            "NoteText": "Note. Detail may not add to total due to rounding."
+          },
+          {
+            "NoteRef": "210.0.A",
+            "NoteText": "Note. The Bureau of Economic Analysis does not include these detailed estimates in the published tables because their quality is significantly less than that of the higher level aggregates in which they are included."
+          },
+          {
+            "NoteRef": "210",
+            "NoteText": "U.Value Added by Industry [Billions of dollars]"
+          }
+        ]
+      },
+      "storage_json_path": "gs://funwai-resume.firebasestorage.app/bea/UnderlyingGDPbyIndustry/2025/raw/UnderlyingGDPbyIndustry_2025_210_U.Value_Added_by_Industry_A_20261026T223624Z.json",
+      "storage_csv_path": "gs://funwai-resume.firebasestorage.app/bea/UnderlyingGDPbyIndustry/2025/csv/UnderlyingGDPbyIndustry_2025_210_U.Value_Added_by_Industry_A.csv",
+      "concept": "value_added",
+      "duplicate_rows": 0,
+      "empty_columns": []
+    },
+    {
+      "dataset": "UnderlyingGDPbyIndustry",
+      "year_requested": 2025,
+      "table_id": "219",
+      "table_description": "U.Gross Output by Industry (A)",
+      "row_count": 191,
+      "columns": [
+        "TableID",
+        "Frequency",
+        "Year",
+        "Industry",
+        "IndustrYDescription",
+        "DataValue",
+        "NoteRef"
+      ],
+      "raw_json_path": "data\\bea\\raw\\UnderlyingGDPbyIndustry_2025_219_U.Gross_Output_by_Industry_A_20261026T223625Z.json",
+      "csv_path": "data\\bea\\csv\\UnderlyingGDPbyIndustry_2025_219_U.Gross_Output_by_Industry_A.csv",
+      "response_metadata": {
+        "Statistic": "GDP by Industry Table",
+        "UTCProductionTime": "2026-10-26T22:36:26.113",
+        "Dimensions": [
+          {
+            "Ordinal": "1",
+            "Name": "TableID",
+            "DataType": "numeric",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "2",
+            "Name": "Frequency",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "3",
+            "Name": "Year",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "4",
+            "Name": "Quarter",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "5",
+            "Name": "Industry",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "6",
+            "Name": "IndustryDescription",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "7",
+            "Name": "DataValue",
+            "DataType": "numeric",
+            "IsValue": "1"
+          }
+        ],
+        "Notes": [
+          {
+            "NoteRef": "219.1.A",
+            "NoteText": "1. Consists of agriculture, forestry, fishing, and hunting; mining; construction; and manufacturing."
+          },
+          {
+            "NoteRef": "219.2.A",
+            "NoteText": "2. Consists of utilities; wholesale trade; retail trade; transportation and warehousing; information; finance, insurance, real estate, rental, and leasing; professional and business services; educational services, health care, and social assistance; arts, entertainment, recreation, accommodation, and food services; and other services, except government."
+          },
+          {
+            "NoteRef": "219.3.A",
+            "NoteText": "3. Consists of computer and electronic product manufacturing (excluding navigational, measuring, electromedical, and control instruments manufacturing); software publishers; broadcasting and telecommunications; data processing, hosting and related services; internet publishing and broadcasting and web search portals; and computer systems design and related services."
+          },
+          {
+            "NoteRef": "219.0.A",
+            "NoteText": "Note. Detail may not add to total due to rounding."
+          },
+          {
+            "NoteRef": "219.0.A",
+            "NoteText": "Note. The Bureau of Economic Analysis does not include these detailed estimates in the published tables because their quality is significantly less than that of the higher level aggregates in which they are included."
+          },
+          {
+            "NoteRef": "219",
+            "NoteText": "U.Gross Output by Industry [Billions of dollars]"
+          }
+        ]
+      },
+      "storage_json_path": "gs://funwai-resume.firebasestorage.app/bea/UnderlyingGDPbyIndustry/2025/raw/UnderlyingGDPbyIndustry_2025_219_U.Gross_Output_by_Industry_A_20261026T223625Z.json",
+      "storage_csv_path": "gs://funwai-resume.firebasestorage.app/bea/UnderlyingGDPbyIndustry/2025/csv/UnderlyingGDPbyIndustry_2025_219_U.Gross_Output_by_Industry_A.csv",
+      "concept": "gross_output",
+      "duplicate_rows": 0,
+      "empty_columns": []
+    },
+    {
+      "dataset": "UnderlyingGDPbyIndustry",
+      "year_requested": 2025,
+      "table_id": "229",
+      "table_description": "U.Intermediate Inputs by Industry (A)",
+      "row_count": 189,
+      "columns": [
+        "TableID",
+        "Frequency",
+        "Year",
+        "Industry",
+        "IndustrYDescription",
+        "DataValue",
+        "NoteRef"
+      ],
+      "raw_json_path": "data\\bea\\raw\\UnderlyingGDPbyIndustry_2025_229_U.Intermediate_Inputs_by_Industry_A_20261026T223626Z.json",
+      "csv_path": "data\\bea\\csv\\UnderlyingGDPbyIndustry_2025_229_U.Intermediate_Inputs_by_Industry_A.csv",
+      "response_metadata": {
+        "Statistic": "GDP by Industry Table",
+        "UTCProductionTime": "2026-10-26T22:36:27.170",
+        "Dimensions": [
+          {
+            "Ordinal": "1",
+            "Name": "TableID",
+            "DataType": "numeric",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "2",
+            "Name": "Frequency",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "3",
+            "Name": "Year",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "4",
+            "Name": "Quarter",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "5",
+            "Name": "Industry",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "6",
+            "Name": "IndustryDescription",
+            "DataType": "string",
+            "IsValue": "0"
+          },
+          {
+            "Ordinal": "7",
+            "Name": "DataValue",
+            "DataType": "numeric",
+            "IsValue": "1"
+          }
+        ],
+        "Notes": [
+          {
+            "NoteRef": "229.1.A",
+            "NoteText": "1. Consists of agriculture, forestry, fishing, and hunting; mining; construction; and manufacturing."
+          },
+          {
+            "NoteRef": "229.2.A",
+            "NoteText": "2. Consists of utilities; wholesale trade; retail trade; transportation and warehousing; information; finance, insurance, real estate, rental, and leasing; professional and business services; educational services, health care, and social assistance; arts, entertainment, recreation, accommodation, and food services; and other services, except government."
+          },
+          {
+            "NoteRef": "229.3.A",
+            "NoteText": "3. Consists of computer and electronic product manufacturing (excluding navigational, measuring, electromedical, and control instruments manufacturing); software publishers; broadcasting and telecommunications; data processing, hosting and related services; internet publishing and broadcasting and web search portals; and computer systems design and related services."
+          },
+          {
+            "NoteRef": "229.0.A",
+            "NoteText": "Note. Detail may not add to total due to rounding."
+          },
+          {
+            "NoteRef": "229.0.A",
+            "NoteText": "Note. The Bureau of Economic Analysis does not include these detailed estimates in the published tables because their quality is significantly less than that of the higher level aggregates in which they are included."
+          },
+          {
+            "NoteRef": "229",
+            "NoteText": "U.Intermediate Inputs by Industry [Billions of dollars]"
+          }
+        ]
+      },
+      "storage_json_path": "gs://funwai-resume.firebasestorage.app/bea/UnderlyingGDPbyIndustry/2025/raw/UnderlyingGDPbyIndustry_2025_229_U.Intermediate_Inputs_by_Industry_A_20261026T223626Z.json",
+      "storage_csv_path": "gs://funwai-resume.firebasestorage.app/bea/UnderlyingGDPbyIndustry/2025/csv/UnderlyingGDPbyIndustry_2025_229_U.Intermediate_Inputs_by_Industry_A.csv",
+      "concept": "intermediate_inputs",
+      "duplicate_rows": 0,
+      "empty_columns": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "industry_code_coverage",
+      "value_added_industries": 191,
+      "gross_output_industries": 191,
+      "intermediate_input_industries": 189,
+      "combined_industries": 192,
+      "rows_missing_any_measure": 4,
+      "ratio_sum_outside_tolerance": 0,
+      "ratio_tolerance": 0.03,
+      "interpretation": "For compatible current-dollar measures, value added plus intermediate inputs should approximately equal gross output. Investigate failures; do not assume all industry tables share perfectly aligned definitions or coverage."
+    }
+  ],
+  "warnings": [
+    "4 combined industry rows have at least one missing measure."
+  ],
+  "status": "review_required",
+  "combined_csv_path": "data\\bea\\csv\\UnderlyingGDPbyIndustry_2025_combined_validation.csv"
+}

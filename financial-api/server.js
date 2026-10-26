@@ -27,10 +27,6 @@ function loadServiceAccount(rawValue) {
     throw new Error('Service account value is empty');
   }
 
-  if (trimmed.startsWith('{')) {
-    return JSON.parse(trimmed);
-  }
-
   try {
     return JSON.parse(trimmed);
   } catch (_) {

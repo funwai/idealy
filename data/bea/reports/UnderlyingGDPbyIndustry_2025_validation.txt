@@ -1,0 +1,15 @@
+BEA validation report: UnderlyingGDPbyIndustry / 2025
+Status: review_required
+
+Tables:
+- value_added: table 210 (U.Value Added by Industry (A)), 191 rows
+- gross_output: table 219 (U.Gross Output by Industry (A)), 191 rows
+- intermediate_inputs: table 229 (U.Intermediate Inputs by Industry (A)), 189 rows
+
+Checks:
+- {'name': 'industry_code_coverage', 'value_added_industries': 191, 'gross_output_industries': 191, 'intermediate_input_industries': 189, 'combined_industries': 192, 'rows_missing_any_measure': 4, 'ratio_sum_outside_tolerance': 0, 'ratio_tolerance': 0.03, 'interpretation': 'For compatible current-dollar measures, value added plus intermediate inputs should approximately equal gross output. Investigate failures; do not assume all industry tables share perfectly aligned definitions or coverage.'}
+
+Warnings:
+- 4 combined industry rows have at least one missing measure.
+
+Detailed JSON: data\bea\reports\UnderlyingGDPbyIndustry_2025_validation.json

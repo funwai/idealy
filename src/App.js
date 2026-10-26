@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import './App.css';
 import { auth } from './firebase/config';
@@ -291,7 +291,6 @@ function AppContent() {
                     chatResponse={chatResponse}
                     handleSendMessage={handleSendMessage}
                     companyTicker={companyName}
-                    variant="inline"
                   />
                 </div>
 
